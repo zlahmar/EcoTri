@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, TextInput, ScrollView, Image, Text } from "react-native";
+import { View, TextInput, ScrollView, Image, Text, Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import MapComponent from "../components/MapComponent";
 import { globalStyles } from "../styles/global";
@@ -8,7 +8,9 @@ import { useLocation } from "../hooks/useLocation";
 
 const HomeScreen = ({ navigation }) => {
   const { location } = useLocation();
-  const [selectedFilter, setSelectedFilter] = useState<string | null>(null);
+  const [selectedFilter, setSelectedFilter] = useState(null);
+  const [searchQuery, setSearchQuery] = useState(""); // 🔍 Stocke la recherche
+  const [searchedLocation, setSearchedLocation] = useState(null); // 📌 Coordonnées de l'adresse recherchée
 
   const filters = [
     { type: "Plastique", icon: "recycle", tag: "plastic" },
@@ -20,19 +22,58 @@ const HomeScreen = ({ navigation }) => {
     { type: "Textile", icon: "tshirt-crew", tag: "textile" },
   ];
 
+  /** 🔍 Fonction pour chercher une adresse avec Nominatim */
+  const searchLocation = async () => {
+    if (!searchQuery.trim()) {
+      Alert.alert("Erreur", "Veuillez entrer une adresse.");
+      return;
+    }
+  
+    try {
+      const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(searchQuery)}`;
+      console.log("URL Nominatim :", url); // 🔍 Vérification
+  
+      const response = await fetch(url, {
+        headers: { "User-Agent": "RecycleFinder/1.0 (zineblahmar1@gmail.com)" }, // ✅ Ajout du User-Agent
+      });
+  
+      const text = await response.text(); // Lire la réponse brute
+      console.log("Réponse brute Nominatim :", text); // 🔍 Vérifier la réponse avant de parser
+  
+      const data = JSON.parse(text); // ✅ Convertir en JSON si possible
+  
+      if (data.length > 0) {
+        const { lat, lon } = data[0]; // 📍 Prendre la première correspondance
+        setSearchedLocation({ latitude: parseFloat(lat), longitude: parseFloat(lon) });
+      } else {
+        Alert.alert("Adresse non trouvée", "Essayez une autre adresse.");
+      }
+    } catch (error) {
+      console.error("Erreur lors de la recherche :", error);
+      Alert.alert("Erreur", "Impossible de rechercher cette adresse.");
+    }
+  };
+  
+
   return (
     <SafeAreaView style={globalStyles.container}>
-      <MapComponent location={location} filter={selectedFilter} /> {}
+      {/* 🔍 Carte avec la localisation recherchée */}
+      <MapComponent location={searchedLocation || location} filter={selectedFilter} />
 
+      {/* 🔍 Barre de recherche */}
       <View style={globalStyles.searchContainerTop}>
         <Image source={require("../assets/logo.png")} style={globalStyles.searchLogo} />
         <TextInput
           style={globalStyles.searchInput}
-          placeholder="Rechercher un point de recyclage..."
+          placeholder="Rechercher une adresse..."
+          value={searchQuery}
+          onChangeText={setSearchQuery}
+          onSubmitEditing={searchLocation} // 📌 Lancer la recherche à la validation
+          returnKeyType="search"
         />
       </View>
 
-      {/* ✅ Filtres en boutons flottants en haut */}
+      {/* 🏷️ Filtres */}
       <View style={globalStyles.filterContainerFloating}>
         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
           {filters.map((filter, index) => (
@@ -50,18 +91,14 @@ const HomeScreen = ({ navigation }) => {
         </ScrollView>
       </View>
 
+      {/* 📍 Bouton pour revenir à la position actuelle */}
       <FAB
         icon="crosshairs-gps"
         style={globalStyles.fabLocation}
-        onPress={() => {
-          if (location) {
-            console.log("Ma position :", location);
-          } else {
-            console.log("Localisation non disponible");
-          }
-        }}
+        onPress={() => setSearchedLocation(location)}
       />
 
+      {/* 🚀 Barre de navigation */}
       <Appbar style={globalStyles.bottomNav}>
         <Appbar.Action icon="home" onPress={() => navigation.navigate("Home")} />
         <Appbar.Action icon="account" onPress={() => navigation.navigate("Profile")} />
