@@ -1,25 +1,14 @@
 import React, { useEffect, useRef, useState } from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Text } from "react-native";
 import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import { useLocation } from "../hooks/useLocation";
-import { Icon } from "react-native-paper";
-
-const iconMap = {
-  plastic: "recycle",
-  glass: "glass-fragile",
-  paper: "file-document-outline",
-  metal: "silverware-fork-knife",
-  organic: "leaf",
-  electronics: "battery",
-  textile: "tshirt-crew",
-};
 
 const MapComponent = ({
   location,
-  selectedFilter,
+  filter, // 🔹 Filtre reçu depuis HomeScreen
 }: {
   location: { latitude: number; longitude: number } | null;
-  selectedFilter: string | null;
+  filter: string | null;
 }) => {
   const mapRef = useRef<MapView | null>(null);
   const [recyclingPoints, setRecyclingPoints] = useState([]);
@@ -30,7 +19,10 @@ const MapComponent = ({
     const { latitude, longitude } = location;
     const delta = 0.05; // Zone de recherche
 
-    const tagFilter = selectedFilter ? `["recycling:${selectedFilter}"="yes"]` : "";
+    // 🔹 Filtrage par type (si actif)
+    const tagFilter = filter
+      ? `["recycling:${filter}"="yes"]` // Ex: recycling:glass=yes
+      : "";
 
     const overpassQuery = `
       [out:json];
@@ -58,14 +50,16 @@ const MapComponent = ({
         setRecyclingPoints(points);
       }
     } catch (error) {
-      console.error("Erreur récupération points de recyclage:", error);
+      console.error("Erreur lors de la récupération des points de recyclage:", error);
     }
   };
 
+  // Recharger les points quand la localisation ou le filtre change
   useEffect(() => {
     fetchRecyclingPoints();
-  }, [location, selectedFilter]);
+  }, [location, filter]);
 
+  // Centrer la carte sur la position utilisateur
   useEffect(() => {
     if (location && mapRef.current) {
       mapRef.current.animateToRegion({
@@ -94,14 +88,14 @@ const MapComponent = ({
           <Marker coordinate={location} title="Ma Position" description="Vous êtes ici" />
         )}
 
+        {/* 🔹 Filtrage des points */}
         {recyclingPoints.map((point) => (
           <Marker
             key={point.id}
             coordinate={{ latitude: point.latitude, longitude: point.longitude }}
-            title="Point de recyclage"
-          >
-            <Icon source={iconMap[selectedFilter || "plastic"]} size={30} />
-          </Marker>
+            title={`Latitude: ${point.latitude}, Longitude: ${point.longitude}`} // Afficher les coordonnées
+            pinColor="green"
+          />
         ))}
       </MapView>
     </View>

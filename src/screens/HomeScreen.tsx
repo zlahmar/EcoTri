@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, TextInput, ScrollView, Image } from "react-native";
+import { View, TextInput, ScrollView, Image, Text } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import MapComponent from "../components/MapComponent";
 import { globalStyles } from "../styles/global";
@@ -22,7 +22,8 @@ const HomeScreen = ({ navigation }) => {
 
   return (
     <SafeAreaView style={globalStyles.container}>
-      <MapComponent location={location} selectedFilter={selectedFilter} />
+      <MapComponent location={location} filter={selectedFilter} /> {}
+
       <View style={globalStyles.searchContainerTop}>
         <Image source={require("../assets/logo.png")} style={globalStyles.searchLogo} />
         <TextInput
