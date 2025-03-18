@@ -1,63 +1,72 @@
-import React from "react";
-import { View, TextInput } from "react-native";
+import React, { useState } from "react";
+import { View, TextInput, ScrollView, Image } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import MapComponent from "../components/MapComponent";
 import { globalStyles } from "../styles/global";
-import { Appbar, IconButton } from "react-native-paper";
+import { Appbar, IconButton, FAB } from "react-native-paper";
 import { useLocation } from "../hooks/useLocation";
 
 const HomeScreen = ({ navigation }) => {
   const { location } = useLocation();
+  const [selectedFilter, setSelectedFilter] = useState<string | null>(null);
 
   const filters = [
-    { type: "Plastique", icon: "recycle" },
-    { type: "Verre", icon: "glass-fragile" },
-    { type: "Papier", icon: "file-document-outline" },
-    { type: "Métal", icon: "silverware-fork-knife" },
-    { type: "Déchets verts", icon: "leaf" },
+    { type: "Plastique", icon: "recycle", tag: "plastic" },
+    { type: "Verre", icon: "glass-fragile", tag: "glass" },
+    { type: "Papier", icon: "file-document-outline", tag: "paper" },
+    { type: "Métal", icon: "silverware-fork-knife", tag: "metal" },
+    { type: "Déchets verts", icon: "leaf", tag: "organic" },
+    { type: "Électronique", icon: "battery", tag: "electronics" },
+    { type: "Textile", icon: "tshirt-crew", tag: "textile" },
   ];
 
   return (
-    <View style={globalStyles.container}>
-      {/* ✅ Barre supérieure */}
-      <Appbar.Header style={globalStyles.appBar}>
-        <Appbar.Action icon="home" onPress={() => navigation.navigate("Home")} />
-        <Appbar.Action icon="account" onPress={() => navigation.navigate("Profile")} />
-        <Appbar.Action icon="lightbulb-on-outline" onPress={() => navigation.navigate("Conseils")} />
-        <Appbar.Action
-          icon="crosshairs-gps"
-          onPress={() => {
-            if (location) {
-              console.log("Ma position :", location);
-            } else {
-              console.log("Localisation non disponible");
-            }
-          }}
-        />
-      </Appbar.Header>
-
-      {/* ✅ Filtres bien positionnés sous la barre supérieure */}
-      <View style={globalStyles.filterContainer}>
-        {filters.map((filter, index) => (
-          <IconButton
-            key={index}
-            icon={filter.icon}
-            size={30}
-            onPress={() => console.log(`Filtrer par ${filter.type}`)}
-          />
-        ))}
-      </View>
-
-      {/* ✅ Carte bien positionnée en dessous des filtres */}
-      <MapComponent />
-
-      {/* ✅ Barre de recherche bien positionnée en bas */}
-      <View style={globalStyles.searchContainer}>
+    <SafeAreaView style={globalStyles.container}>
+      <MapComponent location={location} selectedFilter={selectedFilter} />
+      <View style={globalStyles.searchContainerTop}>
+        <Image source={require("../assets/logo.png")} style={globalStyles.searchLogo} />
         <TextInput
           style={globalStyles.searchInput}
           placeholder="Rechercher un point de recyclage..."
         />
       </View>
-    </View>
+
+      {/* ✅ Filtres en boutons flottants en haut */}
+      <View style={globalStyles.filterContainerFloating}>
+        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+          {filters.map((filter, index) => (
+            <IconButton
+              key={index}
+              icon={filter.icon}
+              size={30}
+              style={[
+                globalStyles.filterButton,
+                selectedFilter === filter.tag ? { backgroundColor: "#4CAF50" } : {},
+              ]}
+              onPress={() => setSelectedFilter(filter.tag === selectedFilter ? null : filter.tag)}
+            />
+          ))}
+        </ScrollView>
+      </View>
+
+      <FAB
+        icon="crosshairs-gps"
+        style={globalStyles.fabLocation}
+        onPress={() => {
+          if (location) {
+            console.log("Ma position :", location);
+          } else {
+            console.log("Localisation non disponible");
+          }
+        }}
+      />
+
+      <Appbar style={globalStyles.bottomNav}>
+        <Appbar.Action icon="home" onPress={() => navigation.navigate("Home")} />
+        <Appbar.Action icon="account" onPress={() => navigation.navigate("Profile")} />
+        <Appbar.Action icon="lightbulb-on-outline" onPress={() => navigation.navigate("Conseils")} />
+      </Appbar>
+    </SafeAreaView>
   );
 };
 

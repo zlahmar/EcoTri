@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 
-const profilScreen = () => {
+const ProfilScreen = () => {
   return (
     <View>
       <Text>Profil Screen</Text>
@@ -9,4 +9,4 @@ const profilScreen = () => {
   );
 }
 
-export default profilScreen;
+export default ProfilScreen;

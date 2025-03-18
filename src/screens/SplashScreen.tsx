@@ -12,9 +12,9 @@ const SplashScreen = ({ navigation }: { navigation: NavigationProp<any> }) => {
   }, []);
 
   return (
-    <View style={globalStyles.container}>
-      <Image source={require("../assets/logo.png")} style={globalStyles.logo} />
-      <Text style={globalStyles.appName}>Recycle</Text>
+    <View style={[globalStyles.container, { justifyContent: "center", alignItems: "center" }]}>
+      <Image source={require("../assets/logo1.png")} style={globalStyles.logo} />
+      <Text style={globalStyles.appName}>EcoTri</Text>
     </View>
   );
 };
