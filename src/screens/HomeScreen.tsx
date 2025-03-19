@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef} from "react";
 import { View, TextInput, ScrollView, Image, Text, Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import MapComponent from "../components/MapComponent";
@@ -7,10 +7,11 @@ import { Appbar, IconButton, FAB } from "react-native-paper";
 import { useLocation } from "../hooks/useLocation";
 
 const HomeScreen = ({ navigation }) => {
+  const mapRef = useRef(null);
   const { location } = useLocation();
   const [selectedFilter, setSelectedFilter] = useState(null);
-  const [searchQuery, setSearchQuery] = useState(""); // 🔍 Stocke la recherche
-  const [searchedLocation, setSearchedLocation] = useState(null); // 📌 Coordonnées de l'adresse recherchée
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchedLocation, setSearchedLocation] = useState(null);
 
   const filters = [
     { type: "Plastique", icon: "recycle", tag: "plastic" },
@@ -22,7 +23,6 @@ const HomeScreen = ({ navigation }) => {
     { type: "Textile", icon: "tshirt-crew", tag: "textile" },
   ];
 
-  /** 🔍 Fonction pour chercher une adresse avec Nominatim */
   const searchLocation = async () => {
     if (!searchQuery.trim()) {
       Alert.alert("Erreur", "Veuillez entrer une adresse.");
@@ -31,19 +31,19 @@ const HomeScreen = ({ navigation }) => {
   
     try {
       const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(searchQuery)}`;
-      console.log("URL Nominatim :", url); // 🔍 Vérification
+      console.log("URL Nominatim :", url);
   
       const response = await fetch(url, {
         headers: { "User-Agent": "RecycleFinder/1.0 (zineblahmar1@gmail.com)" }, // ✅ Ajout du User-Agent
       });
   
-      const text = await response.text(); // Lire la réponse brute
-      console.log("Réponse brute Nominatim :", text); // 🔍 Vérifier la réponse avant de parser
+      const text = await response.text();
+      console.log("Réponse brute Nominatim :", text);
   
-      const data = JSON.parse(text); // ✅ Convertir en JSON si possible
+      const data = JSON.parse(text);
   
       if (data.length > 0) {
-        const { lat, lon } = data[0]; // 📍 Prendre la première correspondance
+        const { lat, lon } = data[0];
         setSearchedLocation({ latitude: parseFloat(lat), longitude: parseFloat(lon) });
       } else {
         Alert.alert("Adresse non trouvée", "Essayez une autre adresse.");
@@ -57,10 +57,8 @@ const HomeScreen = ({ navigation }) => {
 
   return (
     <SafeAreaView style={globalStyles.container}>
-      {/* 🔍 Carte avec la localisation recherchée */}
-      <MapComponent location={searchedLocation || location} filter={selectedFilter} />
+      <MapComponent mapRef={mapRef} location={searchedLocation || location} filter={selectedFilter} />
 
-      {/* 🔍 Barre de recherche */}
       <View style={globalStyles.searchContainerTop}>
         <Image source={require("../assets/logo.png")} style={globalStyles.searchLogo} />
         <TextInput
@@ -68,12 +66,12 @@ const HomeScreen = ({ navigation }) => {
           placeholder="Rechercher une adresse..."
           value={searchQuery}
           onChangeText={setSearchQuery}
-          onSubmitEditing={searchLocation} // 📌 Lancer la recherche à la validation
+          onSubmitEditing={searchLocation}
           returnKeyType="search"
         />
       </View>
 
-      {/* 🏷️ Filtres */}
+      {/*Filtres */}
       <View style={globalStyles.filterContainerFloating}>
         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
           {filters.map((filter, index) => (
@@ -91,14 +89,30 @@ const HomeScreen = ({ navigation }) => {
         </ScrollView>
       </View>
 
-      {/* 📍 Bouton pour revenir à la position actuelle */}
+      {/*Revenir à la position actuelle */}
       <FAB
-        icon="crosshairs-gps"
-        style={globalStyles.fabLocation}
-        onPress={() => setSearchedLocation(location)}
-      />
+  icon="crosshairs-gps"
+  style={globalStyles.fabLocation}
+  onPress={() => {
+    console.log("Valeur de location :", location);
+    console.log("Valeur de mapRef :", mapRef.current);
 
-      {/* 🚀 Barre de navigation */}
+    if (location && mapRef.current) {
+      mapRef.current.animateToRegion({
+        latitude: location.latitude,
+        longitude: location.longitude,
+        latitudeDelta: 0.01,
+        longitudeDelta: 0.01,
+      });
+    } else {
+      Alert.alert("Erreur", "Localisation non disponible.");
+    }
+  }}
+/>
+
+
+
+      {/*Barre de navigation */}
       <Appbar style={globalStyles.bottomNav}>
         <Appbar.Action icon="home" onPress={() => navigation.navigate("Home")} />
         <Appbar.Action icon="account" onPress={() => navigation.navigate("Profile")} />
