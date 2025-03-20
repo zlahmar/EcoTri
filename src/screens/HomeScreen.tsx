@@ -34,7 +34,7 @@ const HomeScreen = ({ navigation }) => {
       console.log("URL Nominatim :", url);
   
       const response = await fetch(url, {
-        headers: { "User-Agent": "RecycleFinder/1.0 (zineblahmar1@gmail.com)" }, // ✅ Ajout du User-Agent
+        headers: { "User-Agent": "RecycleFinder/1.0 (zineblahmar1@gmail.com)" },
       });
   
       const text = await response.text();
@@ -109,9 +109,6 @@ const HomeScreen = ({ navigation }) => {
     }
   }}
 />
-
-
-
       {/*Barre de navigation */}
       <Appbar style={globalStyles.bottomNav}>
         <Appbar.Action icon="home" onPress={() => navigation.navigate("Home")} />
