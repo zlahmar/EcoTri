@@ -2,15 +2,17 @@ import React, { useEffect, useRef, useState } from "react";
 import { View, StyleSheet, Text, TouchableOpacity, ActivityIndicator } from "react-native";
 import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { colors } from "../styles/colors";
+import { globalStyles } from "../styles/global";
 
-const MapComponent = ({ location, filter }) => {
-  const mapRef = useRef(null);
+const MapComponent = ({ mapRef, location, filter }) => {
+  //const mapRef = useRef(null);
   const [recyclingPoints, setRecyclingPoints] = useState([]);
   const [selectedPoint, setSelectedPoint] = useState(null);
   const [address, setAddress] = useState("");
   const [loadingAddress, setLoadingAddress] = useState(false);
 
-  /** 🔍 Récupère les points de recyclage depuis Overpass API */
+  /** Récupère les points de recyclage depuis Overpass API */
   const fetchRecyclingPoints = async () => {
     if (!location) return;
 
@@ -45,7 +47,7 @@ const MapComponent = ({ location, filter }) => {
     }
   };
 
-  /** 🔍 Formate l'adresse pour n'afficher que le numéro, la rue, le code postal et la ville */
+  /** Formate l'adresse pour n'afficher que le numéro, la rue, le code postal et la ville */
   const formatAddress = (data) => {
     if (!data || !data.address) return "Adresse non trouvée";
     
@@ -53,7 +55,7 @@ const MapComponent = ({ location, filter }) => {
     return `${house_number ? house_number + " " : ""}${road || ""}, ${postcode || ""} ${town || city || ""}`;
   };
 
-  /** 🔍 Récupère l'adresse via Nominatim */
+  /**Récupère l'adresse via Nominatim */
   const fetchAddressFromCoordinates = async (latitude, longitude) => {
     setLoadingAddress(true);
     try {
@@ -71,7 +73,7 @@ const MapComponent = ({ location, filter }) => {
     setLoadingAddress(false);
   };
 
-  /** 🔄 Sélectionne un point de recyclage et récupère son adresse */
+  /**Sélectionne un point de recyclage et récupère son adresse */
   const handleSelectPoint = (point) => {
     setSelectedPoint(point);
     fetchAddressFromCoordinates(point.latitude, point.longitude);
@@ -84,14 +86,15 @@ const MapComponent = ({ location, filter }) => {
     });
   };
 
-  /** 🔄 Récupère les points de recyclage à chaque changement de location ou filtre */
+  /**Récupère les points de recyclage à chaque changement de location ou filtre */
   useEffect(() => {
     fetchRecyclingPoints();
   }, [location, filter]);
 
-  /** 🔄 Centre la carte sur la position actuelle */
+  /**Centre la carte sur la position actuelle */
   useEffect(() => {
     if (location && mapRef.current) {
+      console.log("Mise à jour automatique de la carte vers la position actuelle");
       mapRef.current.animateToRegion({
         latitude: location.latitude,
         longitude: location.longitude,
@@ -100,8 +103,9 @@ const MapComponent = ({ location, filter }) => {
       });
     }
   }, [location]);
+  
 
-  /** 📌 Détermine l'icône du point de recyclage */
+  /**Détermine l'icône du point de recyclage */
   const getRecyclingIcon = (tags) => {
     if (tags["recycling:glass_bottles"] === "yes") return "glass-fragile";
     if (tags["recycling:plastic"] === "yes") return "recycle";
@@ -112,7 +116,7 @@ const MapComponent = ({ location, filter }) => {
     if (tags["recycling:textile"] === "yes") return "tshirt-crew";
     return "recycle";
   };
-
+  
   return (
     <View style={styles.container}>
       <MapView ref={mapRef} style={styles.map} provider={PROVIDER_GOOGLE}
@@ -122,17 +126,26 @@ const MapComponent = ({ location, filter }) => {
           latitudeDelta: 0.1,
           longitudeDelta: 0.1,
         }}>
-        {location && <Marker coordinate={location} title="Ma Position" description="Vous êtes ici" />}
-
+        {location && (
+          <Marker coordinate={location} title="Ma Position" description="Vous êtes ici">
+            <View style={globalStyles.blueDot}>
+              <View style={globalStyles.innerBlueDot} />
+            </View>
+          </Marker>
+        )}
         {recyclingPoints.map(point => (
-          <Marker key={point.id} coordinate={{ latitude: point.latitude, longitude: point.longitude }}
-            onPress={() => handleSelectPoint(point)} />
+          <Marker
+          key={point.id}
+          coordinate={{ latitude: point.latitude, longitude: point.longitude }}
+          onPress={() => handleSelectPoint(point)}
+          pinColor={selectedPoint?.id === point.id ? colors.secondary : colors.secondary}
+        />
         ))}
       </MapView>
 
       {selectedPoint && (
         <View style={styles.infoContainer}>
-          <MaterialCommunityIcons name={getRecyclingIcon(selectedPoint.tags)} size={40} color="#4CAF50" />
+          <MaterialCommunityIcons name="recycle" size={40} color={colors.primary} />
           <View style={styles.infoTextContainer}>
             <Text style={styles.infoText}>Type : {Object.keys(selectedPoint.tags).filter(tag => tag.startsWith("recycling:")).join(", ")}</Text>
             <Text style={styles.infoText}>Adresse : {loadingAddress ? <ActivityIndicator size="small" /> : address}</Text>
@@ -151,10 +164,10 @@ const styles = StyleSheet.create({
   map: { flex: 1 },
   infoContainer: {
     position: "absolute",
-    bottom: 100, // 🔼 Remonter légèrement pour ne pas cacher le bouton
+    bottom: 70,
     left: 20,
-    right: 20,
-    backgroundColor: "rgba(255, 255, 255, 0.9)", // 🎨 Fond semi-transparent
+    right: 70,
+    backgroundColor: "rgba(255, 255, 255, 0.9)",
     padding: 10,
     borderRadius: 10,
     shadowColor: "#000",
@@ -163,8 +176,7 @@ const styles = StyleSheet.create({
     shadowRadius: 3,
     flexDirection: "row",
     alignItems: "center",
-  }
-  ,
+  },
   infoTextContainer: { flex: 1, marginLeft: 10 },
   infoText: { fontSize: 16, fontWeight: "bold", textAlign: "left", marginTop: 5 },
   closeButton: { position: "absolute", top: 5, right: 5 },

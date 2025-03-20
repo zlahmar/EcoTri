@@ -121,4 +121,21 @@ export const globalStyles = StyleSheet.create({
   map: {
     ...StyleSheet.absoluteFillObject,
   },
+  blueDot: {
+    width: 30,
+    height: 30,
+    backgroundColor: "rgba(0, 122, 255, 0.2)",
+    borderRadius: 15,
+    alignItems: "center",
+    justifyContent: "center",
+    borderWidth: 1,
+    borderColor: "rgba(0, 122, 255, 0.5)",
+  },
+  
+  innerBlueDot: {
+    width: 12,
+    height: 12,
+    backgroundColor: "#007AFF",
+    borderRadius: 6,
+  },
 });

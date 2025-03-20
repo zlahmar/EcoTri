@@ -1,4 +1,3 @@
-// src/navigation/AppNavigator.tsx
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
@@ -6,6 +5,8 @@ import SplashScreen from "../screens/SplashScreen";
 import HomeScreen from "../screens/HomeScreen";
 import AdviceScreen from "../screens/AdviceScreen";
 import profilScreen from "../screens/ProfilScreen";
+import LoginScreen from "../screens/LoginScreen";
+import SignupScreen from "../screens/SignupScreen";
 
 const Stack = createStackNavigator();
 
@@ -16,6 +17,8 @@ const AppNavigator = () => {
         <Stack.Screen name="Splash" component={SplashScreen} />
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="Profile" component={profilScreen} />
+        <Stack.Screen name="Login" component={LoginScreen} />
+        <Stack.Screen name="Signup" component={SignupScreen} />
         <Stack.Screen name="Conseils" component={AdviceScreen} />
       </Stack.Navigator>
     </NavigationContainer>
