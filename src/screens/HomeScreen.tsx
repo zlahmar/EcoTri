@@ -108,12 +108,24 @@ const HomeScreen = ({ navigation }) => {
     }
   }}
 />
-      {/*Barre de navigation */}
-      <Appbar style={globalStyles.bottomNav}>
-        <Appbar.Action icon="home" onPress={() => navigation.navigate("Home")} />
-        <Appbar.Action icon="account" onPress={() => navigation.navigate("Profile")} />
-        <Appbar.Action icon="lightbulb-on-outline" onPress={() => navigation.navigate("Conseils")} />
-      </Appbar>
+{/* Barre de navigation */}
+<Appbar style={globalStyles.bottomNav}>
+  <View style={globalStyles.navItem}>
+    <Appbar.Action icon="home" onPress={() => navigation.navigate("Home")} />
+    <Text style={globalStyles.navText}>Accueil</Text>
+  </View>
+
+  <View style={globalStyles.navItem}>
+    <Appbar.Action icon="account" onPress={() => navigation.navigate("Profile")} />
+    <Text style={globalStyles.navText}>Profil</Text>
+  </View>
+
+  <View style={globalStyles.navItem}>
+    <Appbar.Action icon="lightbulb-on-outline" onPress={() => navigation.navigate("Conseils")} />
+    <Text style={globalStyles.navText}>Conseils</Text>
+  </View>
+</Appbar>
+
     </SafeAreaView>
   );
 };

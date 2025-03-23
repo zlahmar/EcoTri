@@ -1,4 +1,3 @@
-// Importer Firebase et les services nécessaires
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";

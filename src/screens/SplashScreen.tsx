@@ -1,4 +1,3 @@
-// src/screens/SplashScreen.tsx
 import React, { useEffect } from "react";
 import { View, Text, Image, StyleSheet } from "react-native";
 
@@ -8,7 +7,7 @@ const SplashScreen = ({ navigation }: { navigation: NavigationProp<any> }) => {
   useEffect(() => {
     setTimeout(() => {
       navigation.navigate("Home");
-    }, 3000); // 3 secondes d'attente
+    }, 3000);
   }, []);
 
   return (

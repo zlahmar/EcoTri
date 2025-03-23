@@ -20,7 +20,6 @@ const SignupScreen = ({ navigation }) => {
   const [loading, setLoading] = useState(false);
   const [profileImage, setProfileImage] = useState<string | null>(null);
 
-  // Demander la permission d'accès à la galerie
 const requestPermission = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (status !== 'granted') {
@@ -48,8 +47,6 @@ const requestPermission = async () => {
       console.log('Erreur lors de la prise de la photo:', error);
     }
   };
-  
-
   // Choisir une image depuis la galerie
   const pickImage = async () => {
     try {
@@ -104,7 +101,7 @@ const requestPermission = async () => {
     }
 
     setLoading(true);
-    console.log('🌀 Tentative de création de compte avec:', email);
+    console.log('Tentative de création de compte avec:', email);
 
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
@@ -146,7 +143,7 @@ const requestPermission = async () => {
         <Text style={styles.addPhotoText}>Ajouter une photo</Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={takePhoto}>
-        <Text style={styles.addPhotoText}>Ajouter une photo</Text>
+        <Text style={styles.addPhotoText}>Prendre une photo</Text>
       </TouchableOpacity>
 
       <TextInput

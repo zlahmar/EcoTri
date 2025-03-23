@@ -22,13 +22,13 @@ app.use(helmet({
   },
 }));
 
-// Définir où les fichiers seront stockés
+
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, 'uploads/'); // Dossier où les images seront enregistrées
+    cb(null, 'uploads/');
   },
   filename: function (req, file, cb) {
-    cb(null, Date.now() + path.extname(file.originalname)); // Nom du fichier
+    cb(null, Date.now() + path.extname(file.originalname));
   },
 });
 
@@ -42,16 +42,16 @@ app.post('/upload', upload.single('image'), (req, res) => {
   res.json({ imageUrl: `http://localhost:3000/uploads/${req.file.filename}` });
 });
 app.use(cors({
-  origin: '*', // Autorise toutes les origines
+  origin: '*',
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
 }));
 
 
-// Servir les fichiers statiques
+
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use(cors({
-  origin: '*', // Accepte les requêtes de n'importe où
+  origin: '*',
   methods: ['GET', 'POST'], 
   allowedHeaders: ['Content-Type'],
 }));

@@ -138,4 +138,19 @@ export const globalStyles = StyleSheet.create({
     backgroundColor: "#007AFF",
     borderRadius: 6,
   },
+  navItem: {
+    alignItems: "center",
+    flex: 1,
+    justifyContent: "center",
+    position: "relative",
+  },
+  
+  navText: {
+    fontSize: 10,
+    color: "white",
+    position: "absolute",
+    bottom: -5,
+  },
+  
+  
 });

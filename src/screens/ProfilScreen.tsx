@@ -60,9 +60,7 @@ const ProfilScreen = ({ navigation }) => {
         console.log(" Mise à jour du profil...");
         await updateDoc(userDocRef, { name: name });
       }
-  
       console.log("Profil mis à jour avec succès !");
-      alert("Profil mis à jour !");
     } catch (error) {
       console.log("Erreur lors de la mise à jour du profil :", error);
     }
