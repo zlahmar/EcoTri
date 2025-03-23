@@ -12,6 +12,10 @@ const MapComponent = ({ mapRef, location, filter }) => {
   const [address, setAddress] = useState("");
   const [loadingAddress, setLoadingAddress] = useState(false);
 
+<<<<<<< HEAD
+=======
+  /** Récupère les points de recyclage depuis Overpass API */
+>>>>>>> c95afc6d013d9e43c6593487d1478fb576db87ba
   const fetchRecyclingPoints = async () => {
     if (!location) return;
 

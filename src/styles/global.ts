@@ -138,6 +138,7 @@ export const globalStyles = StyleSheet.create({
     backgroundColor: "#007AFF",
     borderRadius: 6,
   },
+<<<<<<< HEAD
   navItem: {
     alignItems: "center",
     flex: 1,
@@ -154,3 +155,6 @@ export const globalStyles = StyleSheet.create({
   
   
 });
+=======
+});
+>>>>>>> c95afc6d013d9e43c6593487d1478fb576db87ba

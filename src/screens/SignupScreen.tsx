@@ -9,7 +9,10 @@ import { auth, db, storage } from '../../firebaseConfig';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import * as ImagePicker from 'expo-image-picker';
 import * as FileSystem from 'expo-file-system';
+<<<<<<< HEAD
 import { Button } from 'react-native-paper';
+=======
+>>>>>>> c95afc6d013d9e43c6593487d1478fb576db87ba
 
 import { colors } from '../styles/colors';
 
@@ -20,6 +23,10 @@ const SignupScreen = ({ navigation }) => {
   const [loading, setLoading] = useState(false);
   const [profileImage, setProfileImage] = useState<string | null>(null);
 
+<<<<<<< HEAD
+=======
+  // Demander la permission d'accès à la galerie
+>>>>>>> c95afc6d013d9e43c6593487d1478fb576db87ba
 const requestPermission = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (status !== 'granted') {
@@ -47,6 +54,11 @@ const requestPermission = async () => {
       console.log('Erreur lors de la prise de la photo:', error);
     }
   };
+<<<<<<< HEAD
+=======
+  
+
+>>>>>>> c95afc6d013d9e43c6593487d1478fb576db87ba
   // Choisir une image depuis la galerie
   const pickImage = async () => {
     try {
@@ -94,6 +106,14 @@ const requestPermission = async () => {
       return null;
     }
   };
+<<<<<<< HEAD
+=======
+  
+  
+  
+  
+  
+>>>>>>> c95afc6d013d9e43c6593487d1478fb576db87ba
   const handleSignup = async () => {
     if (!email || !password || !name) {
       Alert.alert("Erreur", "Veuillez remplir tous les champs.");
@@ -101,11 +121,16 @@ const requestPermission = async () => {
     }
 
     setLoading(true);
+<<<<<<< HEAD
     console.log('Tentative de création de compte avec:', email);
+=======
+    console.log('🌀 Tentative de création de compte avec:', email);
+>>>>>>> c95afc6d013d9e43c6593487d1478fb576db87ba
 
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
+<<<<<<< HEAD
       console.log('Utilisateur créé avec succès:', user.uid);
     if (!auth.currentUser) {
         throw new Error("Utilisateur non authentifié.");
@@ -123,6 +148,30 @@ const requestPermission = async () => {
       navigation.replace("Login");
     } catch (error) {
       console.log('Erreur lors de la création du compte:', error.message);
+=======
+      console.log('✅ Utilisateur créé avec succès:', user.uid);
+          // Vérifier si l'utilisateur est bien authentifié
+    if (!auth.currentUser) {
+        throw new Error("Utilisateur non authentifié.");
+      }
+      console.log("🔑 Utilisateur connecté :", auth.currentUser?.uid);
+
+      // Uploader l'image et récupérer l'URL
+      const imageUrl = await uploadImage(user.uid);
+
+      // Ajouter l'utilisateur dans Firestore
+      await setDoc(doc(db, "users", user.uid), {
+        name: name,
+        email: email,
+        profileImage: imageUrl || null, // Stocker l'URL ou null si pas d'image
+      });
+      console.log('✅ Utilisateur ajouté à Firestore');
+      
+      Alert.alert("Succès", "Compte créé avec succès !");
+      navigation.replace("Login");
+    } catch (error) {
+      console.log('❌ Erreur lors de la création du compte:', error.message);
+>>>>>>> c95afc6d013d9e43c6593487d1478fb576db87ba
       Alert.alert("Erreur", error.message);
     } finally {
       setLoading(false);
@@ -132,9 +181,14 @@ const requestPermission = async () => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Créer un compte</Text>
+<<<<<<< HEAD
       <Button mode="outlined" onPress={() => navigation.navigate("Home")} style={styles.backButton}>
           Retour à l'accueil
         </Button>
+=======
+
+      {/* Affichage de la photo de profil */}
+>>>>>>> c95afc6d013d9e43c6593487d1478fb576db87ba
       <TouchableOpacity onPress={pickImage}>
         <Image 
           source={profileImage ? { uri: profileImage } : require('../assets/logo.png')} 
@@ -142,9 +196,12 @@ const requestPermission = async () => {
         />
         <Text style={styles.addPhotoText}>Ajouter une photo</Text>
       </TouchableOpacity>
+<<<<<<< HEAD
       <TouchableOpacity onPress={takePhoto}>
         <Text style={styles.addPhotoText}>Prendre une photo</Text>
       </TouchableOpacity>
+=======
+>>>>>>> c95afc6d013d9e43c6593487d1478fb576db87ba
 
       <TextInput
         style={styles.input}
@@ -241,6 +298,7 @@ const styles = StyleSheet.create({
     color: colors.primaryDark,
     textDecorationLine: "underline",
   },
+<<<<<<< HEAD
   backButton: {
     alignSelf: 'flex-start',
     marginBottom: 10,
@@ -248,3 +306,8 @@ const styles = StyleSheet.create({
 });
 
 export default SignupScreen;
+=======
+});
+
+export default SignupScreen;
+>>>>>>> c95afc6d013d9e43c6593487d1478fb576db87ba

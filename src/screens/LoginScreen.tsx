@@ -3,7 +3,10 @@ import { TextInput, Button, View, Text, StyleSheet, ActivityIndicator } from 're
 import { auth } from '../../firebaseConfig';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { colors } from '../styles/colors';
+<<<<<<< HEAD
 import { Button as PaperButton } from 'react-native-paper';
+=======
+>>>>>>> c95afc6d013d9e43c6593487d1478fb576db87ba
 
 const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState('');
@@ -44,9 +47,12 @@ const LoginScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Connexion</Text>
+<<<<<<< HEAD
       <PaperButton mode="outlined" onPress={() => navigation.navigate("Home")} style={styles.backButton}>
           Retour à l'accueil
         </PaperButton>
+=======
+>>>>>>> c95afc6d013d9e43c6593487d1478fb576db87ba
 
       <TextInput
         style={styles.input}
@@ -90,6 +96,7 @@ const styles = StyleSheet.create({
   input: { width: "100%", padding: 10, borderWidth: 1, borderColor: "#ddd", borderRadius: 8, marginBottom: 10, backgroundColor: "#fff" },
   errorText: { color: "red", marginBottom: 10 },
   registerText: { marginTop: 15, color: colors.primaryDark, textDecorationLine: "underline" },
+<<<<<<< HEAD
   backButton: {
     alignSelf: 'flex-start',
     marginBottom: 10,
@@ -97,3 +104,8 @@ const styles = StyleSheet.create({
 });
 
 export default LoginScreen;
+=======
+});
+
+export default LoginScreen;
+>>>>>>> c95afc6d013d9e43c6593487d1478fb576db87ba

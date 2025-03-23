@@ -95,6 +95,7 @@ const HomeScreen = ({ navigation }) => {
   onPress={() => {
     console.log("Valeur de location :", location);
     console.log("Valeur de mapRef :", mapRef.current);
+<<<<<<< HEAD
 
     if (location && mapRef.current) {
       mapRef.current.animateToRegion({
@@ -126,6 +127,27 @@ const HomeScreen = ({ navigation }) => {
   </View>
 </Appbar>
 
+=======
+
+    if (location && mapRef.current) {
+      mapRef.current.animateToRegion({
+        latitude: location.latitude,
+        longitude: location.longitude,
+        latitudeDelta: 0.01,
+        longitudeDelta: 0.01,
+      });
+    } else {
+      Alert.alert("Erreur", "Localisation non disponible.");
+    }
+  }}
+/>
+      {/*Barre de navigation */}
+      <Appbar style={globalStyles.bottomNav}>
+        <Appbar.Action icon="home" onPress={() => navigation.navigate("Home")} />
+        <Appbar.Action icon="account" onPress={() => navigation.navigate("Profile")} />
+        <Appbar.Action icon="lightbulb-on-outline" onPress={() => navigation.navigate("Conseils")} />
+      </Appbar>
+>>>>>>> c95afc6d013d9e43c6593487d1478fb576db87ba
     </SafeAreaView>
   );
 };

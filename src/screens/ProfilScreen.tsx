@@ -7,7 +7,10 @@ import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import * as ImagePicker from 'expo-image-picker';
 import { Button, List } from 'react-native-paper';
 import { colors } from '../styles/colors';
+<<<<<<< HEAD
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+=======
+>>>>>>> c95afc6d013d9e43c6593487d1478fb576db87ba
 
 const ProfilScreen = ({ navigation }) => {
   const [userData, setUserData] = useState(null);
@@ -54,13 +57,23 @@ const ProfilScreen = ({ navigation }) => {
       const userDoc = await getDoc(userDocRef);
   
       if (!userDoc.exists()) {
+<<<<<<< HEAD
         console.log("Le document utilisateur n'existe pas, création en cours...");
+=======
+        console.log("⚠️ Le document utilisateur n'existe pas, création en cours...");
+>>>>>>> c95afc6d013d9e43c6593487d1478fb576db87ba
         await setDoc(userDocRef, { name: name });
       } else {
         console.log(" Mise à jour du profil...");
         await updateDoc(userDocRef, { name: name });
       }
+<<<<<<< HEAD
       console.log("Profil mis à jour avec succès !");
+=======
+  
+      console.log("Profil mis à jour avec succès !");
+      alert("Profil mis à jour !");
+>>>>>>> c95afc6d013d9e43c6593487d1478fb576db87ba
     } catch (error) {
       console.log("Erreur lors de la mise à jour du profil :", error);
     }
@@ -107,6 +120,10 @@ const ProfilScreen = ({ navigation }) => {
       const blob = await response.blob();
       console.log("Image convertie en blob...");
   
+<<<<<<< HEAD
+=======
+      // Ajout d'un timestamp pour éviter les conflits
+>>>>>>> c95afc6d013d9e43c6593487d1478fb576db87ba
       const imageRef = ref(storage, `profileImages/${user.uid}.jpg`);
       console.log("Référence du fichier:", imageRef.fullPath);
   
@@ -134,6 +151,7 @@ const ProfilScreen = ({ navigation }) => {
         <Button mode="outlined" onPress={() => navigation.navigate("Home")} style={styles.backButton}>
           Retour à l'accueil
         </Button>
+<<<<<<< HEAD
 
         <TouchableOpacity style={styles.imageContainer}>
           {loading ? (
@@ -184,6 +202,103 @@ const ProfilScreen = ({ navigation }) => {
             left={() => <MaterialCommunityIcons name="logout" size={24} color="red" />}
             onPress={handleLogout}
           />
+        </View>
+      </ScrollView>
+    </SafeAreaView>
+  );
+};
+
+const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    backgroundColor: colors.background,
+  },
+  scrollContainer: {
+    alignItems: 'center',
+    padding: 20,
+  },
+  backButton: {
+    alignSelf: 'flex-start',
+    marginBottom: 10,
+  },
+  imageContainer: {
+    width: 120,
+    height: 120,
+    borderRadius: 60,
+    borderWidth: 3,
+    borderColor: colors.primary,
+    alignItems: 'center',
+    justifyContent: 'center',
+    overflow: 'hidden',
+    marginBottom: 10,
+  },
+  profileImage: {
+    width: "100%",
+    height: "100%",
+    borderRadius: 60,
+  },
+  input: {
+    width: "80%",
+    padding: 10,
+    borderWidth: 1,
+    borderColor: "gray",
+    borderRadius: 8,
+    marginBottom: 10,
+  },
+  editButton: {
+    marginTop: 10,
+    width: "70%",
+    backgroundColor: colors.primary,
+  },
+  menu: {
+    width: "100%",
+    marginTop: 20,
+    backgroundColor: colors.secondary,
+    borderRadius: 12,
+    paddingVertical: 15,
+    paddingHorizontal: 10,
+  },
+});
+=======
+>>>>>>> c95afc6d013d9e43c6593487d1478fb576db87ba
+
+        <TouchableOpacity style={styles.imageContainer}>
+          {loading ? (
+            <ActivityIndicator size="large" color={colors.primary} />
+          ) : (
+            <Image
+              source={{ uri: profileImage || 'https://via.placeholder.com/100' }}
+              style={styles.profileImage}
+            />
+          )}
+        </TouchableOpacity>
+
+        <Button mode="contained" style={styles.editButton} onPress={pickImage}>
+          Choisir une image
+        </Button>
+        <Button mode="contained" style={styles.editButton} onPress={takePhoto}>
+          Prendre une photo
+        </Button>
+
+        <TextInput
+          style={styles.input}
+          placeholder="Nom"
+          value={name}
+          onChangeText={setName}
+        />
+
+        <Button mode="contained" style={styles.editButton} onPress={updateProfile}>
+          Enregistrer les modifications
+        </Button>
+
+        <Text style={styles.email}>{user?.email}</Text>
+
+        <View style={styles.menu}>
+          <List.Item title="Paramètres" left={() => <List.Icon icon="cog" color={colors.primaryDark} />} />
+          <List.Item title="Détails de facturation" left={() => <List.Icon icon="credit-card" color={colors.primaryDark} />} />
+          <List.Item title="Gestion des utilisateurs" left={() => <List.Icon icon="account-group" color={colors.primaryDark} />} />
+          <List.Item title="Informations" left={() => <List.Icon icon="information" color={colors.primaryDark} />} />
+          <List.Item title="Déconnexion" left={() => <List.Icon icon="logout" color="red" />} onPress={handleLogout} />
         </View>
       </ScrollView>
     </SafeAreaView>

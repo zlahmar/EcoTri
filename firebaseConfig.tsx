@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+// Importer Firebase et les services nécessaires
+>>>>>>> c95afc6d013d9e43c6593487d1478fb576db87ba
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
@@ -19,4 +23,8 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 const storage = getStorage(app);
 
+<<<<<<< HEAD
 export { auth, db, storage };
+=======
+export { auth, db, storage };
+>>>>>>> c95afc6d013d9e43c6593487d1478fb576db87ba
