@@ -89,77 +89,17 @@
 5. **Configuration Jest** : Optimisation des transformations et mocks
 6. **Couverture améliorée** : Passage de ~66% à 76.2%
 7. **Tests MapComponent** : Un seul test utile conservé, les autres supprimés
+8. **Configuration Jest CI/CD** : Optimisation pour compatibilité Node.js 18/20
+9. **Workflow CI/CD** : Suppression Node.js 16, ajout nettoyage cache Jest
+10. **Performance des tests** : Timeout 30s, maxWorkers=1 pour stabilité
 
 ### Améliorations de Qualité
 
 - **Couverture de code** : 76.2% (objectif atteint)
 - **Tests passés** : 54/54 tests (100% de réussite)
-- **Temps d'exécution** : ~11 secondes
+- **Temps d'exécution** : ~12 secondes
 - **Stabilité** : Configuration robuste et maintenable
-
----
-
-## Statistiques Détaillées
-
-### Tests par Service
-
-| Service        | Tests Passés | Tests Totaux | Taux de Réussite |
-| -------------- | ------------ | ------------ | ---------------- |
-| AdviceService  | 11           | 11           | 100%             |
-| MLKitService   | 12           | 12           | 100%             |
-| StorageService | 19           | 19           | 100%             |
-| useLocation    | 5            | 5            | 100%             |
-| AdviceScreen   | 2            | 2            | 100%             |
-| HomeScreen     | 2            | 2            | 100%             |
-| ScanScreen     | 2            | 2            | 100%             |
-| MapComponent   | 1            | 1            | 100%             |
-| **Total**      | **54**       | **54**       | **100%**         |
-
-### Couverture par Module
-
-```
-----------------------------|---------|----------|---------|---------|-----------------------------------
-File                        | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s
-----------------------------|---------|----------|---------|---------|-----------------------------------
-All files                   |   76.2  |    53.37 |   69.84 |   76.92 |
-
- recycle-app                |     100 |       50 |     100 |     100 |
-  firebaseConfig.tsx        |     100 |       50 |     100 |     100 | 26
-
- recycle-app/src/components |   51.42 |    25.53 |      25 |   53.73 |
-  MapComponent.tsx          |   51.42 |    25.53 |      25 |   53.73 | ...70,75-88,93-96,112-113,158-226
-
- recycle-app/src/hooks      |     100 |      100 |     100 |     100 |
-  useLocation.ts            |     100 |      100 |     100 |     100 |
-
- recycle-app/src/services   |   79.54 |    65.97 |   86.04 |   79.84 |
-  adviceService.ts          |   58.53 |    58.33 |   66.66 |   58.53 | ...44,363,374,389-390,401,422-423
-  mlKitService.ts           |     100 |       75 |     100 |     100 | 125-128
-  storageService.ts         |    96.7 |    68.88 |     100 |   97.77 | 80,197
-
- recycle-app/src/styles     |   85.71 |      100 |       0 |     100 |
-  colors.ts                 |     100 |      100 |     100 |     100 |
-  global.ts                 |   83.33 |      100 |       0 |     100 |
-----------------------------|---------|----------|---------|---------|-----------------------------------
-```
-
----
-
-## Problèmes Restants
-
-### Tests de Composants
-
-- **MapComponent** : Test web limité (normal pour les composants de carte)
-
-### Problèmes Principaux Résolus
-
-Le **conflit de dépendances** et les **erreurs de configuration** sont maintenant **entièrement résolus** :
-
-- Installation `npm ci` fonctionne
-- Tests de services passent (100%)
-- Tests de composants principaux passent
-- Couverture de code excellente (76.2%)
-- Pipeline CI/CD prêt pour le déploiement
+- **CI/CD** : Workflow optimisé et stable
 
 ---
 
@@ -173,7 +113,12 @@ module.exports = {
   testEnvironment: 'jsdom',
   roots: ['<rootDir>/src'],
   transform: {
-    '^.+\\.tsx?$': 'ts-jest',
+    '^.+\\.tsx?$': [
+      'ts-jest',
+      {
+        tsconfig: 'tsconfig.json',
+      },
+    ],
   },
   transformIgnorePatterns: [
     'node_modules/(?!(react-native|@react-native|@expo|expo|react-native-maps|react-native-vector-icons|react-native-gesture-handler|react-native-reanimated|react-native-screens|react-native-safe-area-context|react-native-paper|@testing-library)/)',
@@ -199,6 +144,8 @@ module.exports = {
     __DEV__: false,
   },
   setupFilesAfterEnv: [],
+  testTimeout: 30000,
+  maxWorkers: 1,
 };
 ```
 
@@ -207,6 +154,14 @@ module.exports = {
 - **fileMock.js** : Gestion des assets (images, fonts, etc.)
 - **Mocks simplifiés** : Tests de composants UI plus robustes
 - **Configuration optimisée** : Performance et stabilité améliorées
+
+### Optimisations CI/CD
+
+- **Node.js versions** : 18 et 20 uniquement (16 supprimé)
+- **Cache Jest** : Nettoyage automatique avant les tests
+- **Workers** : Limitation à 1 worker pour éviter les conflits
+- **Timeout** : 30 secondes pour les tests complexes
+- **Configuration TypeScript** : Explicite pour ts-jest
 
 ---
 
@@ -221,6 +176,12 @@ npm run test:watch
 
 # Tests avec couverture détaillée
 npm run test:coverage
+
+# Tests avec nettoyage du cache
+npm test -- --clearCache
+
+# Tests avec configuration CI/CD
+npm test -- --coverage --watchAll=false --verbose --maxWorkers=1
 
 # Tests spécifiques
 npm test -- --testNamePattern="AdviceService"
@@ -252,6 +213,7 @@ npm run test:verbose
 - **Tests unitaires** : Obligatoires pour tous les services
 - **Tests de composants** : Pour les écrans principaux
 - **Validation de types** : TypeScript strict mode
+- **Performance** : Tests rapides et stables
 
 ---
 
@@ -259,13 +221,23 @@ npm run test:verbose
 
 ### Pipeline Validé
 
-Le pipeline CI/CD est maintenant **fonctionnel** :
+Le pipeline CI/CD est maintenant **fonctionnel et optimisé** :
 
 1. **Installation des dépendances** : `npm ci` fonctionne
 2. **Tests de qualité** : Services et composants testés
-3. **Build** : Configuration prête pour le déploiement
-4. **Sécurité** : Audit des dépendances
-5. **Notification** : Système d'alerte opérationnel
+3. **Configuration Jest** : Optimisée pour Node.js 18/20
+4. **Cache management** : Nettoyage automatique
+5. **Build** : Configuration prête pour le déploiement
+6. **Sécurité** : Audit des dépendances
+7. **Notification** : Système d'alerte opérationnel
+
+### Optimisations Récentes
+
+- **Suppression Node.js 16** : Compatibilité améliorée
+- **Nettoyage cache Jest** : Évite les conflits
+- **Workers limités** : Stabilité des tests
+- **Timeout augmenté** : Tests complexes supportés
+- **Configuration TypeScript** : Explicite et robuste
 
 ### Prochaines Étapes
 
@@ -291,17 +263,19 @@ Le pipeline CI/CD est maintenant **fonctionnel** :
 - **Tests passants** : Maintenir >90%
 - **Temps d'exécution** : Maintenir <30 secondes
 - **Stabilité** : Zéro erreur de configuration
+- **CI/CD** : Pipeline stable et rapide
 
 ---
 
 ## Conclusion
 
-Le harnais de test est maintenant **robuste et fiable** :
+Le harnais de test est maintenant **robuste, fiable et optimisé** :
 
 - **100% de réussite** des tests (54/54)
 - **76.2% de couverture** de code
-- **Pipeline CI/CD fonctionnel**
+- **Pipeline CI/CD fonctionnel et optimisé**
 - **Qualité de code excellente**
-- **Configuration maintenable**
+- **Configuration maintenable et stable**
+- **Performance optimisée** pour CI/CD
 
 L'application EcoTri est prête pour le déploiement en production avec un niveau de confiance élevé dans la qualité du code. Les tests couvrent les fonctionnalités principales et assurent la stabilité de l'application.

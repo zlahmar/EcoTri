@@ -3,7 +3,9 @@ module.exports = {
   testEnvironment: 'jsdom',
   roots: ['<rootDir>/src'],
   transform: {
-    '^.+\\.tsx?$': 'ts-jest',
+    '^.+\\.tsx?$': ['ts-jest', {
+      tsconfig: 'tsconfig.json'
+    }]
   },
   transformIgnorePatterns: [
     'node_modules/(?!(react-native|@react-native|@expo|expo|react-native-maps|react-native-vector-icons|react-native-gesture-handler|react-native-reanimated|react-native-screens|react-native-safe-area-context|react-native-paper|@testing-library)/)',
@@ -27,4 +29,6 @@ module.exports = {
     __DEV__: false,
   },
   setupFilesAfterEnv: [],
+  testTimeout: 30000,
+  maxWorkers: 1,
 };

@@ -334,7 +334,12 @@ module.exports = {
   testEnvironment: 'jsdom',
   roots: ['<rootDir>/src'],
   transform: {
-    '^.+\\.tsx?$': 'ts-jest',
+    '^.+\\.tsx?$': [
+      'ts-jest',
+      {
+        tsconfig: 'tsconfig.json',
+      },
+    ],
   },
   transformIgnorePatterns: [
     'node_modules/(?!(react-native|@react-native|@expo|expo|react-native-maps|react-native-vector-icons|react-native-gesture-handler|react-native-reanimated|react-native-screens|react-native-safe-area-context|react-native-paper|@testing-library)/)',
@@ -360,6 +365,8 @@ module.exports = {
     __DEV__: false,
   },
   setupFilesAfterEnv: [],
+  testTimeout: 30000,
+  maxWorkers: 1,
 };
 ```
 
@@ -563,6 +570,14 @@ npm test -- --showConfig
 - **Règles spécifiques** : Pour les tests et composants
 - **Correction automatique** : Utiliser `npm run lint:fix`
 
+### 4. Configuration CI/CD
+
+- **Node.js versions** : 18 et 20 uniquement (16 supprimé pour compatibilité)
+- **Cache Jest** : Nettoyage automatique avant les tests
+- **Workers** : Limitation à 1 worker pour éviter les conflits
+- **Timeout** : 30 secondes pour les tests complexes
+- **Configuration TypeScript** : Explicite pour ts-jest
+
 ## Améliorations récentes (Décembre 2024)
 
 ### Problèmes résolus
@@ -575,6 +590,8 @@ npm test -- --showConfig
 6. **Warnings ESLint** : Configuration stricte pour CI/CD avec 0 warning
 7. **Configuration ESLint** : Règles spécifiques pour les tests
 8. **Tests MapComponent** : Un seul test utile conservé, les autres supprimés
+9. **Configuration Jest CI/CD** : Optimisation pour compatibilité Node.js 18/20
+10. **Workflow CI/CD** : Suppression Node.js 16, ajout nettoyage cache Jest
 
 ### Problèmes restants
 

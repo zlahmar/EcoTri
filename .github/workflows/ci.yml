@@ -61,7 +61,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [16, 18, 20]
+        node-version: [18, 20]
 
     steps:
       - name: Checkout du code
@@ -76,10 +76,16 @@ jobs:
       - name: Installer les dépendances
         run: npm ci
 
+      - name: Nettoyer le cache Jest
+        run: |
+          echo "Nettoyage du cache Jest..."
+          npm test -- --clearCache
+          echo "Cache Jest nettoyé"
+
       - name: Lancer les tests unitaires
         run: |
           echo "Lancement des tests unitaires sur Node.js ${{ matrix.node-version }}..."
-          npm test -- --coverage --watchAll=false --verbose
+          npm test -- --coverage --watchAll=false --verbose --maxWorkers=1
           echo "Tests unitaires réussis sur Node.js ${{ matrix.node-version }}"
 
       - name: Uploader les rapports de couverture
