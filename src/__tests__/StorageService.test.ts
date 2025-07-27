@@ -35,7 +35,7 @@ describe("StorageService", () => {
   // uploadImage
   describe("uploadImage", () => {
     it("upload une image avec succès", async () => {
-      const mockBlob = new Blob(['test'], { type: 'image/jpeg', lastModified: Date.now() });
+      const mockBlob = new Blob(['test'], { type: 'image/jpeg' });
       const mockImageRef = {};
       const mockDownloadURL = "https://example.com/image.jpg";
 
@@ -93,13 +93,21 @@ describe("StorageService", () => {
       const result = await service.saveScanResult(scanResult);
 
       expect(addDoc).toHaveBeenCalledWith(collection(db, 'scanResults'), expect.objectContaining({
-        ...scanResult,
-        timestamp: expect.any(Date)
+        userId: "test-user-id",
+        imageUrl: scanResult.imageUrl,
+        wasteCategory: scanResult.wasteCategory,
+        confidence: scanResult.confidence,
+        alternatives: scanResult.alternatives,
+        labels: scanResult.labels,
+        objects: scanResult.objects
       }));
       expect(result).toBe("scan123");
     });
 
     it("gère l'erreur d'utilisateur non authentifié", async () => {
+      // Mock auth.currentUser to be null
+      (auth.currentUser as any) = null;
+      
       const scanResult = {
         userId: "user123",
         imageUrl: "https://example.com/image.jpg",
@@ -111,6 +119,12 @@ describe("StorageService", () => {
       };
 
       await expect(service.saveScanResult(scanResult)).rejects.toThrow("Utilisateur non authentifié");
+      
+      // Reset mock
+      (auth.currentUser as any) = {
+        uid: "test-user-id",
+        displayName: "Test User"
+      };
     });
   });
 

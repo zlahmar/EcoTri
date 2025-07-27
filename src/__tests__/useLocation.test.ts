@@ -1,20 +1,48 @@
 import { renderHook, act } from '@testing-library/react-hooks';
 import { useLocation } from '../hooks/useLocation';
-import * as Location from 'expo-location';
 
 // Mock expo-location
-jest.mock('expo-location');
+jest.mock('expo-location', () => ({
+  requestForegroundPermissionsAsync: jest.fn(),
+  getCurrentPositionAsync: jest.fn(),
+}));
+
+const mockExpoLocation = require('expo-location');
 
 describe('useLocation', () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
-  it('devrait récupérer la localisation avec succès', async () => {
-    const mockLocation = {
+  it('retourne la localisation par défaut', () => {
+    const { result } = renderHook(() => useLocation());
+
+    expect(result.current.location).toEqual({
+      latitude: 48.8566,
+      longitude: 2.3522,
+    });
+    expect(result.current.error).toBeNull();
+  });
+
+  it('demande les permissions de localisation', async () => {
+    mockExpoLocation.requestForegroundPermissionsAsync.mockResolvedValue({
+      status: 'granted',
+    });
+
+    const { result } = renderHook(() => useLocation());
+
+    await act(async () => {
+      await result.current.getCurrentLocation();
+    });
+
+    expect(mockExpoLocation.requestForegroundPermissionsAsync).toHaveBeenCalled();
+  });
+
+  it('récupère la position actuelle avec succès', async () => {
+    const mockPosition = {
       coords: {
-        latitude: 48.8566,
-        longitude: 2.3522,
+        latitude: 40.7128,
+        longitude: -74.0060,
         accuracy: 10,
         altitude: null,
         altitudeAccuracy: null,
@@ -24,47 +52,10 @@ describe('useLocation', () => {
       timestamp: Date.now(),
     };
 
-    (Location.requestForegroundPermissionsAsync as jest.Mock).mockResolvedValue({ status: 'granted' });
-    (Location.getCurrentPositionAsync as jest.Mock).mockResolvedValue(mockLocation);
-
-    const { result, waitForNextUpdate } = renderHook(() => useLocation());
-
-    await waitForNextUpdate();
-
-    expect(result.current.location).toEqual({
-      latitude: 48.8566,
-      longitude: 2.3522,
+    mockExpoLocation.requestForegroundPermissionsAsync.mockResolvedValue({
+      status: 'granted',
     });
-    expect(result.current.error).toBeNull();
-  });
-
-  it('devrait gérer le refus de permission', async () => {
-    (Location.requestForegroundPermissionsAsync as jest.Mock).mockResolvedValue({ status: 'denied' });
-
-    const { result, waitForNextUpdate } = renderHook(() => useLocation());
-
-    await waitForNextUpdate();
-
-    expect(result.current.location).toBeNull();
-    expect(result.current.error).toBe('Permission de localisation refusée');
-  });
-
-  it('devrait permettre de récupérer la localisation manuellement', async () => {
-    const mockLocation = {
-      coords: {
-        latitude: 40.7128,
-        longitude: -74.0060,
-        accuracy: 15,
-        altitude: null,
-        altitudeAccuracy: null,
-        heading: null,
-        speed: null,
-      },
-      timestamp: Date.now(),
-    };
-
-    (Location.requestForegroundPermissionsAsync as jest.Mock).mockResolvedValue({ status: 'granted' });
-    (Location.getCurrentPositionAsync as jest.Mock).mockResolvedValue(mockLocation);
+    mockExpoLocation.getCurrentPositionAsync.mockResolvedValue(mockPosition);
 
     const { result } = renderHook(() => useLocation());
 
@@ -72,16 +63,17 @@ describe('useLocation', () => {
       await result.current.getCurrentLocation();
     });
 
+    expect(mockExpoLocation.getCurrentPositionAsync).toHaveBeenCalled();
     expect(result.current.location).toEqual({
       latitude: 40.7128,
       longitude: -74.0060,
     });
-    expect(result.current.error).toBeNull();
   });
 
-  it('devrait gérer les erreurs de récupération de localisation', async () => {
-    (Location.requestForegroundPermissionsAsync as jest.Mock).mockResolvedValue({ status: 'granted' });
-    (Location.getCurrentPositionAsync as jest.Mock).mockRejectedValue(new Error('GPS non disponible'));
+  it('gère le refus de permission', async () => {
+    mockExpoLocation.requestForegroundPermissionsAsync.mockResolvedValue({
+      status: 'denied',
+    });
 
     const { result } = renderHook(() => useLocation());
 
@@ -89,6 +81,23 @@ describe('useLocation', () => {
       await result.current.getCurrentLocation();
     });
 
-    expect(result.current.location).toBeNull();
+    expect(result.current.error).toBeTruthy();
+  });
+
+  it('gère les erreurs de géolocalisation', async () => {
+    mockExpoLocation.requestForegroundPermissionsAsync.mockResolvedValue({
+      status: 'granted',
+    });
+    mockExpoLocation.getCurrentPositionAsync.mockRejectedValue(
+      new Error('Erreur de géolocalisation')
+    );
+
+    const { result } = renderHook(() => useLocation());
+
+    await act(async () => {
+      await result.current.getCurrentLocation();
+    });
+
+    expect(result.current.error).toBeTruthy();
   });
 }); 

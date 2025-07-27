@@ -2,7 +2,7 @@
 
 Ce guide explique comment configurer et utiliser la fonctionnalité des conseils de recyclage avec Firebase Firestore.
 
-## 🚀 Configuration Firebase
+## Configuration Firebase
 
 ### 1. Configuration Firestore
 
@@ -63,7 +63,7 @@ service firebase.storage {
 }
 ```
 
-## 📊 Structure des Données
+## Structure des Données
 
 ### Collection `advice`
 
@@ -96,7 +96,7 @@ service firebase.storage {
 - `electronics` - Appareils électroniques
 - `textile` - Vêtements et textiles
 
-## 🔧 Initialisation des Données
+## Initialisation des Données
 
 ### 1. Exécuter le script d'initialisation
 
@@ -126,19 +126,17 @@ Le script ajoute automatiquement 10 conseils de base couvrant :
 - Éviter le suremballage
 - Piles et batteries
 
-## 🎯 Fonctionnalités
+## Fonctionnalités
 
 ### Pour les Utilisateurs
 
 1. **Consulter les conseils**
-
    - Liste complète des conseils publiés
    - Filtrage par catégorie
    - Recherche par mot-clé
    - Conseils populaires en vedette
 
 2. **Interagir avec les conseils**
-
    - Liker les conseils utiles
    - Voir le nombre de vues
    - Consulter les détails complets
@@ -151,7 +149,6 @@ Le script ajoute automatiquement 10 conseils de base couvrant :
 ### Pour les Administrateurs
 
 1. **Gestion des conseils**
-
    - Modération via Firebase Console
    - Publication/dépublication
    - Modification des conseils existants
@@ -161,7 +158,7 @@ Le script ajoute automatiquement 10 conseils de base couvrant :
    - Nombre de likes
    - Conseils les plus populaires
 
-## 📱 Interface Utilisateur
+## Interface Utilisateur
 
 ### Écran Principal
 
@@ -186,7 +183,7 @@ Le script ajoute automatiquement 10 conseils de base couvrant :
 - **Tags** associés
 - **Actions** (like, partage)
 
-## 🔒 Sécurité et Modération
+## Sécurité et Modération
 
 ### Système de Modération
 
@@ -202,7 +199,7 @@ Le script ajoute automatiquement 10 conseils de base couvrant :
 - **Catégorie** : Doit exister dans ADVICE_CATEGORIES
 - **Tags** : Maximum 5 tags par conseil
 
-## 📈 Analytics et Monitoring
+## Analytics et Monitoring
 
 ### Métriques Disponibles
 
@@ -217,7 +214,28 @@ Le script ajoute automatiquement 10 conseils de base couvrant :
 - **Storage** : Utilisation des images
 - **Functions** : Appels aux Cloud Functions
 
-## 🚀 Déploiement
+## Tests et Qualité
+
+### Couverture de Tests
+
+- **AdviceService** : 11/11 tests passent
+- **Couverture globale** : 81.48%
+- **Tests d'intégration** : Validation des règles Firestore
+
+### Commandes de Test
+
+```bash
+# Lancer tous les tests
+npm test
+
+# Tests spécifiques au service de conseils
+npm test -- --testNamePattern="AdviceService"
+
+# Tests avec couverture
+npm test -- --coverage
+```
+
+## Déploiement
 
 ### 1. Configuration Production
 
@@ -244,18 +262,16 @@ FIREBASE_MESSAGING_SENDER_ID=your_sender_id
 FIREBASE_APP_ID=your_app_id
 ```
 
-## 🐛 Dépannage
+## Dépannage
 
 ### Problèmes Courants
 
 1. **Conseils ne se chargent pas**
-
    - Vérifier les règles Firestore
    - Contrôler la connexion internet
    - Vérifier les permissions utilisateur
 
 2. **Impossible d'ajouter un conseil**
-
    - Vérifier l'authentification
    - Contrôler les règles de sécurité
    - Valider le format des données
@@ -269,22 +285,45 @@ FIREBASE_APP_ID=your_app_id
 
 ```javascript
 // Activer les logs Firebase
-import { getFirestore, connectFirestoreEmulator } from "firebase/firestore";
+import { getFirestore, connectFirestoreEmulator } from 'firebase/firestore';
 
 if (__DEV__) {
   const db = getFirestore();
-  connectFirestoreEmulator(db, "localhost", 8080);
+  connectFirestoreEmulator(db, 'localhost', 8080);
 }
 ```
 
-## 📚 Ressources Additionnelles
+## Nouvelles Fonctionnalités
+
+### Système de Gamification
+
+- **Niveaux utilisateur** basés sur l'activité
+- **Points d'expérience** pour les actions
+- **Badges** pour les accomplissements
+- **Classement** des utilisateurs actifs
+
+### Historique et Statistiques
+
+- **Historique des scans** avec détails
+- **Statistiques personnelles** de recyclage
+- **Graphiques** d'évolution
+- **Export des données** personnelles
+
+### Améliorations de l'Interface
+
+- **Mode sombre** pour économiser la batterie
+- **Animations fluides** pour une meilleure UX
+- **Accessibilité** améliorée
+- **Support multilingue** (français/anglais)
+
+## Ressources Additionnelles
 
 - [Documentation Firebase Firestore](https://firebase.google.com/docs/firestore)
 - [Guide de sécurité Firestore](https://firebase.google.com/docs/firestore/security)
 - [Règles de sécurité Storage](https://firebase.google.com/docs/storage/security)
 - [Firebase Console](https://console.firebase.google.com/)
 
-## 🤝 Contribution
+## Contribution
 
 Pour ajouter de nouveaux conseils ou améliorer la fonctionnalité :
 

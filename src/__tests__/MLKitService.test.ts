@@ -185,7 +185,7 @@ describe("MLKitService", () => {
     it("convertit une image en base64 avec succès", async () => {
       // Mock fetch
       global.fetch = jest.fn().mockResolvedValue({
-        blob: jest.fn().mockResolvedValue(new Blob(['test'], { type: 'image/jpeg', lastModified: Date.now() }))
+        blob: jest.fn().mockResolvedValue(new Blob(['test'], { type: 'image/jpeg' }))
       });
 
       // Mock FileReader

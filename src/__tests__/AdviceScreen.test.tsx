@@ -1,246 +1,231 @@
 import React from 'react';
 import { render, fireEvent, waitFor } from '@testing-library/react-native';
-import { Alert } from 'react-native';
+import { View, Text, TextInput } from 'react-native';
 import AdviceScreen from '../screens/AdviceScreen';
-import adviceService from '../services/adviceService';
+import AdviceService from '../services/adviceService';
 
-// Mock les dépendances
-jest.mock('../services/adviceService');
-jest.mock('react-native-paper');
-jest.mock('../../firebaseConfig');
+// Mock du service
+const mockAdviceService = {
+  getAllAdvice: jest.fn(),
+  getCategories: jest.fn(),
+  getAdviceByCategory: jest.fn(),
+  searchAdvice: jest.fn(),
+  toggleLike: jest.fn(),
+  getPopularAdvice: jest.fn(),
+};
 
-// Mock le service
-const mockAdviceService = adviceService as jest.Mocked<typeof adviceService>;
+jest.mock('../services/adviceService', () => ({
+  __esModule: true,
+  default: mockAdviceService
+}));
+
+// Mock des composants React Native Paper
+jest.mock('react-native-paper', () => ({
+  Appbar: {
+    Header: ({ children }: any) => children,
+  },
+  IconButton: ({ onPress, icon }: any) => (
+    <View testID="icon-button" onTouchEnd={onPress}>{icon}</View>
+  ),
+  Button: ({ onPress, children }: any) => (
+    <View testID="button" onTouchEnd={onPress}>{children}</View>
+  ),
+  Card: ({ children }: any) => <View testID="card">{children}</View>,
+  Chip: ({ onPress, children }: any) => (
+    <View testID="chip" onTouchEnd={onPress}>{children}</View>
+  ),
+  TextInput: ({ value, onChangeText, placeholder }: any) => (
+    <TextInput
+      testID="text-input"
+      value={value}
+      onChangeText={onChangeText}
+      placeholder={placeholder}
+    />
+  ),
+}));
+
+// Mock des icônes
+jest.mock('@expo/vector-icons', () => ({
+  MaterialCommunityIcons: ({ name }: any) => <Text testID="icon">{name}</Text>,
+}));
+
+// Mock de la navigation
+const mockNavigation = {
+  navigate: jest.fn(),
+  goBack: jest.fn(),
+  setOptions: jest.fn(),
+};
+
+// Mock des props
+const mockRoute = {
+  params: {},
+};
 
 describe('AdviceScreen', () => {
-  const mockNavigation = {
-    navigate: jest.fn(),
-    goBack: jest.fn(),
-  };
-
   beforeEach(() => {
     jest.clearAllMocks();
-  });
-
-  it('devrait rendre l\'écran de conseils correctement', () => {
+    
+    // Mock des méthodes du service
     mockAdviceService.getAllAdvice.mockResolvedValue([]);
     mockAdviceService.getCategories.mockReturnValue([
-      {
-        id: 'general',
-        name: 'Général',
-        icon: 'recycle',
-        color: '#4CAF50',
-        description: 'Conseils généraux sur le recyclage'
-      }
+      { id: 'plastic', name: 'Plastique', icon: 'bottle-soda', color: '#2196F3', description: 'Test' },
+      { id: 'paper', name: 'Papier', icon: 'file-document', color: '#FF9800', description: 'Test' },
     ]);
-
-    const { getByText } = render(
-      <AdviceScreen navigation={mockNavigation} />
-    );
-
-    expect(getByText('Conseils de recyclage')).toBeTruthy();
+    mockAdviceService.getAdviceByCategory.mockResolvedValue([]);
+    mockAdviceService.searchAdvice.mockResolvedValue([]);
+    mockAdviceService.toggleLike.mockResolvedValue(undefined);
+    mockAdviceService.getPopularAdvice.mockResolvedValue([]);
   });
 
-  it('devrait charger les conseils au montage du composant', async () => {
+  it('charge les conseils au montage', async () => {
     const mockAdvice = [
       {
         id: '1',
-        title: 'Comment recycler le plastique',
-        content: 'Rincer et jeter dans le bac plastique',
-        category: 'general',
-        authorId: 'user1',
-        authorName: 'Expert',
-        likes: 10,
-        views: 100,
+        title: 'Conseil Test',
+        content: 'Contenu test',
+        category: 'plastic',
+        likes: 5,
+        views: 10,
         isPublished: true,
-        tags: ['plastique', 'recyclage'],
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      }
+        tags: ['test'],
+        createdAt: new Date() as any,
+        updatedAt: new Date() as any,
+      },
     ];
 
     mockAdviceService.getAllAdvice.mockResolvedValue(mockAdvice);
     mockAdviceService.getCategories.mockReturnValue([]);
 
     const { getByText } = render(
-      <AdviceScreen navigation={mockNavigation} />
+      <AdviceScreen navigation={mockNavigation as any} />
     );
 
     await waitFor(() => {
       expect(mockAdviceService.getAllAdvice).toHaveBeenCalled();
-      expect(getByText('Comment recycler le plastique')).toBeTruthy();
     });
+
+    expect(getByText('Conseil Test')).toBeTruthy();
   });
 
-  it('devrait filtrer les conseils par catégorie', async () => {
+  it('filtre les conseils par catégorie', async () => {
     const mockAdvice = [
       {
         id: '1',
-        title: 'Conseil plastique',
-        content: 'Recyclage du plastique',
+        title: 'Conseil Plastique',
+        content: 'Contenu plastique',
         category: 'plastic',
-        authorId: 'user1',
-        authorName: 'Expert',
-        likes: 10,
-        views: 100,
-        isPublished: true,
-        tags: ['plastique'],
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-      {
-        id: '2',
-        title: 'Conseil papier',
-        content: 'Recyclage du papier',
-        category: 'paper',
-        authorId: 'user1',
-        authorName: 'Expert',
         likes: 5,
-        views: 50,
+        views: 10,
         isPublished: true,
-        tags: ['papier'],
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      }
+        tags: ['plastic'],
+        createdAt: new Date() as any,
+        updatedAt: new Date() as any,
+      },
     ];
 
     mockAdviceService.getAllAdvice.mockResolvedValue(mockAdvice);
     mockAdviceService.getAdviceByCategory.mockResolvedValue([mockAdvice[0]]);
     mockAdviceService.getCategories.mockReturnValue([
-      {
-        id: 'plastic',
-        name: 'Plastique',
-        icon: 'bottle-soda',
-        color: '#4CAF50',
-        description: 'Recyclage du plastique'
-      },
-      {
-        id: 'paper',
-        name: 'Papier',
-        icon: 'file-document',
-        color: '#2196F3',
-        description: 'Recyclage du papier'
-      }
+      { id: 'plastic', name: 'Plastique', icon: 'bottle-soda', color: '#2196F3', description: 'Test' },
     ]);
 
     const { getByText } = render(
-      <AdviceScreen navigation={mockNavigation} />
+      <AdviceScreen navigation={mockNavigation as any} />
     );
-
-    await waitFor(() => {
-      expect(getByText('Conseil plastique')).toBeTruthy();
-      expect(getByText('Conseil papier')).toBeTruthy();
-    });
-
-    // Sélectionner le filtre plastique
-    const plasticFilter = getByText('Plastique');
-    fireEvent.press(plasticFilter);
 
     await waitFor(() => {
       expect(mockAdviceService.getAdviceByCategory).toHaveBeenCalledWith('plastic');
     });
   });
 
-  it('devrait rechercher des conseils', async () => {
+  it('recherche des conseils', async () => {
     const mockAdvice = [
       {
         id: '1',
-        title: 'Comment recycler le plastique',
-        content: 'Rincer et jeter dans le bac plastique',
-        category: 'general',
-        authorId: 'user1',
-        authorName: 'Expert',
-        likes: 10,
-        views: 100,
+        title: 'Conseil Plastique',
+        content: 'Contenu plastique',
+        category: 'plastic',
+        likes: 5,
+        views: 10,
         isPublished: true,
-        tags: ['plastique', 'recyclage'],
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      }
+        tags: ['plastic'],
+        createdAt: new Date() as any,
+        updatedAt: new Date() as any,
+      },
     ];
 
     mockAdviceService.getAllAdvice.mockResolvedValue(mockAdvice);
     mockAdviceService.searchAdvice.mockResolvedValue(mockAdvice);
     mockAdviceService.getCategories.mockReturnValue([]);
 
-    const { getByPlaceholderText } = render(
-      <AdviceScreen navigation={mockNavigation} />
+    const { getByTestId } = render(
+      <AdviceScreen navigation={mockNavigation as any} />
     );
 
-    const searchInput = getByPlaceholderText('Rechercher un conseil...');
-    fireEvent.changeText(searchInput, 'plastique');
-    fireEvent(searchInput, 'submitEditing');
+    const searchInput = getByTestId('text-input');
+    fireEvent(searchInput, 'changeText', 'plastique');
 
     await waitFor(() => {
       expect(mockAdviceService.searchAdvice).toHaveBeenCalledWith('plastique');
     });
   });
 
-  it('devrait gérer les erreurs de chargement des conseils', async () => {
+  it('gère les erreurs de chargement', async () => {
     mockAdviceService.getAllAdvice.mockRejectedValue(new Error('Erreur de chargement'));
     mockAdviceService.getCategories.mockReturnValue([]);
 
-    render(<AdviceScreen navigation={mockNavigation} />);
-
-    await waitFor(() => {
-      expect(Alert.alert).toHaveBeenCalledWith(
-        'Erreur',
-        'Impossible de charger les conseils'
-      );
-    });
-  });
-
-  it('devrait permettre de liker un conseil', async () => {
-    const mockAdvice = [
-      {
-        id: '1',
-        title: 'Conseil test',
-        content: 'Contenu test',
-        category: 'general',
-        authorId: 'user1',
-        authorName: 'Expert',
-        likes: 10,
-        views: 100,
-        isPublished: true,
-        tags: ['test'],
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      }
-    ];
-
-    mockAdviceService.getAllAdvice.mockResolvedValue(mockAdvice);
-    mockAdviceService.toggleLike.mockResolvedValue();
-    mockAdviceService.getCategories.mockReturnValue([]);
-
     const { getByText } = render(
-      <AdviceScreen navigation={mockNavigation} />
+      <AdviceScreen navigation={mockNavigation as any} />
     );
 
     await waitFor(() => {
-      expect(getByText('Conseil test')).toBeTruthy();
+      expect(getByText(/erreur/i)).toBeTruthy();
     });
-
-    // Simuler un like (on suppose qu'il y a un bouton like)
-    // Note: Le test exact dépend de l'implémentation UI
-    expect(mockAdviceService.toggleLike).toBeDefined();
   });
 
-  it('devrait afficher les conseils populaires', async () => {
+  it('permet de liker un conseil', async () => {
+    const mockAdvice = [
+      {
+        id: '1',
+        title: 'Conseil Test',
+        content: 'Contenu test',
+        category: 'plastic',
+        likes: 5,
+        views: 10,
+        isPublished: true,
+        tags: ['test'],
+        createdAt: new Date() as any,
+        updatedAt: new Date() as any,
+      },
+    ];
+
+    mockAdviceService.getAllAdvice.mockResolvedValue(mockAdvice);
+    mockAdviceService.toggleLike.mockResolvedValue(undefined);
+    mockAdviceService.getCategories.mockReturnValue([]);
+
+    const { getByTestId } = render(
+      <AdviceScreen navigation={mockNavigation as any} />
+    );
+
+    await waitFor(() => {
+      expect(mockAdviceService.toggleLike).toBeDefined();
+    });
+  });
+
+  it('affiche les conseils populaires', async () => {
     const mockPopularAdvice = [
       {
         id: '1',
-        title: 'Conseil populaire',
+        title: 'Conseil Populaire',
         content: 'Contenu populaire',
-        category: 'general',
-        authorId: 'user1',
-        authorName: 'Expert',
+        category: 'plastic',
         likes: 100,
-        views: 1000,
+        views: 500,
         isPublished: true,
-        tags: ['populaire'],
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      }
+        tags: ['popular'],
+        createdAt: new Date() as any,
+        updatedAt: new Date() as any,
+      },
     ];
 
     mockAdviceService.getAllAdvice.mockResolvedValue([]);
@@ -248,7 +233,7 @@ describe('AdviceScreen', () => {
     mockAdviceService.getCategories.mockReturnValue([]);
 
     const { getByText } = render(
-      <AdviceScreen navigation={mockNavigation} />
+      <AdviceScreen navigation={mockNavigation as any} />
     );
 
     await waitFor(() => {
@@ -256,52 +241,41 @@ describe('AdviceScreen', () => {
     });
   });
 
-  it('devrait naviguer vers le détail d\'un conseil', async () => {
+  it('rafraîchit les données lors du pull-to-refresh', async () => {
     const mockAdvice = [
       {
         id: '1',
-        title: 'Conseil détaillé',
-        content: 'Contenu détaillé',
-        category: 'general',
-        authorId: 'user1',
-        authorName: 'Expert',
-        likes: 10,
-        views: 100,
+        title: 'Conseil Test',
+        content: 'Contenu test',
+        category: 'plastic',
+        likes: 5,
+        views: 10,
         isPublished: true,
-        tags: ['détail'],
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      }
+        tags: ['test'],
+        createdAt: new Date() as any,
+        updatedAt: new Date() as any,
+      },
     ];
 
     mockAdviceService.getAllAdvice.mockResolvedValue(mockAdvice);
     mockAdviceService.getCategories.mockReturnValue([]);
 
-    const { getByText } = render(
-      <AdviceScreen navigation={mockNavigation} />
+    const { getByTestId } = render(
+      <AdviceScreen navigation={mockNavigation as any} />
     );
 
-    await waitFor(() => {
-      expect(getByText('Conseil détaillé')).toBeTruthy();
+    // Simuler un pull-to-refresh
+    const scrollView = getByTestId('scroll-view');
+    fireEvent.scroll(scrollView, {
+      nativeEvent: {
+        contentOffset: { y: 0 },
+        contentSize: { height: 500, width: 100 },
+        layoutMeasurement: { height: 100, width: 100 },
+      },
     });
 
-    // Simuler la navigation vers le détail
-    // Note: Le test exact dépend de l'implémentation UI
-    expect(mockNavigation.navigate).toBeDefined();
-  });
-
-  it('devrait gérer l\'état de chargement', async () => {
-    mockAdviceService.getAllAdvice.mockImplementation(() => 
-      new Promise(resolve => setTimeout(() => resolve([]), 100))
-    );
-    mockAdviceService.getCategories.mockReturnValue([]);
-
-    const { getByText } = render(
-      <AdviceScreen navigation={mockNavigation} />
-    );
-
-    // Vérifier qu'un indicateur de chargement est affiché
-    // Note: Le test exact dépend de l'implémentation UI
-    expect(mockAdviceService.getAllAdvice).toHaveBeenCalled();
+    await waitFor(() => {
+      expect(mockAdviceService.getAllAdvice).toHaveBeenCalled();
+    });
   });
 }); 

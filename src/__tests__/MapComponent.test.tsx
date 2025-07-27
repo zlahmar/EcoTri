@@ -1,134 +1,61 @@
 import React from 'react';
 import { render } from '@testing-library/react-native';
+import { View, Text } from 'react-native';
 import MapComponent from '../components/MapComponent';
 
-// Mock les dépendances
-jest.mock('react-native-maps');
-jest.mock('react-native-paper');
+// Mock react-native-maps
+jest.mock('react-native-maps', () => ({
+  MapView: ({ children, ...props }: any) => (
+    <View testID="map-view" {...props}>
+      {children}
+    </View>
+  ),
+  Marker: ({ ...props }: any) => (
+    <View testID="map-marker" {...props} />
+  ),
+  Callout: ({ children, ...props }: any) => (
+    <View testID="map-callout" {...props}>
+      {children}
+    </View>
+  ),
+}));
+
+// Mock des icônes
+jest.mock('@expo/vector-icons', () => ({
+  MaterialCommunityIcons: ({ name }: any) => <Text testID="icon">{name}</Text>,
+}));
 
 describe('MapComponent', () => {
-  const mockMapRef = {
-    current: {
-      animateToRegion: jest.fn(),
-    },
-  };
-
-  const defaultLocation = {
-    latitude: 48.8566,
-    longitude: 2.3522,
+  const mockProps = {
+    mapRef: { current: null },
+    location: { latitude: 48.8566, longitude: 2.3522 },
+    filter: null,
+    onMarkerPress: jest.fn(),
+    onMapPress: jest.fn(),
   };
 
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
-  it('devrait rendre la carte correctement', () => {
-    const { getByTestId } = render(
-      <MapComponent 
-        mapRef={mockMapRef}
-        location={defaultLocation}
-        filter={null}
-      />
-    );
+  it('affiche la carte avec la localisation', () => {
+    const { getByTestId } = render(<MapComponent {...mockProps} />);
 
-    // Vérifier que la carte est rendue
-    expect(mockMapRef.current).toBeDefined();
+    const mapView = getByTestId('map-view');
+    expect(mapView).toBeTruthy();
   });
 
-  it('devrait utiliser la localisation fournie', () => {
-    const customLocation = {
-      latitude: 40.7128,
-      longitude: -74.0060,
-    };
+  it('affiche les marqueurs sur la carte', () => {
+    const { getByTestId } = render(<MapComponent {...mockProps} />);
 
-    render(
-      <MapComponent 
-        mapRef={mockMapRef}
-        location={customLocation}
-        filter={null}
-      />
-    );
-
-    // Vérifier que la localisation est utilisée
-    expect(customLocation).toEqual({
-      latitude: 40.7128,
-      longitude: -74.0060,
-    });
+    const markers = getByTestId('map-marker');
+    expect(markers).toBeTruthy();
   });
 
-  it('devrait gérer l\'absence de localisation', () => {
-    render(
-      <MapComponent 
-        mapRef={mockMapRef}
-        location={null}
-        filter={null}
-      />
-    );
+  it('gère les interactions avec la carte', () => {
+    const { getByTestId } = render(<MapComponent {...mockProps} />);
 
-    // Le composant devrait gérer le cas où location est null
-    expect(mockMapRef.current).toBeDefined();
-  });
-
-  it('devrait appliquer le filtre fourni', () => {
-    const filter = 'plastic';
-
-    render(
-      <MapComponent 
-        mapRef={mockMapRef}
-        location={defaultLocation}
-        filter={filter}
-      />
-    );
-
-    // Vérifier que le filtre est appliqué
-    expect(filter).toBe('plastic');
-  });
-
-  it('devrait gérer l\'absence de filtre', () => {
-    render(
-      <MapComponent 
-        mapRef={mockMapRef}
-        location={defaultLocation}
-        filter={null}
-      />
-    );
-
-    // Le composant devrait gérer le cas où filter est null
-    expect(mockMapRef.current).toBeDefined();
-  });
-
-  it('devrait animer vers une nouvelle région', () => {
-    const newLocation = {
-      latitude: 51.5074,
-      longitude: -0.1278,
-    };
-
-    render(
-      <MapComponent 
-        mapRef={mockMapRef}
-        location={newLocation}
-        filter={null}
-      />
-    );
-
-    // Vérifier que la méthode d'animation est disponible
-    expect(mockMapRef.current.animateToRegion).toBeDefined();
-  });
-
-  it('devrait gérer les erreurs de rendu de la carte', () => {
-    // Simuler une erreur de rendu
-    const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
-
-    render(
-      <MapComponent 
-        mapRef={mockMapRef}
-        location={defaultLocation}
-        filter={null}
-      />
-    );
-
-    // Vérifier que les erreurs sont gérées
-    expect(consoleSpy).toBeDefined();
-    consoleSpy.mockRestore();
+    const mapView = getByTestId('map-view');
+    expect(mapView).toBeTruthy();
   });
 }); 

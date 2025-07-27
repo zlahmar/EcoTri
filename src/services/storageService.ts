@@ -74,6 +74,9 @@ class StorageService {
       return docRef.id;
     } catch (error) {
       console.error('Erreur lors de la sauvegarde du scan:', error);
+      if (error instanceof Error) {
+        throw error;
+      }
       throw new Error('Impossible de sauvegarder le résultat');
     }
   }

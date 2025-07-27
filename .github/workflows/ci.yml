@@ -4,31 +4,227 @@ on:
   push:
     branches:
       - master
+      - main
+      - develop
   pull_request:
     branches:
       - master
+      - main
+      - develop
+
+env:
+  NODE_VERSION: '18'
+  EXPO_VERSION: 'latest'
 
 jobs:
-  build-and-test:
+  # Job de vérification de la qualité du code
+  code-quality:
+    name: Qualité du Code
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout du code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      - name: Installer Node.js
-        uses: actions/setup-node@v3
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
 
       - name: Installer les dépendances
-        run: npm install
+        run: npm ci
 
-      - name: Vérifier le lint
-        run: npx eslint ./src
+      - name: Vérifier le lint TypeScript
+        run: |
+          echo "Vérification du lint TypeScript..."
+          npx eslint ./src --ext .ts,.tsx --max-warnings 0
+          echo "Lint TypeScript réussi"
+
+      - name: Vérifier les types TypeScript
+        run: |
+          echo "Vérification des types TypeScript..."
+          npx tsc --noEmit
+          echo "Types TypeScript valides"
+
+      - name: Vérifier la couverture de code
+        run: |
+          echo "Vérification de la couverture de code..."
+          npm test -- --coverage --watchAll=false --passWithNoTests
+          echo "Tests et couverture validés"
+
+  # Job de tests unitaires détaillés
+  unit-tests:
+    name: Tests Unitaires
+    runs-on: ubuntu-latest
+    needs: code-quality
+
+    strategy:
+      matrix:
+        node-version: [16, 18, 20]
+
+    steps:
+      - name: Checkout du code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+
+      - name: Installer les dépendances
+        run: npm ci
 
       - name: Lancer les tests unitaires
-        run: npm test
+        run: |
+          echo "Lancement des tests unitaires sur Node.js ${{ matrix.node-version }}..."
+          npm test -- --coverage --watchAll=false --verbose
+          echo "Tests unitaires réussis sur Node.js ${{ matrix.node-version }}"
 
-      - name: Build Expo (optionnel)
-        run: npx expo export || echo "Build Expo ignoré"
+      - name: Uploader les rapports de couverture
+        uses: codecov/codecov-action@v3
+        with:
+          file: ./coverage/lcov.info
+          flags: unittests
+          name: codecov-umbrella
+          fail_ci_if_error: false
+
+  # Job de build et vérification Expo
+  build-expo:
+    name: Build Expo
+    runs-on: ubuntu-latest
+    needs: unit-tests
+
+    steps:
+      - name: heckout du code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Installer les dépendances
+        run: npm ci
+
+      - name: Installer Expo CLI
+        run: npm install -g @expo/cli@${{ env.EXPO_VERSION }}
+
+      - name: Vérifier la configuration Expo
+        run: |
+          echo "Vérification de la configuration Expo..."
+          npx expo doctor
+          echo "Configuration Expo valide"
+
+      - name: Build Expo (web)
+        run: |
+          echo "Build Expo pour le web..."
+          npx expo export:web --clear
+          echo "Build web réussi"
+
+      - name: Archiver les builds
+        uses: actions/upload-artifact@v3
+        with:
+          name: expo-builds
+          path: |
+            dist/
+            web-build/
+          retention-days: 7
+
+  # Job de sécurité
+  security:
+    name: Sécurité
+    runs-on: ubuntu-latest
+    needs: code-quality
+
+    steps:
+      - name: Checkout du code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Installer les dépendances
+        run: npm ci
+
+      - name: Audit de sécurité npm
+        run: |
+          echo "Audit de sécurité des dépendances..."
+          npm audit --audit-level=moderate
+          echo "Audit de sécurité réussi"
+
+      - name: Vérifier les vulnérabilités avec Snyk
+        uses: snyk/actions/node@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          args: --severity-threshold=high
+        continue-on-error: true
+
+  # Job de notification
+  notify:
+    name: Notification
+    runs-on: ubuntu-latest
+    needs: [unit-tests, build-expo, security]
+    if: always()
+
+    steps:
+      - name: Notification de succès
+        if: success()
+        run: |
+          echo "Tous les tests et builds sont passés avec succès !"
+          echo "Qualité du code : OK"
+          echo "Tests unitaires : OK"
+          echo "Build Expo : OK"
+          echo "Sécurité : OK"
+
+      - name: Notification d'échec
+        if: failure()
+        run: |
+          echo "Certains tests ou builds ont échoué"
+          echo "Vérifiez les logs pour plus de détails"
+          exit 1
+
+  # Job de déploiement (optionnel)
+  deploy:
+    name: Déploiement
+    runs-on: ubuntu-latest
+    needs: [unit-tests, build-expo, security]
+    if: github.ref == 'refs/heads/master' && success()
+
+    steps:
+      - name: Checkout du code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Installer les dépendances
+        run: npm ci
+
+      - name: Déployer sur Expo (optionnel)
+        run: |
+          echo "Déploiement sur Expo..."
+          # npx expo publish --non-interactive
+          echo "Déploiement réussi (simulé)"
+        continue-on-error: true
+
+      - name: Créer un badge de statut
+        uses: schneegans/dynamic-badges-action@v1.6.0
+        with:
+          auth: ${{ secrets.GIST_SECRET }}
+          gistID: your-gist-id
+          filename: eco-tri-ci.json
+          label: EcoTri CI
+          message: ${{ job.status }}
+          namedLogo: github
+          color: ${{ job.status == 'success' && 'green' || 'red' }}
+          namedLogoColor: white
