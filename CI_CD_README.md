@@ -125,7 +125,7 @@ npm run build
     "lint": "eslint src --ext .ts,.tsx --max-warnings 0",
     "lint:check": "eslint src --ext .ts,.tsx",
     "lint:fix": "eslint src --ext .ts,.tsx --fix",
-    "type-check": "tsc --noEmit",
+    "type-check": "tsc --noEmit --project tsconfig.build.json",
     "test": "jest --coverage",
     "test:watch": "jest --watch",
     "build": "expo export:web"
@@ -186,6 +186,7 @@ npx expo start --clear
 4. **Configuration ESLint** : Règles spécifiques pour les tests et variables non utilisées
 5. **Scripts npm** : Séparation entre lint strict (CI/CD) et lint avec warnings (développement)
 6. **Mocks manquants** : Création des mocks pour `expo-vector-icons` et `react-native`
+7. **Erreurs TypeScript** : Configuration spécifique pour exclure les mocks de la vérification des types
 
 ### Fichiers de mocks créés
 
@@ -198,6 +199,13 @@ npx expo start --clear
 - **Règles spécifiques pour les tests** : Désactivation de `no-unused-vars` dans `src/__tests__/`
 - **Scripts npm** : `lint` (strict), `lint:check` (avec warnings), `lint:fix` (correction)
 - **Workflow CI/CD** : Utilise `npm run lint` avec `--max-warnings 0`
+
+### Configuration TypeScript mise à jour
+
+- **tsconfig.build.json** : Configuration spécifique pour la vérification des types
+- **Exclusion des mocks** : Les fichiers `__mocks__/**/*` sont exclus de la vérification
+- **Exclusion des tests** : Les fichiers de test sont exclus de la vérification des types
+- **Script type-check** : Utilise `tsconfig.build.json` au lieu de `tsconfig.json`
 
 ### Corrections de code
 

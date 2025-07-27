@@ -13,7 +13,7 @@
     "lint": "eslint src --ext .ts,.tsx --max-warnings 0",
     "lint:fix": "eslint src --ext .ts,.tsx --fix",
     "lint:check": "eslint src --ext .ts,.tsx",
-    "type-check": "tsc --noEmit",
+    "type-check": "tsc --noEmit --project tsconfig.build.json",
     "build": "expo export:web",
     "build:clear": "expo export:web --clear",
     "doctor": "expo doctor",
