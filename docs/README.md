@@ -51,11 +51,11 @@ Cette documentation complète couvre tous les aspects du projet EcoTri, de l'ins
 
 ### Problèmes résolus
 
-- ✅ **Conflits de dépendances React** - Compatibilité React 19
-- ✅ **Configuration Jest** - Mocks et transformation
-- ✅ **Warnings ESLint** - 36 warnings corrigés
-- ✅ **Tests unitaires** - 100% de réussite
-- ✅ **Pipeline CI/CD** - Passage réussi
+- **Conflits de dépendances React** - Compatibilité React 19
+- **Configuration Jest** - Mocks et transformation
+- **Warnings ESLint** - 36 warnings corrigés
+- **Tests unitaires** - 100% de réussite
+- **Pipeline CI/CD** - Passage réussi
 
 ### Améliorations apportées
 
