@@ -121,7 +121,7 @@ jobs:
       - name: Vérifier la configuration Expo
         run: |
           echo "Vérification de la configuration Expo..."
-          npx expo doctor
+          npx expo-doctor
           echo "Configuration Expo valide"
 
       - name: Build Expo (web)
