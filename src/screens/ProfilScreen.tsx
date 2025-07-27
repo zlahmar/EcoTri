@@ -1,22 +1,29 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, Image, TouchableOpacity, StyleSheet, ActivityIndicator, ScrollView, TextInput } from 'react-native';
+import {
+  View, Text, Image, TouchableOpacity, StyleSheet, ActivityIndicator,
+  ScrollView, TextInput, Modal, Alert
+} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { auth, db, storage } from '../../firebaseConfig';
-import { getDoc, doc, updateDoc } from "firebase/firestore";
-import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { getDoc, doc, updateDoc, setDoc, deleteDoc } from "firebase/firestore";
+import { getDownloadURL, ref, uploadBytes, deleteObject } from "firebase/storage";
 import * as ImagePicker from 'expo-image-picker';
-import { Button, List } from 'react-native-paper';
+import { Button, List, IconButton, Menu, Divider } from 'react-native-paper';
 import { colors } from '../styles/colors';
-<<<<<<< HEAD
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-=======
->>>>>>> c95afc6d013d9e43c6593487d1478fb576db87ba
 
-const ProfilScreen = ({ navigation }) => {
-  const [userData, setUserData] = useState(null);
-  const [profileImage, setProfileImage] = useState(null);
+const ProfilScreen = ({ navigation }: { navigation: any }) => {
+  const [userData, setUserData] = useState<any>(null);
+  const [profileImage, setProfileImage] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [name, setName] = useState('');
+  const [editMode, setEditMode] = useState(false);
+  const [menuVisible, setMenuVisible] = useState(false);
+  const [stats, setStats] = useState({
+    scansCompleted: 0,
+    points: 0,
+    challengesCompleted: 0,
+    level: 1
+  });
   const user = auth.currentUser;
 
   useEffect(() => {
@@ -27,14 +34,19 @@ const ProfilScreen = ({ navigation }) => {
 
     const fetchUserData = async () => {
       try {
-        const userDoc = await getDoc(doc(db, "users", user.uid));
-        if (userDoc.exists()) {
-          setUserData(userDoc.data());
-          setName(userDoc.data().name || '');
+        const docSnap = await getDoc(doc(db, "users", user.uid));
+        if (docSnap.exists()) {
+          const data = docSnap.data();
+          setUserData(data);
+          setName(data.name || '');
+          // Charger les stats si elles existent
+          if (data.stats) {
+            setStats(data.stats);
+          }
         }
 
-        const url = await getDownloadURL(ref(storage, `profileImages/${user.uid}`));
-        setProfileImage(url);
+        const imageUrl = await getDownloadURL(ref(storage, `profileImages/${user.uid}.jpg`));
+        setProfileImage(imageUrl);
       } catch (error) {
         console.log("Aucune image trouvée.");
       } finally {
@@ -46,163 +58,270 @@ const ProfilScreen = ({ navigation }) => {
   }, []);
 
   const updateProfile = async () => {
-    if (!user || !user.uid) {
-      console.log("Erreur: utilisateur non authentifié !");
-      return;
-    }
-  
-    const userDocRef = doc(db, "users", user.uid);
-    
+    if (!user) return;
+    const userRef = doc(db, "users", user.uid);
+
     try {
-      const userDoc = await getDoc(userDocRef);
-  
-      if (!userDoc.exists()) {
-<<<<<<< HEAD
-        console.log("Le document utilisateur n'existe pas, création en cours...");
-=======
-        console.log("⚠️ Le document utilisateur n'existe pas, création en cours...");
->>>>>>> c95afc6d013d9e43c6593487d1478fb576db87ba
-        await setDoc(userDocRef, { name: name });
+      const docSnap = await getDoc(userRef);
+      if (!docSnap.exists()) {
+        await setDoc(userRef, { name });
       } else {
-        console.log(" Mise à jour du profil...");
-        await updateDoc(userDocRef, { name: name });
+        await updateDoc(userRef, { name });
       }
-<<<<<<< HEAD
-      console.log("Profil mis à jour avec succès !");
-=======
-  
-      console.log("Profil mis à jour avec succès !");
       alert("Profil mis à jour !");
->>>>>>> c95afc6d013d9e43c6593487d1478fb576db87ba
-    } catch (error) {
-      console.log("Erreur lors de la mise à jour du profil :", error);
-    }
-  };
-  
-  const pickImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      aspect: [1, 1],
-      quality: 1,
-    });
-    
-    if (!result.canceled) {
-      const uri = result.assets[0].uri;
-      uploadProfileImage(uri);
+      setEditMode(false);
+    } catch (err) {
+      console.log("Erreur mise à jour:", err);
     }
   };
 
-  const takePhoto = async () => {
-    let result = await ImagePicker.launchCameraAsync({
-      allowsEditing: true,
-      aspect: [1, 1],
-      quality: 1,
-    });
+  const uploadProfileImage = async (uri: string) => {
+    if (!user) return;
 
-    if (!result.canceled) {
-      const uri = result.assets[0].uri;
-      uploadProfileImage(uri);
-    }
-  };
-
-  const uploadProfileImage = async (uri) => {
-    if (!user || !user.uid) {
-      console.log("Erreur: utilisateur non authentifié !");
-      return;
-    }
-  
-    setLoading(true);
     try {
-      console.log("Début de l'upload...");
-      const response = await fetch(uri);
-      console.log(" Conversion de l'image en blob...");
-      const blob = await response.blob();
-      console.log("Image convertie en blob...");
-  
-<<<<<<< HEAD
-=======
-      // Ajout d'un timestamp pour éviter les conflits
->>>>>>> c95afc6d013d9e43c6593487d1478fb576db87ba
+      setLoading(true);
+      const blob = await (await fetch(uri)).blob();
       const imageRef = ref(storage, `profileImages/${user.uid}.jpg`);
-      console.log("Référence du fichier:", imageRef.fullPath);
-  
       await uploadBytes(imageRef, blob);
-      console.log("Image uploadée avec succès !");
-  
       const url = await getDownloadURL(imageRef);
       setProfileImage(url);
-      console.log("URL de l'image récupérée:", url);
-    } catch (error) {
-      console.log("Erreur lors du téléversement de l'image :", error);
+      setMenuVisible(false);
+    } catch (err) {
+      console.log("Erreur image:", err);
+      Alert.alert("Erreur", "Impossible de télécharger l'image");
     } finally {
       setLoading(false);
     }
   };
 
+  const handleImagePick = async (fromCamera = false) => {
+    try {
+      const result = fromCamera
+        ? await ImagePicker.launchCameraAsync({ 
+            allowsEditing: true, 
+            aspect: [1, 1], 
+            quality: 0.8 
+          })
+        : await ImagePicker.launchImageLibraryAsync({ 
+            allowsEditing: true, 
+            aspect: [1, 1], 
+            quality: 0.8 
+          });
+
+      if (!result.canceled) {
+        uploadProfileImage(result.assets[0].uri);
+      }
+    } catch (error) {
+      Alert.alert("Erreur", "Impossible d'accéder à la caméra/galerie");
+    }
+  };
+
+  const handleDeleteAccount = async () => {
+    if (!user) return;
+    
+    Alert.alert(
+      "Supprimer le compte",
+      "Cette action est irréversible. Êtes-vous sûr ?",
+      [
+        { text: "Annuler", style: "cancel" },
+        {
+          text: "Supprimer",
+          style: "destructive",
+          onPress: async () => {
+            try {
+              await user.delete();
+              await deleteDoc(doc(db, "users", user.uid));
+              await deleteObject(ref(storage, `profileImages/${user.uid}.jpg`));
+              alert("Compte supprimé");
+              navigation.replace("Home");
+            } catch (err) {
+              alert("Erreur lors de la suppression");
+            }
+          }
+        }
+      ]
+    );
+  };
+
   const handleLogout = async () => {
-    await auth.signOut();
-    navigation.replace("Login");
+    Alert.alert(
+      "Déconnexion",
+      "Voulez-vous vraiment vous déconnecter ?",
+      [
+        { text: "Annuler", style: "cancel" },
+        {
+          text: "Déconnexion",
+          onPress: async () => {
+            await auth.signOut();
+            navigation.replace("Login");
+          }
+        }
+      ]
+    );
   };
 
   return (
     <SafeAreaView style={styles.safeArea}>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
-        <Button mode="outlined" onPress={() => navigation.navigate("Home")} style={styles.backButton}>
-          Retour à l'accueil
-        </Button>
-<<<<<<< HEAD
+        {/* Header */}
+        <View style={styles.header}>
+          <Button icon="arrow-left" onPress={() => navigation.navigate("Home")}>
+            Accueil
+          </Button>
+        </View>
 
-        <TouchableOpacity style={styles.imageContainer}>
-          {loading ? (
-            <ActivityIndicator size="large" color={colors.primary} />
-          ) : (
-            <Image
-              source={{ uri: profileImage || 'https://via.placeholder.com/100' }}
-              style={styles.profileImage}
-            />
-          )}
-        </TouchableOpacity>
+        {/* Profile Card */}
+        <View style={styles.profileCard}>
+          <View style={styles.profileHeader}>
+            <View style={styles.imageContainer}>
+              {loading ? (
+                <ActivityIndicator size="large" color={colors.primary} />
+              ) : (
+                <Image 
+                  source={{ uri: profileImage || 'https://via.placeholder.com/100' }} 
+                  style={styles.profileImage} 
+                />
+              )}
+              <Menu
+                visible={menuVisible}
+                onDismiss={() => setMenuVisible(false)}
+                anchor={
+                  <IconButton
+                    icon="dots-vertical"
+                    size={20}
+                    onPress={() => setMenuVisible(true)}
+                    style={styles.menuButton}
+                  />
+                }
+              >
+                <Menu.Item 
+                  onPress={() => {
+                    setMenuVisible(false);
+                    handleImagePick(false);
+                  }} 
+                  title="Choisir une image" 
+                  leadingIcon="image"
+                />
+                <Menu.Item 
+                  onPress={() => {
+                    setMenuVisible(false);
+                    handleImagePick(true);
+                  }} 
+                  title="Prendre une photo" 
+                  leadingIcon="camera"
+                />
+              </Menu>
+            </View>
+            
+            <View style={styles.profileInfo}>
+              <Text style={styles.nameText}>{name || "Utilisateur"}</Text>
+              <Text style={styles.emailText}>{user?.email}</Text>
+              <IconButton 
+                icon="pencil" 
+                size={20} 
+                onPress={() => setEditMode(true)}
+                style={styles.editButton}
+              />
+            </View>
+          </View>
 
-        <Button mode="contained" style={styles.editButton} onPress={pickImage}>
-          Choisir une image
-        </Button>
-        <Button mode="contained" style={styles.editButton} onPress={takePhoto}>
-          Prendre une photo
-        </Button>
+          {/* Stats Section */}
+          <View style={styles.statsContainer}>
+            <Text style={styles.statsTitle}>Vos statistiques</Text>
+            <View style={styles.statsGrid}>
+              <View style={styles.statItem}>
+                <Text style={styles.statNumber}>{stats.scansCompleted}</Text>
+                <Text style={styles.statLabel}>Scans</Text>
+              </View>
+              <View style={styles.statItem}>
+                <Text style={styles.statNumber}>{stats.points}</Text>
+                <Text style={styles.statLabel}>Points</Text>
+              </View>
+              <View style={styles.statItem}>
+                <Text style={styles.statNumber}>{stats.challengesCompleted}</Text>
+                <Text style={styles.statLabel}>Défis</Text>
+              </View>
+              <View style={styles.statItem}>
+                <Text style={styles.statNumber}>{stats.level}</Text>
+                <Text style={styles.statLabel}>Niveau</Text>
+              </View>
+            </View>
+          </View>
+        </View>
 
-        <TextInput
-          style={styles.input}
-          placeholder="Nom"
-          value={name}
-          onChangeText={setName}
-        />
-
-        <Button mode="contained" style={styles.editButton} onPress={updateProfile}>
-          Enregistrer les modifications
-        </Button>
-
-        <Text style={styles.email}>{user?.email}</Text>
-
-        <View style={styles.menu}>
-          <List.Item
-            title="Lieux enregistrés"
-            left={() => <MaterialCommunityIcons name="map-marker" size={24} color={colors.primary} />}
+        {/* Actions Section */}
+        <List.Section style={styles.actionsSection}>
+          <List.Subheader style={styles.sectionTitle}>Fonctionnalités</List.Subheader>
+          
+          <List.Item 
+            title="Notifications" 
+            left={() => <List.Icon icon="bell" color={colors.primaryDark} />} 
+            onPress={() => Alert.alert("Notifications", "Fonctionnalité à venir")}
+            style={styles.listItem}
           />
-          <List.Item
-            title="Recompenser"
-            left={() => <MaterialCommunityIcons name="trophy" size={24} color={colors.primary} />}
+          <List.Item 
+            title="Gamification" 
+            left={() => <List.Icon icon="trophy" color={colors.primaryDark} />} 
+            onPress={() => Alert.alert("Gamification", "Fonctionnalité à venir")}
+            style={styles.listItem}
           />
-          <List.Item
-            title="Conseils favoris"
-            left={() => <MaterialCommunityIcons name="star" size={24} color={colors.primary} />}
+          <List.Item 
+            title="Suivi des défis" 
+            left={() => <List.Icon icon="target" color={colors.primaryDark} />} 
+            onPress={() => Alert.alert("Défis", "Fonctionnalité à venir")}
+            style={styles.listItem}
           />
-          <List.Item
-            title="Déconnexion"
-            left={() => <MaterialCommunityIcons name="logout" size={24} color="red" />}
+          <List.Item 
+            title="Paramètres" 
+            left={() => <List.Icon icon="cog" color={colors.primaryDark} />} 
+            onPress={() => Alert.alert("Paramètres", "Fonctionnalité à venir")}
+            style={styles.listItem}
+          />
+        </List.Section>
+
+        {/* Danger Section */}
+        <List.Section style={styles.dangerSection}>
+          <List.Subheader style={styles.dangerTitle}>Actions dangereuses</List.Subheader>
+          
+          <List.Item 
+            title="Déconnexion" 
+            left={() => <List.Icon icon="logout" color="orange" />} 
             onPress={handleLogout}
+            style={styles.dangerItem}
+            titleStyle={{ color: 'orange' }}
           />
-        </View>
+          <List.Item
+            title="Supprimer le compte"
+            left={() => <List.Icon icon="delete" color="red" />}
+            onPress={handleDeleteAccount}
+            style={styles.dangerItem}
+            titleStyle={{ color: 'red' }}
+          />
+        </List.Section>
+
+        {/* Edit Name Modal */}
+        <Modal visible={editMode} animationType="slide" transparent>
+          <View style={styles.modalOverlay}>
+            <View style={styles.modalContent}>
+              <Text style={styles.modalTitle}>Modifier votre nom</Text>
+              <TextInput 
+                style={styles.modalInput} 
+                value={name} 
+                onChangeText={setName}
+                placeholder="Votre nom"
+                autoFocus
+              />
+              <View style={styles.modalButtons}>
+                <Button mode="outlined" onPress={() => setEditMode(false)} style={styles.modalButton}>
+                  Annuler
+                </Button>
+                <Button mode="contained" onPress={updateProfile} style={styles.modalButton}>
+                  Enregistrer
+                </Button>
+              </View>
+            </View>
+          </View>
+        </Modal>
       </ScrollView>
     </SafeAreaView>
   );
@@ -214,146 +333,156 @@ const styles = StyleSheet.create({
     backgroundColor: colors.background,
   },
   scrollContainer: {
-    alignItems: 'center',
-    padding: 20,
+    padding: 16,
   },
-  backButton: {
-    alignSelf: 'flex-start',
-    marginBottom: 10,
+  header: {
+    marginBottom: 20,
+  },
+  profileCard: {
+    backgroundColor: colors.white,
+    borderRadius: 16,
+    padding: 20,
+    elevation: 4,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    marginBottom: 20,
+  },
+  profileHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 20,
   },
   imageContainer: {
-    width: 120,
-    height: 120,
-    borderRadius: 60,
-    borderWidth: 3,
-    borderColor: colors.primary,
-    alignItems: 'center',
-    justifyContent: 'center',
-    overflow: 'hidden',
-    marginBottom: 10,
+    position: 'relative',
+    marginRight: 16,
   },
   profileImage: {
-    width: "100%",
-    height: "100%",
-    borderRadius: 60,
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+    borderWidth: 3,
+    borderColor: colors.primary,
   },
-  input: {
-    width: "80%",
-    padding: 10,
-    borderWidth: 1,
-    borderColor: "gray",
-    borderRadius: 8,
-    marginBottom: 10,
-  },
-  editButton: {
-    marginTop: 10,
-    width: "70%",
-    backgroundColor: colors.primary,
-  },
-  menu: {
-    width: "100%",
-    marginTop: 20,
-    backgroundColor: colors.secondary,
+  menuButton: {
+    position: 'absolute',
+    top: -5,
+    right: -5,
+    backgroundColor: colors.white,
     borderRadius: 12,
-    paddingVertical: 15,
-    paddingHorizontal: 10,
   },
-});
-=======
->>>>>>> c95afc6d013d9e43c6593487d1478fb576db87ba
-
-        <TouchableOpacity style={styles.imageContainer}>
-          {loading ? (
-            <ActivityIndicator size="large" color={colors.primary} />
-          ) : (
-            <Image
-              source={{ uri: profileImage || 'https://via.placeholder.com/100' }}
-              style={styles.profileImage}
-            />
-          )}
-        </TouchableOpacity>
-
-        <Button mode="contained" style={styles.editButton} onPress={pickImage}>
-          Choisir une image
-        </Button>
-        <Button mode="contained" style={styles.editButton} onPress={takePhoto}>
-          Prendre une photo
-        </Button>
-
-        <TextInput
-          style={styles.input}
-          placeholder="Nom"
-          value={name}
-          onChangeText={setName}
-        />
-
-        <Button mode="contained" style={styles.editButton} onPress={updateProfile}>
-          Enregistrer les modifications
-        </Button>
-
-        <Text style={styles.email}>{user?.email}</Text>
-
-        <View style={styles.menu}>
-          <List.Item title="Paramètres" left={() => <List.Icon icon="cog" color={colors.primaryDark} />} />
-          <List.Item title="Détails de facturation" left={() => <List.Icon icon="credit-card" color={colors.primaryDark} />} />
-          <List.Item title="Gestion des utilisateurs" left={() => <List.Icon icon="account-group" color={colors.primaryDark} />} />
-          <List.Item title="Informations" left={() => <List.Icon icon="information" color={colors.primaryDark} />} />
-          <List.Item title="Déconnexion" left={() => <List.Icon icon="logout" color="red" />} onPress={handleLogout} />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
-  );
-};
-
-const styles = StyleSheet.create({
-  safeArea: {
+  profileInfo: {
     flex: 1,
-    backgroundColor: colors.background,
+    position: 'relative',
   },
-  scrollContainer: {
-    alignItems: 'center',
-    padding: 20,
+  nameText: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: colors.primaryDark,
+    marginBottom: 4,
   },
-  backButton: {
-    alignSelf: 'flex-start',
-    marginBottom: 10,
-  },
-  imageContainer: {
-    width: 120,
-    height: 120,
-    borderRadius: 60,
-    borderWidth: 3,
-    borderColor: colors.primary,
-    alignItems: 'center',
-    justifyContent: 'center',
-    overflow: 'hidden',
-    marginBottom: 10,
-  },
-  profileImage: {
-    width: "100%",
-    height: "100%",
-    borderRadius: 60,
-  },
-  input: {
-    width: "80%",
-    padding: 10,
-    borderWidth: 1,
-    borderColor: "gray",
-    borderRadius: 8,
-    marginBottom: 10,
+  emailText: {
+    fontSize: 14,
+    color: colors.text,
+    opacity: 0.7,
   },
   editButton: {
-    marginTop: 10,
-    width: "70%",
-    backgroundColor: colors.primary,
+    position: 'absolute',
+    top: -5,
+    right: -5,
   },
-  menu: {
-    width: "100%",
-    marginTop: 20,
-    backgroundColor: colors.secondary,
+  statsContainer: {
+    borderTopWidth: 1,
+    borderTopColor: colors.secondary,
+    paddingTop: 16,
+  },
+  statsTitle: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: colors.primaryDark,
+    marginBottom: 12,
+  },
+  statsGrid: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+  },
+  statItem: {
+    alignItems: 'center',
+  },
+  statNumber: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: colors.primary,
+  },
+  statLabel: {
+    fontSize: 12,
+    color: colors.text,
+    opacity: 0.7,
+    marginTop: 2,
+  },
+  actionsSection: {
+    backgroundColor: colors.white,
     borderRadius: 12,
-    paddingVertical: 15,
-    paddingHorizontal: 10,
+    marginBottom: 16,
+  },
+  sectionTitle: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: colors.primaryDark,
+  },
+  listItem: {
+    borderBottomWidth: 0.5,
+    borderBottomColor: colors.secondary,
+  },
+  dangerSection: {
+    backgroundColor: colors.white,
+    borderRadius: 12,
+  },
+  dangerTitle: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: 'red',
+  },
+  dangerItem: {
+    borderBottomWidth: 0.5,
+    borderBottomColor: colors.secondary,
+  },
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalContent: {
+    backgroundColor: colors.white,
+    borderRadius: 16,
+    padding: 24,
+    width: '80%',
+    maxWidth: 300,
+  },
+  modalTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: colors.primaryDark,
+    marginBottom: 16,
+    textAlign: 'center',
+  },
+  modalInput: {
+    borderWidth: 1,
+    borderColor: colors.primaryDark,
+    borderRadius: 8,
+    padding: 12,
+    marginBottom: 20,
+    fontSize: 16,
+  },
+  modalButtons: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  modalButton: {
+    flex: 1,
+    marginHorizontal: 4,
   },
 });
 

@@ -1,11 +1,8 @@
-<<<<<<< HEAD
-=======
 // Importer Firebase et les services nécessaires
->>>>>>> c95afc6d013d9e43c6593487d1478fb576db87ba
 import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
-import { getFirestore } from "firebase/firestore";
-import { getStorage } from "firebase/storage";
+import { getAuth, connectAuthEmulator } from "firebase/auth";
+import { getFirestore, connectFirestoreEmulator } from "firebase/firestore";
+import { getStorage, connectStorageEmulator } from "firebase/storage";
 
 // Configuration Firebase
 const firebaseConfig = {
@@ -19,12 +16,18 @@ const firebaseConfig = {
 
 // Initialiser Firebase
 const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
-const storage = getStorage(app);
 
-<<<<<<< HEAD
+// Initialiser les services
+const auth = getAuth();
+const db = getFirestore();
+const storage = getStorage();
+
+// Configuration pour React Native
+if (__DEV__) {
+  // En développement, on peut connecter aux émulateurs si nécessaire
+  // connectAuthEmulator(auth, 'http://localhost:9099');
+  // connectFirestoreEmulator(db, 'localhost', 8080);
+  // connectStorageEmulator(storage, 'localhost', 9199);
+}
+
 export { auth, db, storage };
-=======
-export { auth, db, storage };
->>>>>>> c95afc6d013d9e43c6593487d1478fb576db87ba

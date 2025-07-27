@@ -1,21 +1,33 @@
 import React, { useEffect, useRef, useState } from "react";
-import { View, StyleSheet, Text, TouchableOpacity, ActivityIndicator } from "react-native";
-import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
+import { View, StyleSheet, Text, TouchableOpacity, ActivityIndicator, Platform } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { colors } from "../styles/colors";
 import { globalStyles } from "../styles/global";
 
-const MapComponent = ({ mapRef, location, filter }) => {
+// Import conditionnel de react-native-maps seulement sur mobile
+let MapView: any = null;
+let Marker: any = null;
+let PROVIDER_GOOGLE: any = null;
+
+if (Platform.OS !== 'web') {
+  const Maps = require("react-native-maps");
+  MapView = Maps.default;
+  Marker = Maps.Marker;
+  PROVIDER_GOOGLE = Maps.PROVIDER_GOOGLE;
+}
+
+const MapComponent = ({ mapRef, location, filter }: { 
+  mapRef: any; 
+  location: { latitude: number; longitude: number } | null; 
+  filter: string | null 
+}) => {
   //const mapRef = useRef(null);
-  const [recyclingPoints, setRecyclingPoints] = useState([]);
-  const [selectedPoint, setSelectedPoint] = useState(null);
+  const [recyclingPoints, setRecyclingPoints] = useState<any[]>([]);
+  const [selectedPoint, setSelectedPoint] = useState<any>(null);
   const [address, setAddress] = useState("");
   const [loadingAddress, setLoadingAddress] = useState(false);
 
-<<<<<<< HEAD
-=======
   /** Récupère les points de recyclage depuis Overpass API */
->>>>>>> c95afc6d013d9e43c6593487d1478fb576db87ba
   const fetchRecyclingPoints = async () => {
     if (!location) return;
 
@@ -38,7 +50,7 @@ const MapComponent = ({ mapRef, location, filter }) => {
       const data = await response.json();
 
       if (data.elements) {
-        setRecyclingPoints(data.elements.map(el => ({
+        setRecyclingPoints(data.elements.map((el: any) => ({
           id: el.id,
           latitude: el.lat,
           longitude: el.lon,
@@ -51,7 +63,7 @@ const MapComponent = ({ mapRef, location, filter }) => {
   };
 
   /** Formate l'adresse pour n'afficher que le numéro, la rue, le code postal et la ville */
-  const formatAddress = (data) => {
+  const formatAddress = (data: any) => {
     if (!data || !data.address) return "Adresse non trouvée";
     
     const { house_number, road, postcode, town, city } = data.address;
@@ -59,7 +71,7 @@ const MapComponent = ({ mapRef, location, filter }) => {
   };
 
   /**Récupère l'adresse via Nominatim */
-  const fetchAddressFromCoordinates = async (latitude, longitude) => {
+  const fetchAddressFromCoordinates = async (latitude: number, longitude: number) => {
     setLoadingAddress(true);
     try {
       const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&zoom=18&addressdetails=1`;
@@ -77,7 +89,7 @@ const MapComponent = ({ mapRef, location, filter }) => {
   };
 
   /**Sélectionne un point de recyclage et récupère son adresse */
-  const handleSelectPoint = (point) => {
+  const handleSelectPoint = (point: any) => {
     setSelectedPoint(point);
     fetchAddressFromCoordinates(point.latitude, point.longitude);
 
@@ -109,7 +121,7 @@ const MapComponent = ({ mapRef, location, filter }) => {
   
 
   /**Détermine l'icône du point de recyclage */
-  const getRecyclingIcon = (tags) => {
+  const getRecyclingIcon = (tags: any) => {
     if (tags["recycling:glass_bottles"] === "yes") return "glass-fragile";
     if (tags["recycling:plastic"] === "yes") return "recycle";
     if (tags["recycling:paper"] === "yes") return "file-document-outline";
@@ -120,6 +132,59 @@ const MapComponent = ({ mapRef, location, filter }) => {
     return "recycle";
   };
   
+  // Interface alternative pour le web
+  if (Platform.OS === 'web') {
+    return (
+      <View style={styles.container}>
+        <View style={styles.webMapContainer}>
+          <MaterialCommunityIcons name="map" size={100} color={colors.primary} />
+          <Text style={styles.webMapText}>Carte disponible sur mobile</Text>
+          <Text style={styles.webMapSubtext}>
+            Utilisez l'application sur votre téléphone pour voir la carte interactive
+          </Text>
+          
+          {location && (
+            <View style={styles.locationInfo}>
+              <Text style={styles.locationText}>
+                Votre position : {location.latitude.toFixed(4)}, {location.longitude.toFixed(4)}
+              </Text>
+            </View>
+          )}
+          
+          {recyclingPoints.length > 0 && (
+            <View style={styles.pointsList}>
+              <Text style={styles.pointsTitle}>Points de recyclage trouvés : {recyclingPoints.length}</Text>
+              {recyclingPoints.slice(0, 5).map((point, index) => (
+                <TouchableOpacity 
+                  key={point.id} 
+                  style={styles.pointItem}
+                  onPress={() => handleSelectPoint(point)}
+                >
+                  <MaterialCommunityIcons name="recycle" size={24} color={colors.primary} />
+                  <Text style={styles.pointText}>Point de recyclage #{index + 1}</Text>
+                </TouchableOpacity>
+              ))}
+            </View>
+          )}
+        </View>
+
+        {selectedPoint && (
+          <View style={styles.infoContainer}>
+            <MaterialCommunityIcons name="recycle" size={40} color={colors.primary} />
+            <View style={styles.infoTextContainer}>
+              <Text style={styles.infoText}>Type : {Object.keys(selectedPoint.tags).filter(tag => tag.startsWith("recycling:")).join(", ")}</Text>
+              <Text style={styles.infoText}>Adresse : {loadingAddress ? <ActivityIndicator size="small" /> : address}</Text>
+            </View>
+            <TouchableOpacity onPress={() => setSelectedPoint(null)} style={styles.closeButton}>
+              <MaterialCommunityIcons name="close" size={30} color="#FF5733" />
+            </TouchableOpacity>
+          </View>
+        )}
+      </View>
+    );
+  }
+
+  // Interface mobile avec carte
   return (
     <View style={styles.container}>
       <MapView ref={mapRef} style={styles.map} provider={PROVIDER_GOOGLE}
