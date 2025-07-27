@@ -1,0 +1,34 @@
+name: CI - EcoTri Workflow
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout du code
+        uses: actions/checkout@v3
+
+      - name: Installer Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Installer les dépendances
+        run: npm install
+
+      - name: Vérifier le lint
+        run: npx eslint ./src
+
+      - name: Lancer les tests unitaires
+        run: npm test
+
+      - name: Build Expo (optionnel)
+        run: npx expo export || echo "Build Expo ignoré"
