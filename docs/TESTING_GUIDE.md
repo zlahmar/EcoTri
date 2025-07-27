@@ -592,6 +592,7 @@ npm test -- --showConfig
 8. **Tests MapComponent** : Un seul test utile conservé, les autres supprimés
 9. **Configuration Jest CI/CD** : Optimisation pour compatibilité Node.js 18/20
 10. **Workflow CI/CD** : Suppression Node.js 16, ajout nettoyage cache Jest
+11. **Actions GitHub dépréciées** : Mise à jour upload-artifact et codecov vers v4
 
 ### Problèmes restants
 

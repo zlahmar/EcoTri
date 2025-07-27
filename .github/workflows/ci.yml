@@ -89,7 +89,7 @@ jobs:
           echo "Tests unitaires réussis sur Node.js ${{ matrix.node-version }}"
 
       - name: Uploader les rapports de couverture
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v4
         with:
           file: ./coverage/lcov.info
           flags: unittests
@@ -131,7 +131,7 @@ jobs:
           echo "Build web réussi"
 
       - name: Archiver les builds
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: expo-builds
           path: |

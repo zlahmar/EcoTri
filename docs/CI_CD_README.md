@@ -7,6 +7,7 @@
 3. **Performance des tests** : Timeout 30s, maxWorkers=1 pour stabilité
 4. **Configuration TypeScript** : Explicite pour ts-jest
 5. **Cache management** : Nettoyage automatique avant les tests
+6. **Actions GitHub dépréciées** : Mise à jour upload-artifact et codecov vers v4
 
 ### Optimisations Apportées
 
@@ -15,6 +16,7 @@
 - **Workers** : Limitation à 1 worker pour éviter les conflits
 - **Timeout** : Augmentation à 30 secondes pour les tests complexes
 - **Configuration TypeScript** : Explicite et robuste
+- **Actions GitHub** : Mise à jour vers les versions v4 (upload-artifact, codecov)
 
 ### Workflow CI/CD mis à jour
 
