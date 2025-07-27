@@ -23,6 +23,20 @@ import {
   getDocs
 } from 'firebase/firestore';
 
+// Mock Firebase config
+const mockStorage = {};
+const mockDb = {};
+const mockAuth = {
+  currentUser: {
+    uid: "test-user-id",
+    displayName: "Test User"
+  }
+};
+
+jest.mocked(require('../../firebaseConfig')).storage = mockStorage;
+jest.mocked(require('../../firebaseConfig')).db = mockDb;
+jest.mocked(require('../../firebaseConfig')).auth = mockAuth;
+
 import { storage, db, auth } from '../../firebaseConfig';
 
 describe("StorageService", () => {
@@ -342,14 +356,19 @@ describe("StorageService", () => {
       const mockScanData = {
         imageUrl: "https://example.com/image.jpg"
       };
+      const mockImageRef = {};
 
       (getDoc as jest.Mock).mockResolvedValue({
         exists: () => true,
         data: () => mockScanData
       });
+      (ref as jest.Mock).mockReturnValue(mockImageRef);
+      (deleteObject as jest.Mock).mockResolvedValue(undefined);
 
       await service.deleteScanResult("scan123");
 
+      expect(ref).toHaveBeenCalledWith(storage, "https://example.com/image.jpg");
+      expect(deleteObject).toHaveBeenCalledWith(mockImageRef);
       expect(updateDoc).toHaveBeenCalledWith(
         doc(db, 'scanResults', 'scan123'),
         { deleted: true }
