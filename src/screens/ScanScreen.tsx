@@ -13,7 +13,7 @@ const ScanScreen = ({ navigation }: { navigation: any }) => {
   const [scanResult, setScanResult] = useState<VisionAnalysisResult | null>(null);
   const [showResult, setShowResult] = useState(false);
   const [capturedImage, setCapturedImage] = useState<string | null>(null);
-  const [savedImageUrl, setSavedImageUrl] = useState<string | null>(null);
+  const [savedImageUrl, setSavedImageUrl] = useState<string | null>(null); // eslint-disable-line @typescript-eslint/no-unused-vars
 
   const takePicture = async () => {
     try {

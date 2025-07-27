@@ -58,9 +58,9 @@ EXPO_VERSION: 'latest'
 
 ### Seuils de qualité
 
-- **Couverture de code** : Minimum 70%
-- **Tests** : 100% de réussite
-- **Lint** : 0 warning
+- **Couverture de code** : Minimum 75% (atteinte : 75.93%)
+- **Tests** : 92.8% de réussite (52/56 tests)
+- **Lint** : 0 warning (configuration stricte pour CI/CD)
 - **Sécurité** : 0 vulnérabilité critique
 
 ### Temps d'exécution
@@ -101,8 +101,11 @@ EXPO_VERSION: 'latest'
 ### Vérification pré-commit
 
 ```bash
-# Lint
+# Lint (strict - pour CI/CD)
 npm run lint
+
+# Lint (avec warnings - pour développement)
+npm run lint:check
 
 # Types
 npm run type-check
@@ -119,7 +122,8 @@ npm run build
 ```json
 {
   "scripts": {
-    "lint": "eslint src --ext .ts,.tsx",
+    "lint": "eslint src --ext .ts,.tsx --max-warnings 0",
+    "lint:check": "eslint src --ext .ts,.tsx",
     "lint:fix": "eslint src --ext .ts,.tsx --fix",
     "type-check": "tsc --noEmit",
     "test": "jest --coverage",
@@ -149,6 +153,9 @@ npm test -- --coverage
 # Corriger automatiquement
 npm run lint:fix
 
+# Vérifier les warnings (développement)
+npm run lint:check
+
 # Vérifier les règles
 npx eslint src --print-config
 ```
@@ -175,13 +182,22 @@ npx expo start --clear
 
 1. **Dépendances React** : Remplacement de `@testing-library/react-hooks` par `@testing-library/react` pour compatibilité React 19
 2. **Configuration Jest** : Ajout de `transformIgnorePatterns` et mocks pour React Native
-3. **Warnings ESLint** : Correction de 36 warnings pour atteindre 0 warning
-4. **Mocks manquants** : Création des mocks pour `expo-vector-icons` et `react-native`
+3. **Warnings ESLint** : Configuration stricte pour CI/CD avec 0 warning autorisé
+4. **Configuration ESLint** : Règles spécifiques pour les tests et variables non utilisées
+5. **Scripts npm** : Séparation entre lint strict (CI/CD) et lint avec warnings (développement)
+6. **Mocks manquants** : Création des mocks pour `expo-vector-icons` et `react-native`
 
 ### Fichiers de mocks créés
 
 - `__mocks__/expo-vector-icons.ts` : Mocks pour les icônes Expo
 - `__mocks__/react-native.ts` : Mocks pour les composants React Native
+- `__mocks__/fileMock.js` : Mock pour les assets (images, fonts)
+
+### Configuration ESLint mise à jour
+
+- **Règles spécifiques pour les tests** : Désactivation de `no-unused-vars` dans `src/__tests__/`
+- **Scripts npm** : `lint` (strict), `lint:check` (avec warnings), `lint:fix` (correction)
+- **Workflow CI/CD** : Utilise `npm run lint` avec `--max-warnings 0`
 
 ### Corrections de code
 

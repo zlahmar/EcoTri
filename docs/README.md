@@ -124,8 +124,11 @@ npm start
 # Tests
 npm test
 
-# Lint
+# Lint (strict - pour CI/CD)
 npm run lint
+
+# Lint (avec warnings - pour développement)
+npm run lint:check
 
 # Build
 npm run build
@@ -185,14 +188,14 @@ npm run type-check
 ### Standards de code
 
 - **TypeScript** strict
-- **ESLint** sans warnings
+- **ESLint** sans warnings (CI/CD) ou avec warnings (développement)
 - **Tests** pour nouvelles fonctionnalités
 - **Documentation** des changements
 
 ### Checklist avant commit
 
 - [ ] Tests passent
-- [ ] Lint sans warnings
+- [ ] Lint strict sans warnings
 - [ ] Types vérifiés
 - [ ] Documentation mise à jour
 - [ ] Code review effectuée

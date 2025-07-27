@@ -379,7 +379,10 @@ module.exports = 'test-file-stub';
     "test:coverage": "jest --coverage",
     "test:verbose": "jest --verbose",
     "test:update": "jest --updateSnapshot",
-    "test:clear": "jest --clearCache"
+    "test:clear": "jest --clearCache",
+    "lint": "eslint src --ext .ts,.tsx --max-warnings 0",
+    "lint:check": "eslint src --ext .ts,.tsx",
+    "lint:fix": "eslint src --ext .ts,.tsx --fix"
   }
 }
 ```
@@ -404,6 +407,22 @@ npm test -- AdviceScreen.test.tsx
 
 # Tests avec verbose
 npm run test:verbose
+```
+
+### Vérification de la qualité
+
+```bash
+# Lint strict (pour CI/CD)
+npm run lint
+
+# Lint avec warnings (pour développement)
+npm run lint:check
+
+# Correction automatique
+npm run lint:fix
+
+# Vérification complète
+npm run ci
 ```
 
 ## Couverture de code
@@ -483,6 +502,19 @@ npm test -- --showConfig
 # Vérifier les mocks des timers
 ```
 
+### 4. Warnings ESLint
+
+```bash
+# Vérifier les warnings (développement)
+npm run lint:check
+
+# Corriger automatiquement
+npm run lint:fix
+
+# Lint strict (CI/CD)
+npm run lint
+```
+
 ### Logs utiles
 
 ```bash
@@ -522,6 +554,13 @@ npm test -- --showConfig
 - **Cache** : Utiliser le cache Jest
 - **Parallélisation** : Utiliser les workers Jest
 
+### 5. Linting
+
+- **Configuration stricte** : Pour CI/CD avec 0 warning
+- **Configuration souple** : Pour développement avec warnings
+- **Règles spécifiques** : Pour les tests et composants
+- **Correction automatique** : Utiliser `npm run lint:fix`
+
 ## Améliorations récentes (Décembre 2024)
 
 ### Problèmes résolus
@@ -531,6 +570,8 @@ npm test -- --showConfig
 3. **TestIDs manquants** : Ajout des testIDs dans MapComponent et ScanScreen
 4. **Mocks complexes** : Simplification des tests de composants UI
 5. **Couverture améliorée** : Passage de ~66% à 75.93%
+6. **Warnings ESLint** : Configuration stricte pour CI/CD avec 0 warning
+7. **Configuration ESLint** : Règles spécifiques pour les tests
 
 ### Problèmes restants
 
