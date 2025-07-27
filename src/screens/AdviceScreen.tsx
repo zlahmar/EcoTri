@@ -24,7 +24,7 @@ import {
 } from 'react-native-paper';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { colors } from '../styles/colors';
-import adviceService, { Advice, AdviceCategory } from '../services/adviceService';
+import { adviceService, Advice, AdviceCategory } from '../services/adviceService';
 import { auth } from '../../firebaseConfig';
 
 const AdviceScreen = ({ navigation }: { navigation: any }) => {
@@ -132,7 +132,7 @@ const AdviceScreen = ({ navigation }: { navigation: any }) => {
       await adviceService.toggleLike(adviceId);
       // Recharger les données pour mettre à jour les likes
       await loadData();
-    } catch (error) {
+    } catch {
       Alert.alert('Erreur', 'Impossible de liker ce conseil');
     }
   };
@@ -151,7 +151,8 @@ const AdviceScreen = ({ navigation }: { navigation: any }) => {
     try {
       await adviceService.addAdvice({
         ...newAdvice,
-        tags: newAdvice.tags.filter(tag => tag.trim())
+        tags: newAdvice.tags.filter(tag => tag.trim()),
+        isPublished: false
       });
 
       Alert.alert(
@@ -163,7 +164,7 @@ const AdviceScreen = ({ navigation }: { navigation: any }) => {
           loadData();
         }}]
       );
-    } catch (error) {
+    } catch {
       Alert.alert('Erreur', 'Impossible d\'ajouter le conseil');
     }
   };
@@ -706,9 +707,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
   },
-  categoryChip: {
-    marginRight: 10,
-  },
+  // categoryChip: {
+  //   marginRight: 10,
+  // },
   tagsContainer: {
     flexDirection: 'row',
     alignItems: 'center',

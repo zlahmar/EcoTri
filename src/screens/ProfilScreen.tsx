@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {
-  View, Text, Image, TouchableOpacity, StyleSheet, ActivityIndicator,
+  View, Text, Image, StyleSheet, ActivityIndicator,
   ScrollView, TextInput, Modal, Alert
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -8,11 +8,11 @@ import { auth, db, storage } from '../../firebaseConfig';
 import { getDoc, doc, updateDoc, setDoc, deleteDoc } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytes, deleteObject } from "firebase/storage";
 import * as ImagePicker from 'expo-image-picker';
-import { Button, List, IconButton, Menu, Divider } from 'react-native-paper';
+import { Button, List, IconButton, Menu } from 'react-native-paper';
 import { colors } from '../styles/colors';
 
 const ProfilScreen = ({ navigation }: { navigation: any }) => {
-  const [userData, setUserData] = useState<any>(null);
+  const [, setUserData] = useState<any>(null);
   const [profileImage, setProfileImage] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [name, setName] = useState('');
@@ -47,7 +47,7 @@ const ProfilScreen = ({ navigation }: { navigation: any }) => {
 
         const imageUrl = await getDownloadURL(ref(storage, `profileImages/${user.uid}.jpg`));
         setProfileImage(imageUrl);
-      } catch (error) {
+      } catch {
         console.log("Aucune image trouvée.");
       } finally {
         setLoading(false);
@@ -70,8 +70,8 @@ const ProfilScreen = ({ navigation }: { navigation: any }) => {
       }
       alert("Profil mis à jour !");
       setEditMode(false);
-    } catch (err) {
-      console.log("Erreur mise à jour:", err);
+    } catch {
+      console.log("Erreur mise à jour");
     }
   };
 
@@ -86,8 +86,8 @@ const ProfilScreen = ({ navigation }: { navigation: any }) => {
       const url = await getDownloadURL(imageRef);
       setProfileImage(url);
       setMenuVisible(false);
-    } catch (err) {
-      console.log("Erreur image:", err);
+    } catch {
+      console.log("Erreur image");
       Alert.alert("Erreur", "Impossible de télécharger l'image");
     } finally {
       setLoading(false);
@@ -111,7 +111,7 @@ const ProfilScreen = ({ navigation }: { navigation: any }) => {
       if (!result.canceled) {
         uploadProfileImage(result.assets[0].uri);
       }
-    } catch (error) {
+    } catch {
       Alert.alert("Erreur", "Impossible d'accéder à la caméra/galerie");
     }
   };
@@ -134,7 +134,7 @@ const ProfilScreen = ({ navigation }: { navigation: any }) => {
               await deleteObject(ref(storage, `profileImages/${user.uid}.jpg`));
               alert("Compte supprimé");
               navigation.replace("Home");
-            } catch (err) {
+            } catch {
               alert("Erreur lors de la suppression");
             }
           }

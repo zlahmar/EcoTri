@@ -3,7 +3,7 @@ jest.mock('firebase/storage');
 jest.mock('firebase/firestore');
 jest.mock('../../firebaseConfig');
 
-import storageService, { ScanResult, UserStats } from '../services/storageService';
+import storageService from '../services/storageService';
 import {
   ref,
   uploadBytes,
@@ -416,7 +416,7 @@ describe("StorageService", () => {
 
     it("retourne des valeurs par défaut quand aucun scan n'existe", async () => {
       (getDocs as jest.Mock).mockResolvedValue({
-        forEach: (callback: any) => []
+        forEach: () => []
       });
 
       const result = await service.getGlobalStats();

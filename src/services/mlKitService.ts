@@ -188,9 +188,9 @@ class MLKitService {
    */
   private getAlternativeClassifications(primaryCategory: string): WasteCategory[] {
     const alternatives = Object.entries(WASTE_CLASSIFICATION)
-      .filter(([key, info]) => info.category !== primaryCategory)
+      .filter(([, info]) => info.category !== primaryCategory)
       .slice(0, 2)
-      .map(([key, info]) => ({
+              .map(([, info]) => ({
         category: info.category,
         icon: info.icon,
         color: info.color,

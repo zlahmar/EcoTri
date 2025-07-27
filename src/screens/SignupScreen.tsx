@@ -8,7 +8,7 @@ import { doc, setDoc } from 'firebase/firestore';
 import { auth, db, storage } from '../../firebaseConfig';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import * as ImagePicker from 'expo-image-picker';
-import * as FileSystem from 'expo-file-system';
+// import * as FileSystem from 'expo-file-system';
 import { Button } from 'react-native-paper';
 import { colors } from '../styles/colors';
 
@@ -19,14 +19,14 @@ const SignupScreen = ({ navigation }: { navigation: any }) => {
   const [loading, setLoading] = useState(false);
   const [profileImage, setProfileImage] = useState<string | null>(null);
 
-const requestPermission = async () => {
-    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-    if (status !== 'granted') {
-      Alert.alert('Permission refusée', 'Vous devez autoriser l\'accès à la galerie pour choisir une image.');
-      return false;
-    }
-    return true;
-  };
+  // const requestPermission = async () => {
+  //   const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+  //   if (status !== 'granted') {
+  //     Alert.alert('Permission refusée', 'Vous devez autoriser l\'accès à la galerie pour choisir une image.');
+  //     return false;
+  //   }
+  //   return true;
+  // };
 
   const takePhoto = async () => {
     try {

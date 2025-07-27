@@ -100,6 +100,7 @@ const HomeScreen = ({ navigation }: { navigation: any }) => {
 
       {/* Revenir à la position actuelle */}
       <FAB
+        testID="fab"
         icon="crosshairs-gps"
         style={globalStyles.fabLocation}
         onPress={() => {

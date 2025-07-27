@@ -21,6 +21,7 @@ module.exports = {
     '^@expo/vector-icons$': '<rootDir>/__mocks__/expo-vector-icons.ts',
     '^react-native-maps$': '<rootDir>/__mocks__/react-native-maps.ts',
     '^react-native$': '<rootDir>/__mocks__/react-native.ts',
+    '\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$': '<rootDir>/__mocks__/fileMock.js',
   },
   globals: {
     __DEV__: false,

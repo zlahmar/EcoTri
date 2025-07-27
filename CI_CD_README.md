@@ -1,46 +1,46 @@
-# 🚀 CI/CD - EcoTri Workflow
+# CI/CD - EcoTri Workflow
 
-## 📋 Vue d'ensemble
+## Vue d'ensemble
 
 Ce workflow GitHub Actions assure la qualité et la fiabilité de l'application **EcoTri** à travers plusieurs étapes automatisées.
 
-## 🔄 Workflow Jobs
+## Workflow Jobs
 
-### 1. 🔍 **Qualité du Code**
+### 1. Qualité du Code
 
-- ✅ **Lint TypeScript** : Vérification du style et des erreurs
-- ✅ **Types TypeScript** : Validation des types
-- ✅ **Couverture de code** : Vérification des tests
+- **Lint TypeScript** : Vérification du style et des erreurs
+- **Types TypeScript** : Validation des types
+- **Couverture de code** : Vérification des tests
 
-### 2. 🧪 **Tests Unitaires**
+### 2. Tests Unitaires
 
-- ✅ **Tests multi-versions** : Node.js 16, 18, 20
-- ✅ **Couverture détaillée** : Rapports Codecov
-- ✅ **Tests des services** : AdviceService, MLKitService, StorageService
+- **Tests multi-versions** : Node.js 16, 18, 20
+- **Couverture détaillée** : Rapports Codecov
+- **Tests des services** : AdviceService, MLKitService, StorageService
 
-### 3. 📱 **Build Expo**
+### 3. Build Expo
 
-- ✅ **Configuration Expo** : Vérification avec `expo doctor`
-- ✅ **Build Web** : Génération des assets web
-- ✅ **Archivage** : Sauvegarde des builds
+- **Configuration Expo** : Vérification avec `expo doctor`
+- **Build Web** : Génération des assets web
+- **Archivage** : Sauvegarde des builds
 
-### 4. 🔒 **Sécurité**
+### 4. Sécurité
 
-- ✅ **Audit npm** : Vérification des vulnérabilités
-- ✅ **Snyk** : Analyse de sécurité avancée
-- ✅ **Dépendances** : Monitoring des packages
+- **Audit npm** : Vérification des vulnérabilités
+- **Snyk** : Analyse de sécurité avancée
+- **Dépendances** : Monitoring des packages
 
-### 5. 📢 **Notifications**
+### 5. Notifications
 
-- ✅ **Succès** : Confirmation de tous les tests
-- ✅ **Échec** : Alertes en cas de problème
+- **Succès** : Confirmation de tous les tests
+- **Échec** : Alertes en cas de problème
 
-### 6. 🚀 **Déploiement** (Optionnel)
+### 6. Déploiement (Optionnel)
 
-- ✅ **Auto-déploiement** : Sur la branche master
-- ✅ **Badges** : Statut visuel du CI
+- **Auto-déploiement** : Sur la branche master
+- **Badges** : Statut visuel du CI
 
-## 🛠️ Configuration
+## Configuration
 
 ### Variables d'environnement
 
@@ -54,7 +54,7 @@ EXPO_VERSION: 'latest'
 - `SNYK_TOKEN` : Token Snyk pour l'analyse de sécurité
 - `GIST_SECRET` : Token GitHub pour les badges (optionnel)
 
-## 📊 Métriques
+## Métriques
 
 ### Seuils de qualité
 
@@ -70,7 +70,7 @@ EXPO_VERSION: 'latest'
 - **Build** : ~2-3 minutes
 - **Sécurité** : ~1-2 minutes
 
-## 🚀 Déclencheurs
+## Déclencheurs
 
 ### Branches surveillées
 
@@ -83,7 +83,7 @@ EXPO_VERSION: 'latest'
 - **Push** : Tests automatiques
 - **Pull Request** : Validation avant merge
 
-## 📈 Rapports
+## Rapports
 
 ### Codecov
 
@@ -96,7 +96,7 @@ EXPO_VERSION: 'latest'
 - **Tests** : ![Tests](https://img.shields.io/badge/tests-passing-brightgreen)
 - **Sécurité** : ![Security](https://img.shields.io/badge/security-checked-brightgreen)
 
-## 🔧 Commandes locales
+## Commandes locales
 
 ### Vérification pré-commit
 
@@ -129,11 +129,11 @@ npm run build
 }
 ```
 
-## 🐛 Dépannage
+## Dépannage
 
 ### Erreurs communes
 
-#### 1. **Tests qui échouent**
+#### 1. Tests qui échouent
 
 ```bash
 # Vérifier les mocks
@@ -143,7 +143,7 @@ npm test -- --verbose
 npm test -- --coverage
 ```
 
-#### 2. **Lint qui échoue**
+#### 2. Lint qui échoue
 
 ```bash
 # Corriger automatiquement
@@ -153,7 +153,7 @@ npm run lint:fix
 npx eslint src --print-config
 ```
 
-#### 3. **Build qui échoue**
+#### 3. Build qui échoue
 
 ```bash
 # Vérifier la config Expo
@@ -169,7 +169,28 @@ npx expo start --clear
 - **Codecov** : https://codecov.io/gh/[username]/ecotri
 - **Snyk** : https://app.snyk.io/org/[username]
 
-## 📝 Améliorations futures
+## Corrections Récentes
+
+### Problèmes résolus
+
+1. **Dépendances React** : Remplacement de `@testing-library/react-hooks` par `@testing-library/react` pour compatibilité React 19
+2. **Configuration Jest** : Ajout de `transformIgnorePatterns` et mocks pour React Native
+3. **Warnings ESLint** : Correction de 36 warnings pour atteindre 0 warning
+4. **Mocks manquants** : Création des mocks pour `expo-vector-icons` et `react-native`
+
+### Fichiers de mocks créés
+
+- `__mocks__/expo-vector-icons.ts` : Mocks pour les icônes Expo
+- `__mocks__/react-native.ts` : Mocks pour les composants React Native
+
+### Corrections de code
+
+- Suppression des imports inutilisés dans tous les fichiers de test
+- Correction des variables d'erreur non utilisées dans les catch blocks
+- Amélioration de la gestion d'erreurs dans les services
+- Correction des props manquantes dans les composants
+
+## Améliorations futures
 
 ### Phase 1 : Optimisation
 
@@ -191,14 +212,14 @@ npx expo start --clear
 
 ---
 
-## 🎯 Objectifs
+## Objectifs
 
 Ce workflow CI/CD garantit :
 
-- ✅ **Qualité du code** constante
-- ✅ **Sécurité** renforcée
-- ✅ **Fiabilité** des déploiements
-- ✅ **Transparence** du processus
-- ✅ **Rapidité** de développement
+- **Qualité du code** constante
+- **Sécurité** renforcée
+- **Fiabilité** des déploiements
+- **Transparence** du processus
+- **Rapidité** de développement
 
-**🚀 EcoTri - CI/CD Professionnel et Robuste !**
+**EcoTri - CI/CD Professionnel et Robuste !**

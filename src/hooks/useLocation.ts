@@ -18,7 +18,7 @@ export const useLocation = () => {
       let loc = await Location.getCurrentPositionAsync({});
       setLocation({ latitude: loc.coords.latitude, longitude: loc.coords.longitude });
       setError(null);
-    } catch (error) {
+    } catch {
       setError("Erreur de géolocalisation");
     }
   };

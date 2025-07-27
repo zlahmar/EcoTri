@@ -4,7 +4,7 @@ import * as ImagePicker from 'expo-image-picker';
 import { IconButton, Button, Card, Chip } from 'react-native-paper';
 import { colors } from '../styles/colors';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import mlKitService, { VisionAnalysisResult, WasteCategory } from '../services/mlKitService';
+import mlKitService, { VisionAnalysisResult } from '../services/mlKitService';
 import storageService from '../services/storageService';
 import { auth } from '../../firebaseConfig';
 
@@ -149,6 +149,7 @@ const ScanScreen = ({ navigation }: { navigation: any }) => {
           {/* Bouton de capture */}
           <View style={styles.captureContainer}>
             <TouchableOpacity
+              testID="button"
               style={[styles.captureButton, isScanning && styles.captureButtonDisabled]}
               onPress={takePicture}
               disabled={isScanning}

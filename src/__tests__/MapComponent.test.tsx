@@ -3,6 +3,13 @@ import { render } from '@testing-library/react-native';
 import { View, Text } from 'react-native';
 import MapComponent from '../components/MapComponent';
 
+// Mock fetch
+global.fetch = jest.fn(() =>
+  Promise.resolve({
+    json: () => Promise.resolve({ elements: [] }),
+  })
+) as jest.Mock;
+
 // Mock react-native-maps
 jest.mock('react-native-maps', () => ({
   MapView: ({ children, ...props }: any) => (

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, StyleSheet, Text, TouchableOpacity, ActivityIndicator, Platform } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { colors } from "../styles/colors";
@@ -121,16 +121,16 @@ const MapComponent = ({ mapRef, location, filter }: {
   
 
   /**Détermine l'icône du point de recyclage */
-  const getRecyclingIcon = (tags: any) => {
-    if (tags["recycling:glass_bottles"] === "yes") return "glass-fragile";
-    if (tags["recycling:plastic"] === "yes") return "recycle";
-    if (tags["recycling:paper"] === "yes") return "file-document-outline";
-    if (tags["recycling:scrap_metal"] === "yes") return "silverware-fork-knife";
-    if (tags["recycling:organic"] === "yes") return "leaf";
-    if (tags["recycling:electronics"] === "yes") return "battery";
-    if (tags["recycling:textile"] === "yes") return "tshirt-crew";
-    return "recycle";
-  };
+  // const getRecyclingIcon = (tags: any) => {
+  //   if (tags["recycling:glass_bottles"] === "yes") return "glass-fragile";
+  //   if (tags["recycling:plastic"] === "yes") return "recycle";
+  //   if (tags["recycling:paper"] === "yes") return "file-document-outline";
+  //   if (tags["recycling:scrap_metal"] === "yes") return "silverware-fork-knife";
+  //   if (tags["recycling:organic"] === "yes") return "leaf";
+  //   if (tags["recycling:electronics"] === "yes") return "battery";
+  //   if (tags["recycling:textile"] === "yes") return "tshirt-crew";
+  //   return "recycle";
+  // };
   
   // Interface alternative pour le web
   if (Platform.OS === 'web') {
@@ -187,7 +187,11 @@ const MapComponent = ({ mapRef, location, filter }: {
   // Interface mobile avec carte
   return (
     <View style={styles.container}>
-      <MapView ref={mapRef} style={styles.map} provider={PROVIDER_GOOGLE}
+      <MapView 
+        ref={mapRef} 
+        style={styles.map} 
+        provider={PROVIDER_GOOGLE}
+        testID="map-view"
         region={{
           latitude: location?.latitude || 48.8566,
           longitude: location?.longitude || 2.3522,
@@ -203,11 +207,12 @@ const MapComponent = ({ mapRef, location, filter }: {
         )}
         {recyclingPoints.map(point => (
           <Marker
-          key={point.id}
-          coordinate={{ latitude: point.latitude, longitude: point.longitude }}
-          onPress={() => handleSelectPoint(point)}
-          pinColor={selectedPoint?.id === point.id ? colors.secondary : colors.secondary}
-        />
+            key={point.id}
+            testID="map-marker"
+            coordinate={{ latitude: point.latitude, longitude: point.longitude }}
+            onPress={() => handleSelectPoint(point)}
+            pinColor={selectedPoint?.id === point.id ? colors.secondary : colors.secondary}
+          />
         ))}
       </MapView>
 
@@ -230,6 +235,56 @@ const MapComponent = ({ mapRef, location, filter }: {
 const styles = StyleSheet.create({
   container: { flex: 1 },
   map: { flex: 1 },
+  webMapContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+  },
+  webMapText: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginTop: 20,
+    textAlign: 'center',
+  },
+  webMapSubtext: {
+    fontSize: 16,
+    textAlign: 'center',
+    marginTop: 10,
+    color: '#666',
+  },
+  locationInfo: {
+    marginTop: 20,
+    padding: 15,
+    backgroundColor: '#f0f0f0',
+    borderRadius: 10,
+  },
+  locationText: {
+    fontSize: 14,
+    textAlign: 'center',
+  },
+  pointsList: {
+    marginTop: 20,
+    width: '100%',
+  },
+  pointsTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 10,
+    textAlign: 'center',
+  },
+  pointItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 10,
+    marginVertical: 5,
+    backgroundColor: '#f9f9f9',
+    borderRadius: 8,
+  },
+  pointText: {
+    marginLeft: 10,
+    fontSize: 16,
+  },
   infoContainer: {
     position: "absolute",
     bottom: 70,

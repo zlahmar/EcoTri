@@ -2,8 +2,8 @@
 jest.mock('firebase/functions');
 jest.mock('../../firebaseConfig');
 
-import mlKitService, { VisionAnalysisResult, VisionLabel, VisionObject, WasteCategory } from '../services/mlKitService';
-import { getFunctions, httpsCallable } from 'firebase/functions';
+import mlKitService from '../services/mlKitService';
+import { httpsCallable } from 'firebase/functions';
 
 describe("MLKitService", () => {
   const service = mlKitService;
@@ -235,7 +235,7 @@ describe("MLKitService", () => {
       const result = await service.analyzeImage("base64-image-data");
 
       expect(result.alternatives).toHaveLength(2);
-      result.alternatives.forEach((alternative: WasteCategory) => {
+      result.alternatives.forEach((alternative: any) => {
         expect(alternative.category).not.toBe("Plastique");
         expect(alternative.confidence).toBeGreaterThanOrEqual(0.2);
         expect(alternative.confidence).toBeLessThanOrEqual(0.5);

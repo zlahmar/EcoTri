@@ -10,14 +10,7 @@ import {
   addDoc,
   updateDoc,
   deleteDoc,
-    collection,
-    query,
-    where,
-    doc
 } from 'firebase/firestore';
-
-
-import { db, auth } from '../../firebaseConfig';
 
 describe("AdviceService", () => {
   const service = new AdviceService();

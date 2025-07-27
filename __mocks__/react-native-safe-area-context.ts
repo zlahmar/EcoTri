@@ -1,9 +1,9 @@
 import React from 'react';
 import { View } from 'react-native';
 
-export const SafeAreaView = ({ children, style }: any) => (
-  <View style={style}>{children}</View>
-);
+export const SafeAreaView = ({ children, style, ...props }: any) => {
+  return React.createElement('div', { style, ...props }, children);
+};
 
 export const useSafeAreaInsets = () => ({
   top: 44,
