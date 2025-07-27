@@ -38,13 +38,13 @@ jobs:
       - name: Vérifier le lint TypeScript
         run: |
           echo "Vérification du lint TypeScript..."
-          npx eslint ./src --ext .ts,.tsx --max-warnings 0
+          npm run lint
           echo "Lint TypeScript réussi"
 
       - name: Vérifier les types TypeScript
         run: |
           echo "Vérification des types TypeScript..."
-          npx tsc --noEmit
+          npm run type-check
           echo "Types TypeScript valides"
 
       - name: Vérifier la couverture de code

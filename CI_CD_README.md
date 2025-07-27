@@ -187,6 +187,7 @@ npx expo start --clear
 5. **Scripts npm** : Séparation entre lint strict (CI/CD) et lint avec warnings (développement)
 6. **Mocks manquants** : Création des mocks pour `expo-vector-icons` et `react-native`
 7. **Erreurs TypeScript** : Configuration spécifique pour exclure les mocks de la vérification des types
+8. **Workflow CI/CD** : Mise à jour pour utiliser les scripts npm au lieu des commandes directes
 
 ### Fichiers de mocks créés
 
@@ -206,6 +207,13 @@ npx expo start --clear
 - **Exclusion des mocks** : Les fichiers `__mocks__/**/*` sont exclus de la vérification
 - **Exclusion des tests** : Les fichiers de test sont exclus de la vérification des types
 - **Script type-check** : Utilise `tsconfig.build.json` au lieu de `tsconfig.json`
+
+### Workflow CI/CD mis à jour
+
+- **Lint** : Utilise `npm run lint` au lieu de `npx eslint`
+- **Type-check** : Utilise `npm run type-check` au lieu de `npx tsc --noEmit`
+- **Cohérence** : Utilise les scripts npm définis dans package.json
+- **Maintenabilité** : Centralise la configuration dans package.json
 
 ### Corrections de code
 
