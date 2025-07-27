@@ -23,6 +23,7 @@
 - **Expo Doctor** : Utilisation de npx expo-doctor au lieu de expo doctor
 - **Dépendances** : Mise à jour automatique avec npx expo install --check
 - **Configuration** : expo.doctor.reactNativeDirectoryCheck.listUnknownPackages = false
+- **Build Expo** : Suppression de l'étape de build web (application mobile uniquement)
 
 ### Workflow CI/CD mis à jour
 
@@ -62,3 +63,13 @@ strategy:
 - **Couverture** : 76.2%
 - **CI/CD** : Pipeline stable et rapide
 - **Performance** : Tests optimisés pour CI/CD
+
+### Note sur le Build
+
+L'étape de build Expo a été supprimée du pipeline CI/CD car :
+- L'application est **purement mobile** (iOS/Android)
+- `expo export:web` nécessite Webpack (non utilisé)
+- `expo export` génère des bundles qui ne sont pas nécessaires pour la validation du code
+- Le focus est sur la **qualité du code** et les **tests unitaires**
+
+Pour le déploiement, utilisez `eas build` ou `expo build` selon vos besoins.

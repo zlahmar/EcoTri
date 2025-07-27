@@ -124,20 +124,10 @@ jobs:
           npx expo-doctor
           echo "Configuration Expo valide"
 
-      - name: Build Expo (web)
+      - name: Validation finale
         run: |
-          echo "Build Expo pour le web..."
-          npx expo export:web --clear
-          echo "Build web réussi"
-
-      - name: Archiver les builds
-        uses: actions/upload-artifact@v4
-        with:
-          name: expo-builds
-          path: |
-            dist/
-            web-build/
-          retention-days: 7
+          echo "✅ Toutes les vérifications sont passées avec succès !"
+          echo "📱 Application mobile prête pour le déploiement"
 
   # Job de sécurité
   security:
@@ -176,23 +166,22 @@ jobs:
   notify:
     name: Notification
     runs-on: ubuntu-latest
-    needs: [unit-tests, build-expo, security]
+    needs: [unit-tests, security]
     if: always()
 
     steps:
       - name: Notification de succès
         if: success()
         run: |
-          echo "Tous les tests et builds sont passés avec succès !"
+          echo "Tous les tests sont passés avec succès !"
           echo "Qualité du code : OK"
           echo "Tests unitaires : OK"
-          echo "Build Expo : OK"
           echo "Sécurité : OK"
 
       - name: Notification d'échec
         if: failure()
         run: |
-          echo "Certains tests ou builds ont échoué"
+          echo "Certains tests ont échoué"
           echo "Vérifiez les logs pour plus de détails"
           exit 1
 
@@ -200,7 +189,7 @@ jobs:
   deploy:
     name: Déploiement
     runs-on: ubuntu-latest
-    needs: [unit-tests, build-expo, security]
+    needs: [unit-tests, security]
     if: github.ref == 'refs/heads/master' && success()
 
     steps:
@@ -233,4 +222,3 @@ jobs:
           message: ${{ job.status }}
           namedLogo: github
           color: ${{ job.status == 'success' && 'green' || 'red' }}
-          namedLogoColor: white
