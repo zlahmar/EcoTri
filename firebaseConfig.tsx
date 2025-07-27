@@ -30,4 +30,4 @@ if (__DEV__) {
   // connectStorageEmulator(storage, 'localhost', 9199);
 }
 
-export { auth, db, storage };
+export { app, auth, db, storage };

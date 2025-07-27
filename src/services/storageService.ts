@@ -18,6 +18,7 @@ export interface ScanResult {
     latitude: number;
     longitude: number;
   };
+  deleted?: boolean;
 }
 
 export interface UserStats {

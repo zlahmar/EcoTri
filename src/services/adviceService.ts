@@ -100,7 +100,7 @@ export const ADVICE_CATEGORIES: AdviceCategory[] = [
   }
 ];
 
-class AdviceService {
+export class AdviceService {
   private readonly COLLECTION_NAME = 'advice';
 
   /**
@@ -433,4 +433,4 @@ class AdviceService {
 }
 
 export const adviceService = new AdviceService();
-export default adviceService; 
+export default AdviceService; 
