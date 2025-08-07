@@ -78,20 +78,51 @@ src/
 - **Auth** : Authentification utilisateur
 - **Analytics** : Métriques d'utilisation
 
-### IA - ML Kit
+### IA - ML Kit (On-Device)
 
 **Pourquoi ce choix ?**
 
 - **Reconnaissance d'images** : Classification automatique des déchets
-- **Intégration native** : Optimisé pour mobile
+- **Intégration native** : Optimisé pour mobile avec `@react-native-ml-kit/image-labeling`
 - **Hors ligne** : Fonctionne sans connexion internet
-- **Précision** : Modèles entraînés sur des milliers d'images
+- **Gratuit** : 100% gratuit, contrairement à Google Cloud Vision API
+- **Confidentialité** : Traitement local, aucune donnée envoyée au cloud
+- **Performance** : Analyse rapide directement sur l'appareil
+
+**Architecture ML Kit :**
+
+```typescript
+// Service ML Kit hybride avec fallback
+export class MLKitService {
+  async analyzeImage(imageUri: string): Promise<AnalysisResult> {
+    try {
+      // Tentative d'utilisation du vrai ML Kit on-device
+      const labels = await ImageLabeling.label(imageUri);
+      return this.processRealLabels(labels);
+    } catch (error) {
+      // Fallback vers simulation si ML Kit non disponible
+      console.log('ML Kit non disponible, utilisation de la simulation');
+      return this.fallbackSimulation();
+    }
+  }
+}
+```
 
 **Fonctionnalités ML Kit :**
 
 - **Image Labeling** : Identification des objets dans les images
-- **Custom Models** : Modèles personnalisés pour les déchets
-- **On-device** : Traitement local pour la confidentialité
+- **Classification automatique** : Plastique, Métal, Papier, Verre, Carton
+- **On-device processing** : Traitement local pour la confidentialité
+- **Fallback intelligent** : Simulation si ML Kit indisponible
+- **Gamification** : Tracking des scans pour points et niveaux
+
+**Workflow de reconnaissance :**
+
+1. **Capture** → Photo avec `expo-image-picker`
+2. **Analyse** → ML Kit analyse l'image localement
+3. **Classification** → Mapping vers catégories de déchets
+4. **Gamification** → +10 points, mise à jour statistiques
+5. **Sauvegarde** → AsyncStorage + Firestore (optionnel)
 
 ## 🔐 Sécurité
 
@@ -451,13 +482,52 @@ module.exports = {
 
 ### Configuration EAS Build
 
+**Pourquoi EAS Build ? (vs GitHub Actions existant)**
+
+#### **Distinction Cruciale : CI/CD vs Build Natif**
+
+| Aspect      | GitHub Actions CI/CD    | EAS Build              |
+| ----------- | ----------------------- | ---------------------- |
+| **But**     | Tests et qualité code   | Compilation native     |
+| **Vitesse** | 2-3 minutes             | 10-15 minutes          |
+| **Coût**    | Gratuit illimité        | 30 builds/mois         |
+| **Output**  | Validation ✅/❌        | APK/IPA fichiers       |
+| **ML Kit**  | ❌ Simulation seulement | ✅ Réel on-device      |
+| **Usage**   | Chaque commit           | Builds de test/release |
+
+#### **Workflow Complémentaire**
+
+```yaml
+# Votre .github/workflows/ci.yml ACTUEL (à conserver)
+- Linting ✅
+- Tests unitaires ✅
+- Type checking ✅
+- Validation Expo ✅
+
+# EAS Build ADDITIONNEL (pour ML Kit)
+- Compilation Android native ✅
+- Modules natifs (ML Kit) ✅
+- APK avec expo-dev-client ✅
+```
+
+**Avantages EAS Build :**
+
+- **Modules natifs** : Support complet de `@react-native-ml-kit/image-labeling`
+- **Environnement propre** : Build sur serveurs cloud optimisés
+- **Pas de configuration locale** : Évite les problèmes SDK Android/Xcode
+- **Gratuit** : 30 builds/mois inclus dans le plan gratuit
+
+**Configuration eas.json :**
+
 ```json
-// eas.json
 {
   "build": {
     "development": {
       "developmentClient": true,
-      "distribution": "internal"
+      "distribution": "internal",
+      "android": {
+        "buildType": "apk"
+      }
     },
     "preview": {
       "distribution": "internal"
@@ -468,6 +538,27 @@ module.exports = {
   }
 }
 ```
+
+**Commandes EAS Build :**
+
+```bash
+# Build de développement avec ML Kit
+npx eas build --platform android --profile development
+
+# Build de preview pour tests
+npx eas build --platform android --profile preview
+
+# Build de production
+npx eas build --platform android --profile production
+```
+
+**Workflow de déploiement avec EAS :**
+
+1. **Configuration** : `npx eas build:configure`
+2. **Build cloud** : `npx eas build --platform android --profile development`
+3. **Téléchargement APK** : Lien fourni après build
+4. **Installation** : Installation manuelle de l'APK
+5. **Test ML Kit** : Vérification du vrai ML Kit on-device
 
 ## 📈 Monitoring et Analytics
 

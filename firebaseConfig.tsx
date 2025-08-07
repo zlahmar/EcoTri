@@ -2,7 +2,7 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, connectAuthEmulator } from "firebase/auth";
 import { getFirestore, connectFirestoreEmulator } from "firebase/firestore";
-import { getStorage, connectStorageEmulator } from "firebase/storage";
+import { getStorage } from "firebase/storage";
 
 // Configuration Firebase
 const firebaseConfig = {
@@ -27,7 +27,6 @@ if (__DEV__) {
   // En développement, on peut connecter aux émulateurs si nécessaire
   // connectAuthEmulator(auth, 'http://localhost:9099');
   // connectFirestoreEmulator(db, 'localhost', 8080);
-  // connectStorageEmulator(storage, 'localhost', 9199);
 }
 
 export { app, auth, db, storage };

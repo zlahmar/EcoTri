@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import * as React from 'react';
+const { useState } = React;
 import { View, Text, StyleSheet, Alert, Modal, TouchableOpacity, Image, ActivityIndicator } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { IconButton, Button, Card, Chip } from 'react-native-paper';
@@ -17,9 +18,7 @@ const ScanScreen = ({ navigation }: { navigation: any }) => {
 
   const takePicture = async () => {
     try {
-      setIsScanning(true);
-      
-      // Demander les permissions
+      // Demander les permissions AVANT d'afficher le loading
       const { status } = await ImagePicker.requestCameraPermissionsAsync();
       if (status !== 'granted') {
         Alert.alert('Permission refusée', 'Vous devez autoriser l\'accès à la caméra pour scanner.');
@@ -36,6 +35,9 @@ const ScanScreen = ({ navigation }: { navigation: any }) => {
       if (!result.canceled) {
         setCapturedImage(result.assets[0].uri);
         
+        // Maintenant on peut commencer l'analyse et afficher le loading
+        setIsScanning(true);
+        
         // Analyser l'image avec ML Kit
         await analyzeImage(result.assets[0].uri);
       }
@@ -43,18 +45,14 @@ const ScanScreen = ({ navigation }: { navigation: any }) => {
     } catch (error) {
       console.error('Erreur lors de la prise de photo:', error);
       Alert.alert('Erreur', 'Impossible de prendre la photo');
-    } finally {
       setIsScanning(false);
     }
   };
 
   const analyzeImage = async (imageUri: string) => {
     try {
-      // Convertir l'image en base64
-      const imageBase64 = await mlKitService.imageToBase64(imageUri);
-      
-      // Analyser avec Google Cloud Vision API
-      const analysisResult = await mlKitService.analyzeImage(imageBase64);
+      // Analyser directement avec ML Kit (pas besoin de conversion base64)
+      const analysisResult = await mlKitService.analyzeImage(imageUri);
       
       setScanResult(analysisResult);
       setShowResult(true);
@@ -62,6 +60,9 @@ const ScanScreen = ({ navigation }: { navigation: any }) => {
     } catch (error) {
       console.error('Erreur lors de l\'analyse:', error);
       Alert.alert('Erreur', 'Impossible d\'analyser l\'image. Veuillez réessayer.');
+    } finally {
+      // S'assurer que le loading s'arrête même en cas d'erreur
+      setIsScanning(false);
     }
   };
 
@@ -73,30 +74,22 @@ const ScanScreen = ({ navigation }: { navigation: any }) => {
   };
 
   const handleConfirm = async () => {
-    if (!scanResult || !capturedImage) return;
+    if (!scanResult) return;
 
     try {
       setIsScanning(true);
       
       const userId = auth.currentUser?.uid;
       if (!userId) {
-        Alert.alert('Erreur', 'Vous devez être connecté pour sauvegarder le résultat');
+        Alert.alert('Erreur', 'Vous devez être connecté pour enregistrer le scan');
         return;
       }
 
-      // Sauvegarder l'image dans Firebase Storage
-      const imageUrl = await storageService.uploadImage(capturedImage, userId);
-      setSavedImageUrl(imageUrl);
-
-      // Sauvegarder le résultat dans Firestore
-      await storageService.saveScanResult({
+      // Sauvegarder seulement les statistiques de scan (pas d'image)
+      await storageService.saveScanStats({
         userId,
-        imageUrl,
         wasteCategory: scanResult.wasteCategory.category,
         confidence: scanResult.confidence,
-        alternatives: scanResult.alternatives.map(alt => alt.category),
-        labels: scanResult.labels.map(label => label.description),
-        objects: scanResult.objects.map(obj => obj.name),
       });
 
       Alert.alert(
@@ -109,7 +102,6 @@ const ScanScreen = ({ navigation }: { navigation: any }) => {
               setShowResult(false);
               setScanResult(null);
               setCapturedImage(null);
-              setSavedImageUrl(null);
             }
           }
         ]
@@ -117,7 +109,7 @@ const ScanScreen = ({ navigation }: { navigation: any }) => {
       
     } catch (error) {
       console.error('Erreur lors de la sauvegarde:', error);
-      Alert.alert('Erreur', 'Impossible de sauvegarder le résultat');
+      Alert.alert('Erreur', 'Impossible de sauvegarder les statistiques');
     } finally {
       setIsScanning(false);
     }
@@ -218,7 +210,8 @@ const ScanScreen = ({ navigation }: { navigation: any }) => {
                         <Chip 
                           key={index}
                           style={styles.labelChip}
-                          textStyle={{ fontSize: 12 }}
+                          textStyle={{ fontSize: 12, color: colors.primaryDark }}
+                          selectedColor={colors.secondary}
                         >
                           {label.description} ({Math.round(label.confidence * 100)}%)
                         </Chip>
@@ -234,8 +227,10 @@ const ScanScreen = ({ navigation }: { navigation: any }) => {
                     {scanResult.alternatives.map((alt, index) => (
                       <Chip 
                         key={index}
-                        icon={() => <MaterialCommunityIcons name={alt.icon as any} size={20} />}
+                        icon={() => <MaterialCommunityIcons name={alt.icon as any} size={20} color={colors.primary} />}
                         style={styles.alternativeChip}
+                        textStyle={{ color: colors.primaryDark }}
+                        selectedColor={colors.secondary}
                       >
                         {alt.category} ({Math.round(alt.confidence * 100)}%)
                       </Chip>
@@ -247,7 +242,13 @@ const ScanScreen = ({ navigation }: { navigation: any }) => {
           )}
 
           <View style={styles.resultActions}>
-            <Button mode="outlined" onPress={handleRetake} style={styles.actionButton}>
+            <Button 
+              mode="outlined" 
+              onPress={handleRetake} 
+              style={styles.actionButton}
+              textColor={colors.primary}
+              buttonColor="transparent"
+            >
               Nouveau scan
             </Button>
             <Button 
@@ -256,6 +257,8 @@ const ScanScreen = ({ navigation }: { navigation: any }) => {
               style={styles.actionButton}
               loading={isScanning}
               disabled={isScanning}
+              buttonColor={colors.primary}
+              textColor={colors.white}
             >
               Confirmer
             </Button>

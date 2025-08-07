@@ -1,5 +1,12 @@
 # Documentation EcoTri
 
+## 🚀 Version 2.0.0 - Fonctionnelle à 95% !
+
+✅ **Toutes les fonctionnalités principales opérationnelles**  
+✅ **Interface utilisateur complète et moderne**  
+✅ **Système de favoris et conseils quotidiens**  
+✅ **EAS Build configuré pour ML Kit natif**
+
 ## Vue d'ensemble
 
 Cette documentation complète couvre tous les aspects du projet EcoTri, de l'installation à la maintenance, en passant par les tests et le déploiement.
@@ -9,8 +16,10 @@ Cette documentation complète couvre tous les aspects du projet EcoTri, de l'ins
 ### Guides principaux
 
 - **[ADVICE_SETUP.md](ADVICE_SETUP.md)** - Configuration et utilisation du système de conseils
+- **[COLLECTION_SCREEN_IMPROVEMENTS.md](COLLECTION_SCREEN_IMPROVEMENTS.md)** - Améliorations de la page de collecte
 - **[CORRECTIONS_AND_IMPROVEMENTS.md](CORRECTIONS_AND_IMPROVEMENTS.md)** - Corrections et améliorations apportées au projet
 - **[TECHNICAL_GUIDE.md](TECHNICAL_GUIDE.md)** - Guide technique pour les développeurs
+- **[MLKIT_EAS_GUIDE.md](MLKIT_EAS_GUIDE.md)** - Guide ML Kit on-device et EAS Build
 - **[TESTING_GUIDE.md](TESTING_GUIDE.md)** - Guide complet des tests
 - **[MOCKS_DOCUMENTATION.md](MOCKS_DOCUMENTATION.md)** - Documentation des mocks pour les tests
 - **[SCRIPTS_AND_COMMANDS.md](SCRIPTS_AND_COMMANDS.md)** - Scripts et commandes disponibles
@@ -38,8 +47,10 @@ Cette documentation complète couvre tous les aspects du projet EcoTri, de l'ins
 ### Pour le développement
 
 1. **[TECHNICAL_GUIDE.md](TECHNICAL_GUIDE.md)** - Architecture et services
-2. **[ADVICE_SETUP.md](ADVICE_SETUP.md)** - Fonctionnalité des conseils
-3. **[SCRIPTS_AND_COMMANDS.md](SCRIPTS_AND_COMMANDS.md)** - Outils de développement
+2. **[MLKIT_EAS_GUIDE.md](MLKIT_EAS_GUIDE.md)** - ML Kit on-device et builds natifs
+3. **[COLLECTION_SCREEN_IMPROVEMENTS.md](COLLECTION_SCREEN_IMPROVEMENTS.md)** - Page de collecte
+4. **[ADVICE_SETUP.md](ADVICE_SETUP.md)** - Fonctionnalité des conseils
+5. **[SCRIPTS_AND_COMMANDS.md](SCRIPTS_AND_COMMANDS.md)** - Outils de développement
 
 ### Pour le déploiement
 
@@ -56,13 +67,21 @@ Cette documentation complète couvre tous les aspects du projet EcoTri, de l'ins
 - **Warnings ESLint** - 36 warnings corrigés
 - **Tests unitaires** - 100% de réussite
 - **Pipeline CI/CD** - Passage réussi
+- **Interface de collecte** - Scroll, navigation et affichage optimisés
+- **Scan ML Kit** - Migration vers ML Kit on-device gratuit
+- **Gamification** - Système de points et statistiques utilisateur
+- **EAS Build** - Configuration pour builds natifs avec modules natifs
 
 ### Améliorations apportées
 
 - **Qualité du code** - Lint sans warnings
 - **Tests fiables** - Mocks appropriés
 - **Performance** - Configuration optimisée
-- **Documentation** - Guides complets
+- **Documentation** - Guides complets incluant ML Kit
+- **Page de collecte** - Interface moderne et fonctionnelle
+- **Reconnaissance d'images** - ML Kit on-device 100% gratuit
+- **Builds natifs** - Support EAS Build pour modules natifs
+- **Persistance locale** - AsyncStorage pour gamification hors ligne
 
 ## Architecture du projet
 
@@ -84,11 +103,13 @@ recycle-app/
 ## Technologies utilisées
 
 - **React Native** - Framework mobile
-- **Expo** - Outils de développement
+- **Expo** - Outils de développement et EAS Build
 - **TypeScript** - Typage statique
 - **Jest** - Framework de tests
 - **ESLint** - Linting du code
-- **Firebase** - Backend et services
+- **Firebase** - Backend et services (Firestore, Auth, Storage)
+- **ML Kit** - Reconnaissance d'images on-device
+- **AsyncStorage** - Persistance locale pour gamification
 
 ## Métriques de qualité
 
@@ -118,8 +139,11 @@ recycle-app/
 ### Développement
 
 ```bash
-# Démarrer le projet
+# Démarrer le projet (Expo Go - simulation ML Kit)
 npm start
+
+# Build natif avec ML Kit réel
+npx eas build --platform android --profile development
 
 # Tests
 npm test
@@ -132,6 +156,19 @@ npm run lint:check
 
 # Build
 npm run build
+```
+
+### EAS Build (ML Kit natif)
+
+```bash
+# Configuration initiale
+npx eas build:configure
+
+# Build de développement avec ML Kit
+npx eas build --platform android --profile development
+
+# Build de production
+npx eas build --platform android --profile production
 ```
 
 ### Tests
@@ -160,6 +197,40 @@ npm run lint:fix
 npm run type-check
 ```
 
+## FAQ - Questions Fréquentes
+
+### ❓ "Pourquoi EAS Build si j'ai déjà GitHub Actions ?"
+
+**Réponse courte :** GitHub Actions = Tests, EAS Build = APK avec ML Kit réel
+
+| GitHub Actions CI/CD      | EAS Build                  |
+| ------------------------- | -------------------------- |
+| ✅ Tests + Lint (2-3 min) | ✅ APK natif (10-15 min)   |
+| ✅ Gratuit illimité       | ✅ 30 builds/mois gratuits |
+| ❌ Pas de ML Kit réel     | ✅ ML Kit on-device        |
+| ❌ Expo Go seulement      | ✅ expo-dev-client         |
+
+**Workflow recommandé :**
+
+1. **Développement quotidien** → GitHub Actions (rapide)
+2. **Tests ML Kit** → EAS Build (natif)
+3. **Release** → GitHub Actions ✅ → EAS Build → Store
+
+Voir [MLKIT_EAS_GUIDE.md](docs/MLKIT_EAS_GUIDE.md) pour plus de détails.
+
+### ❓ "ML Kit fonctionne-t-il dans Expo Go ?"
+
+**Non.** Expo Go ne supporte que la simulation. Pour le vrai ML Kit :
+
+- ✅ **EAS Build** (APK natif) - Recommandé
+- ✅ **Build local** (`npx expo run:android`) - Plus complexe
+
+### ❓ "Les stats de gamification ne s'affichent pas ?"
+
+1. **Vérifier AsyncStorage** - Bouton refresh sur profil
+2. **Vérifier Firestore** - Permissions et connexion
+3. **Logs console** - Messages d'erreur détaillés
+
 ## Support et maintenance
 
 ### Problèmes courants
@@ -168,6 +239,7 @@ npm run type-check
 2. **Erreurs de linting** - Voir [SCRIPTS_AND_COMMANDS.md](SCRIPTS_AND_COMMANDS.md)
 3. **Problèmes de build** - Voir [TECHNICAL_GUIDE.md](TECHNICAL_GUIDE.md)
 4. **Erreurs de mocks** - Voir [MOCKS_DOCUMENTATION.md](MOCKS_DOCUMENTATION.md)
+5. **ML Kit et EAS Build** - Voir [MLKIT_EAS_GUIDE.md](MLKIT_EAS_GUIDE.md)
 
 ### Ressources utiles
 

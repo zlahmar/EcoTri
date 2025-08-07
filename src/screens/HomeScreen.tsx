@@ -3,6 +3,7 @@ import { View, TextInput, ScrollView, Image, Text, Alert } from "react-native";
 import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 import MapComponent from "../components/MapComponent";
 import { createGlobalStyles } from "../styles/global";
+import { colors } from "../styles/colors";
 import { Appbar, IconButton, FAB } from "react-native-paper";
 import { useLocation } from "../hooks/useLocation";
 
@@ -15,14 +16,15 @@ const HomeScreen = ({ navigation }: { navigation: any }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchedLocation, setSearchedLocation] = useState<{ latitude: number; longitude: number } | null>(null);
 
+
   const filters = [
-    { type: "Plastique", icon: "recycle", tag: "plastic" },
-    { type: "Verre", icon: "glass-fragile", tag: "glass" },
-    { type: "Papier", icon: "file-document-outline", tag: "paper" },
-    { type: "Métal", icon: "silverware-fork-knife", tag: "metal" },
-    { type: "Déchets verts", icon: "leaf", tag: "organic" },
-    { type: "Électronique", icon: "battery", tag: "electronics" },
-    { type: "Textile", icon: "tshirt-crew", tag: "textile" },
+    { type: "Plastique", icon: "recycle", tag: "plastic", color: "#2196F3" },
+    { type: "Verre", icon: "glass-fragile", tag: "glass", color: "#4CAF50" },
+    { type: "Papier", icon: "file-document-outline", tag: "paper", color: "#FF9800" },
+    { type: "Métal", icon: "silverware-fork-knife", tag: "metal", color: "#9E9E9E" },
+    { type: "Déchets verts", icon: "leaf", tag: "organic", color: "#8BC34A" },
+    { type: "Électronique", icon: "battery", tag: "electronics", color: "#FF5722" },
+    { type: "Textile", icon: "tshirt-crew", tag: "textile", color: "#E91E63" },
   ];
 
   const searchLocation = async () => {
@@ -40,8 +42,6 @@ const HomeScreen = ({ navigation }: { navigation: any }) => {
       });
 
       const text = await response.text();
-      console.log("Réponse brute Nominatim :", text);
-
       const data = JSON.parse(text);
 
       if (data.length > 0) {
@@ -83,18 +83,35 @@ const HomeScreen = ({ navigation }: { navigation: any }) => {
       {/* Filtres */}
       <View style={globalStyles.filterContainerFloating}>
         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-          {filters.map((filter, index) => (
-            <IconButton
-              key={index}
-              icon={filter.icon}
-              size={30}
-              style={[
-                globalStyles.filterButton,
-                selectedFilter === filter.tag ? { backgroundColor: "#4CAF50" } : {},
-              ]}
-              onPress={() => setSelectedFilter(filter.tag === selectedFilter ? null : filter.tag)}
-            />
-          ))}
+          {filters.map((filter, index) => {
+            const isSelected = selectedFilter === filter.tag;
+            return (
+              <IconButton
+                key={index}
+                icon={filter.icon}
+                size={30}
+                iconColor={isSelected ? colors.white : filter.color}
+                style={[
+                  globalStyles.filterButton,
+                  isSelected ? { 
+                    backgroundColor: filter.color,
+                    borderWidth: 2,
+                    borderColor: filter.color,
+                    elevation: 4,
+                    shadowColor: filter.color,
+                    shadowOffset: { width: 0, height: 2 },
+                    shadowOpacity: 0.3,
+                    shadowRadius: 4,
+                  } : {
+                    backgroundColor: colors.white,
+                    borderWidth: 1,
+                    borderColor: filter.color,
+                  },
+                ]}
+                onPress={() => setSelectedFilter(filter.tag === selectedFilter ? null : filter.tag)}
+              />
+            );
+          })}
         </ScrollView>
       </View>
 
@@ -104,8 +121,6 @@ const HomeScreen = ({ navigation }: { navigation: any }) => {
         icon="crosshairs-gps"
         style={globalStyles.fabLocation}
         onPress={() => {
-          console.log("Valeur de location :", location);
-          console.log("Valeur de mapRef :", mapRef.current);
           if (location && mapRef.current) {
             mapRef.current.animateToRegion({
               latitude: location.latitude,
@@ -122,8 +137,8 @@ const HomeScreen = ({ navigation }: { navigation: any }) => {
       {/* Barre de navigation */}
       <Appbar style={globalStyles.bottomNav}>
         <View style={globalStyles.navItem}>
-          <Appbar.Action icon="home" onPress={() => navigation.navigate("Home")} />
-          <Text style={globalStyles.navText}>Accueil</Text>
+          <Appbar.Action icon="account" onPress={() => navigation.navigate("Profile")} />
+          <Text style={globalStyles.navText}>Profil</Text>
         </View>
 
         <View style={globalStyles.navItem}>
@@ -132,13 +147,13 @@ const HomeScreen = ({ navigation }: { navigation: any }) => {
         </View>
 
         <View style={globalStyles.navItem}>
-          <Appbar.Action icon="account" onPress={() => navigation.navigate("Profile")} />
-          <Text style={globalStyles.navText}>Profil</Text>
+          <Appbar.Action icon="lightbulb-on-outline" onPress={() => navigation.navigate("Conseils")} />
+          <Text style={globalStyles.navText}>Conseils</Text>
         </View>
 
         <View style={globalStyles.navItem}>
-          <Appbar.Action icon="lightbulb-on-outline" onPress={() => navigation.navigate("Conseils")} />
-          <Text style={globalStyles.navText}>Conseils</Text>
+          <Appbar.Action icon="bell-ring" onPress={() => navigation.navigate("CollectionNotifications")} />
+          <Text style={globalStyles.navText}>Collecte</Text>
         </View>
       </Appbar>
     </SafeAreaView>

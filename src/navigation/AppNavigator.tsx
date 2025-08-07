@@ -8,6 +8,9 @@ import ProfilScreen from "../screens/ProfilScreen";
 import LoginScreen from "../screens/LoginScreen";
 import SignupScreen from "../screens/SignupScreen";
 import ScanScreen from "../screens/ScanScreen";
+import GuideScreen from "../screens/GuideScreen";
+import CollectionNotificationsScreen from "../screens/CollectionNotificationsScreen";
+import DataDebugComponent from "../components/DataDebugComponent";
 
 const Stack = createStackNavigator();
 
@@ -22,6 +25,9 @@ const AppNavigator = () => {
         <Stack.Screen name="Signup" component={SignupScreen} />
         <Stack.Screen name="Conseils" component={AdviceScreen} />
         <Stack.Screen name="Scan" component={ScanScreen} />
+        <Stack.Screen name="Guide" component={GuideScreen} />
+        <Stack.Screen name="CollectionNotifications" component={CollectionNotificationsScreen} />
+        <Stack.Screen name="DataDebug" component={DataDebugComponent} />
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -21,7 +21,6 @@ const MapComponent = ({ mapRef, location, filter }: {
   location: { latitude: number; longitude: number } | null; 
   filter: string | null 
 }) => {
-  //const mapRef = useRef(null);
   const [recyclingPoints, setRecyclingPoints] = useState<any[]>([]);
   const [selectedPoint, setSelectedPoint] = useState<any>(null);
   const [address, setAddress] = useState("");
@@ -44,10 +43,28 @@ const MapComponent = ({ mapRef, location, filter }: {
     try {
       const response = await fetch("https://overpass.kumi.systems/api/interpreter", {
         method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        headers: { 
+          "Content-Type": "application/x-www-form-urlencoded",
+          "User-Agent": "RecycleFinder/1.0 (zineblahmar1@gmail.com)"
+        },
         body: `data=${encodeURIComponent(overpassQuery)}`,
       });
-      const data = await response.json();
+
+      // Vérifier si la réponse est OK
+      if (!response.ok) {
+        console.error(`Erreur API: ${response.status}`);
+        return;
+      }
+
+      const text = await response.text();
+      
+      // Vérifier si le texte commence par du HTML (erreur)
+      if (text.trim().startsWith("<")) {
+        console.error("API surchargée - réessayez plus tard");
+        return;
+      }
+
+      const data = JSON.parse(text);
 
       if (data.elements) {
         setRecyclingPoints(data.elements.map((el: any) => ({
@@ -58,7 +75,32 @@ const MapComponent = ({ mapRef, location, filter }: {
         })));
       }
     } catch (error) {
-      console.error("Erreur récupération des points :", error);
+      console.error("Erreur API - réessayez plus tard");
+      // En cas d'erreur, on peut essayer avec un serveur alternatif
+      try {
+        const response = await fetch("https://overpass-api.de/api/interpreter", {
+          method: "POST",
+          headers: { 
+            "Content-Type": "application/x-www-form-urlencoded",
+            "User-Agent": "RecycleFinder/1.0 (zineblahmar1@gmail.com)"
+          },
+          body: `data=${encodeURIComponent(overpassQuery)}`,
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          if (data.elements) {
+            setRecyclingPoints(data.elements.map((el: any) => ({
+              id: el.id,
+              latitude: el.lat,
+              longitude: el.lon,
+              tags: el.tags,
+            })));
+          }
+        }
+      } catch (fallbackError) {
+        console.error("Erreur API - réessayez plus tard");
+      }
     }
   };
 
@@ -82,7 +124,6 @@ const MapComponent = ({ mapRef, location, filter }: {
 
       setAddress(formatAddress(data));
     } catch (error) {
-      console.error("Erreur lors de la récupération de l'adresse :", error);
       setAddress("Adresse non trouvée");
     }
     setLoadingAddress(false);
@@ -103,13 +144,17 @@ const MapComponent = ({ mapRef, location, filter }: {
 
   /**Récupère les points de recyclage à chaque changement de location ou filtre */
   useEffect(() => {
-    fetchRecyclingPoints();
+    // Ajouter un délai pour éviter de surcharger l'API
+    const timeoutId = setTimeout(() => {
+      fetchRecyclingPoints();
+    }, 500); // 500ms de délai
+
+    return () => clearTimeout(timeoutId);
   }, [location, filter]);
 
   /**Centre la carte sur la position actuelle */
   useEffect(() => {
     if (location && mapRef.current) {
-      console.log("Mise à jour automatique de la carte vers la position actuelle");
       mapRef.current.animateToRegion({
         latitude: location.latitude,
         longitude: location.longitude,
@@ -120,18 +165,74 @@ const MapComponent = ({ mapRef, location, filter }: {
   }, [location]);
   
 
-  /**Détermine l'icône du point de recyclage */
-  // const getRecyclingIcon = (tags: any) => {
-  //   if (tags["recycling:glass_bottles"] === "yes") return "glass-fragile";
-  //   if (tags["recycling:plastic"] === "yes") return "recycle";
-  //   if (tags["recycling:paper"] === "yes") return "file-document-outline";
-  //   if (tags["recycling:scrap_metal"] === "yes") return "silverware-fork-knife";
-  //   if (tags["recycling:organic"] === "yes") return "leaf";
-  //   if (tags["recycling:electronics"] === "yes") return "battery";
-  //   if (tags["recycling:textile"] === "yes") return "tshirt-crew";
-  //   return "recycle";
-  // };
-  
+  /**Traduit les types de recyclage en français */
+  const translateRecyclingType = (tag: string): string => {
+    const translations: { [key: string]: string } = {
+      "recycling:glass_bottles": "Bouteilles en verre",
+      "recycling:glass": "Verre",
+      "recycling:plastic": "Plastique",
+      "recycling:plastic_bottles": "Bouteilles en plastique",
+      "recycling:paper": "Papier",
+      "recycling:cardboard": "Carton",
+      "recycling:scrap_metal": "Métal",
+      "recycling:metal": "Métal",
+      "recycling:organic": "Déchets organiques",
+      "recycling:electronics": "Électronique",
+      "recycling:electrical_appliances": "Appareils électriques",
+      "recycling:textile": "Textile",
+      "recycling:clothes": "Vêtements",
+      "recycling:shoes": "Chaussures",
+      "recycling:aluminium": "Aluminium",
+      "recycling:steel": "Acier",
+      "recycling:tin_cans": "Boîtes de conserve",
+      "recycling:oil": "Huile",
+      "recycling:batteries": "Piles",
+      "recycling:light_bulbs": "Ampoules",
+      "recycling:cds": "CD/DVD",
+      "recycling:books": "Livres",
+      "recycling:magazines": "Magazines",
+      "recycling:newspapers": "Journaux",
+      "recycling:wood": "Bois",
+      "recycling:green_waste": "Déchets verts",
+      "recycling:compost": "Compost",
+      "recycling:construction_waste": "Déchets de construction",
+      "recycling:bulky_waste": "Encombrants",
+      "recycling:household_waste": "Déchets ménagers",
+      "recycling:general": "Déchets généraux",
+      "recycling:food_waste": "Déchets alimentaires",
+      "recycling:kitchen_waste": "Déchets de cuisine",
+      "recycling:biodegradable": "Déchets biodégradables",
+      "recycling:garden_waste": "Déchets de jardin",
+      "recycling:printer_cartridges": "Cartouches d'imprimante",
+      "recycling:mobile_phones": "Téléphones mobiles",
+      "recycling:computers": "Ordinateurs",
+      "recycling:white_goods": "Électroménager",
+      "recycling:small_appliances": "Petits appareils",
+      "recycling:fluorescent_tubes": "Tubes fluorescents",
+      "recycling:energy_saving_bulbs": "Ampoules économiques",
+      "recycling:car_batteries": "Batteries de voiture",
+      "recycling:engine_oil": "Huile moteur",
+      "recycling:cooking_oil": "Huile de cuisson",
+      "recycling:paint": "Peinture",
+      "recycling:chemicals": "Produits chimiques",
+      "recycling:medicines": "Médicaments",
+      "recycling:ink_cartridges": "Cartouches d'encre",
+      "recycling:toner_cartridges": "Cartouches de toner",
+      "recycling:plastic_bags": "Sacs plastique",
+      "recycling:plastic_packaging": "Emballages plastique",
+      "recycling:glass_containers": "Contenants en verre",
+      "recycling:aluminum_cans": "Canettes en aluminium",
+      "recycling:steel_cans": "Boîtes en acier",
+      "recycling:tetra_pak": "Briques Tetra Pak",
+      "recycling:wine_corks": "Bouchons de vin",
+      "recycling:coffee_capsules": "Capsules de café",
+      "recycling:tea_bags": "Sachets de thé",
+      "recycling:food_packaging": "Emballages alimentaires"
+    };
+    
+    return translations[tag] || tag.replace("recycling:", "").replace(/_/g, " ");
+  };
+
   // Interface alternative pour le web
   if (Platform.OS === 'web') {
     return (
@@ -172,7 +273,12 @@ const MapComponent = ({ mapRef, location, filter }: {
           <View style={styles.infoContainer}>
             <MaterialCommunityIcons name="recycle" size={40} color={colors.primary} />
             <View style={styles.infoTextContainer}>
-              <Text style={styles.infoText}>Type : {Object.keys(selectedPoint.tags).filter(tag => tag.startsWith("recycling:")).join(", ")}</Text>
+              <Text style={styles.infoText}>
+                Type : {Object.keys(selectedPoint.tags)
+                  .filter(tag => tag.startsWith("recycling:"))
+                  .map(tag => translateRecyclingType(tag))
+                  .join(", ")}
+              </Text>
               <Text style={styles.infoText}>Adresse : {loadingAddress ? <ActivityIndicator size="small" /> : address}</Text>
             </View>
             <TouchableOpacity onPress={() => setSelectedPoint(null)} style={styles.closeButton}>
@@ -205,22 +311,50 @@ const MapComponent = ({ mapRef, location, filter }: {
             </View>
           </Marker>
         )}
-        {recyclingPoints.map(point => (
-          <Marker
-            key={point.id}
-            testID="map-marker"
-            coordinate={{ latitude: point.latitude, longitude: point.longitude }}
-            onPress={() => handleSelectPoint(point)}
-            pinColor={selectedPoint?.id === point.id ? colors.secondary : colors.secondary}
-          />
-        ))}
+        {recyclingPoints.map(point => {
+          // Vérification de sécurité pour éviter les crashes
+          if (!point || !point.latitude || !point.longitude) {
+            return null;
+          }
+
+          // Déterminer la couleur du marqueur selon le filtre
+          let markerColor = colors.primary; // Couleur par défaut (vert)
+          
+          if (filter) {
+            const filterColors: { [key: string]: string } = {
+              "plastic": "#2196F3",    // Bleu
+              "glass": "#4CAF50",      // Vert
+              "paper": "#FF9800",      // Orange
+              "metal": "#9E9E9E",      // Gris
+              "organic": "#8BC34A",    // Vert clair
+              "electronics": "#FF5722", // Rouge
+              "textile": "#E91E63"     // Rose
+            };
+            markerColor = filterColors[filter] || colors.primary;
+          }
+
+          return (
+            <Marker
+              key={point.id}
+              testID="map-marker"
+              coordinate={{ latitude: point.latitude, longitude: point.longitude }}
+              onPress={() => handleSelectPoint(point)}
+              pinColor={markerColor}
+            />
+          );
+        })}
       </MapView>
 
       {selectedPoint && (
         <View style={styles.infoContainer}>
           <MaterialCommunityIcons name="recycle" size={40} color={colors.primary} />
           <View style={styles.infoTextContainer}>
-            <Text style={styles.infoText}>Type : {Object.keys(selectedPoint.tags).filter(tag => tag.startsWith("recycling:")).join(", ")}</Text>
+            <Text style={styles.infoText}>
+              Type : {Object.keys(selectedPoint.tags)
+                .filter(tag => tag.startsWith("recycling:"))
+                .map(tag => translateRecyclingType(tag))
+                .join(", ")}
+            </Text>
             <Text style={styles.infoText}>Adresse : {loadingAddress ? <ActivityIndicator size="small" /> : address}</Text>
           </View>
           <TouchableOpacity onPress={() => setSelectedPoint(null)} style={styles.closeButton}>

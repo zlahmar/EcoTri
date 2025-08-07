@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import { 
-  View, Text, TextInput, TouchableOpacity, StyleSheet, 
-  Alert, ActivityIndicator, Image 
+  View, Text, StyleSheet, Alert, ScrollView, TouchableOpacity, Image
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { TextInput, Button, IconButton, Card } from 'react-native-paper';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
 import { auth, db, storage } from '../../firebaseConfig';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import * as ImagePicker from 'expo-image-picker';
-// import * as FileSystem from 'expo-file-system';
-import { Button } from 'react-native-paper';
 import { colors } from '../styles/colors';
 
 const SignupScreen = ({ navigation }: { navigation: any }) => {
@@ -18,6 +18,8 @@ const SignupScreen = ({ navigation }: { navigation: any }) => {
   const [name, setName] = useState('');
   const [loading, setLoading] = useState(false);
   const [profileImage, setProfileImage] = useState<string | null>(null);
+  const [showPassword, setShowPassword] = useState(false);
+  const [confirmPassword, setConfirmPassword] = useState('');
 
   // const requestPermission = async () => {
   //   const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -95,8 +97,18 @@ const SignupScreen = ({ navigation }: { navigation: any }) => {
   };
 
   const handleSignup = async () => {
-    if (!email || !password || !name) {
+    if (!email || !password || !name || !confirmPassword) {
       Alert.alert("Erreur", "Veuillez remplir tous les champs.");
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      Alert.alert("Erreur", "Les mots de passe ne correspondent pas.");
+      return;
+    }
+
+    if (password.length < 6) {
+      Alert.alert("Erreur", "Le mot de passe doit contenir au moins 6 caractères.");
       return;
     }
 
@@ -138,123 +150,331 @@ const SignupScreen = ({ navigation }: { navigation: any }) => {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Créer un compte</Text>
+    <SafeAreaView style={styles.safeArea}>
+      <ScrollView contentContainerStyle={styles.scrollContainer}>
+        {/* Header */}
+        <View style={styles.header}>
+          <IconButton
+            icon="arrow-left"
+            size={30}
+            onPress={() => navigation.navigate("Home")}
+          />
+          <Text style={styles.headerTitle}>Créer un compte</Text>
+        </View>
 
-      <Button mode="outlined" onPress={() => navigation.navigate("Home")} style={styles.backButton}>
-          Retour à l'accueil
-        </Button>
+        {/* Welcome Section */}
+        <View style={styles.welcomeSection}>
+          <View style={styles.logoContainer}>
+            <Image 
+              source={require('../assets/logo.png')} 
+              style={styles.logoImage}
+              resizeMode="contain"
+            />
+          </View>
+          <Text style={styles.welcomeTitle}>Rejoignez EcoTri !</Text>
+          <Text style={styles.welcomeSubtitle}>Créez votre compte et commencez votre parcours écologique</Text>
+        </View>
 
-      {/* Affichage de la photo de profil */}
-      <TouchableOpacity onPress={pickImage}>
-        <Image 
-          source={profileImage ? { uri: profileImage } : require('../assets/logo.png')} 
-          style={styles.profileImage} 
-        />
-        <Text style={styles.addPhotoText}>Ajouter une photo</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={takePhoto}>
-        <Text style={styles.addPhotoText}>Prendre une photo</Text>
-      </TouchableOpacity>
+        {/* Form Card */}
+        <Card style={styles.formCard}>
+          <Card.Content style={styles.cardContent}>
+            {/* Profile Image Section */}
+            <View style={styles.imageSection}>
+              <TouchableOpacity onPress={pickImage} style={styles.imageContainer}>
+                {profileImage ? (
+                  <Image source={{ uri: profileImage }} style={styles.profileImage} />
+                ) : (
+                  <View style={styles.placeholderImage}>
+                    <MaterialCommunityIcons name="camera-plus" size={40} color={colors.primary} />
+                  </View>
+                )}
+              </TouchableOpacity>
+              <Text style={styles.imageText}>Photo de profil (optionnelle)</Text>
+              <View style={styles.imageButtons}>
+                <Button 
+                  mode="outlined" 
+                  onPress={pickImage}
+                  style={styles.imageButton}
+                  textColor={colors.primary}
+                >
+                  Galerie
+                </Button>
+                <Button 
+                  mode="outlined" 
+                  onPress={takePhoto}
+                  style={styles.imageButton}
+                  textColor={colors.primary}
+                >
+                  Caméra
+                </Button>
+              </View>
+            </View>
 
-      <TextInput
-        style={styles.input}
-        placeholder="Nom"
-        placeholderTextColor="#999"
-        value={name}
-        onChangeText={setName}
-      />
+            {/* Form Fields */}
+            <View style={styles.inputContainer}>
+              <TextInput
+                label="Nom complet"
+                value={name}
+                onChangeText={setName}
+                mode="outlined"
+                style={styles.modernInput}
+                left={<TextInput.Icon icon="account" />}
+                outlineStyle={styles.inputOutline}
+                contentStyle={styles.inputContent}
+                theme={{
+                  colors: {
+                    primary: colors.primary,
+                    outline: colors.primary + '40',
+                    onSurfaceVariant: colors.text + '80',
+                  }
+                }}
+              />
+            </View>
 
-      <TextInput
-        style={styles.input}
-        placeholder="Email"
-        placeholderTextColor="#999"
-        value={email}
-        onChangeText={setEmail}
-        keyboardType="email-address"
-      />
+            <View style={styles.inputContainer}>
+              <TextInput
+                label="Adresse email"
+                value={email}
+                onChangeText={setEmail}
+                keyboardType="email-address"
+                autoCapitalize="none"
+                mode="outlined"
+                style={styles.modernInput}
+                left={<TextInput.Icon icon="email" />}
+                outlineStyle={styles.inputOutline}
+                contentStyle={styles.inputContent}
+                theme={{
+                  colors: {
+                    primary: colors.primary,
+                    outline: colors.primary + '40',
+                    onSurfaceVariant: colors.text + '80',
+                  }
+                }}
+              />
+            </View>
 
-      <TextInput
-        style={styles.input}
-        placeholder="Mot de passe"
-        placeholderTextColor="#999"
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry
-      />
+            <View style={styles.inputContainer}>
+              <TextInput
+                label="Mot de passe"
+                value={password}
+                onChangeText={setPassword}
+                secureTextEntry={!showPassword}
+                mode="outlined"
+                style={styles.modernInput}
+                left={<TextInput.Icon icon="lock" />}
+                right={
+                  <TextInput.Icon
+                    icon={showPassword ? "eye-off" : "eye"}
+                    onPress={() => setShowPassword(!showPassword)}
+                  />
+                }
+                outlineStyle={styles.inputOutline}
+                contentStyle={styles.inputContent}
+                theme={{
+                  colors: {
+                    primary: colors.primary,
+                    outline: colors.primary + '40',
+                    onSurfaceVariant: colors.text + '80',
+                  }
+                }}
+              />
+            </View>
 
-      {loading ? (
-        <ActivityIndicator size="large" color={colors.primary} />
-      ) : (
-        <TouchableOpacity style={styles.button} onPress={handleSignup}>
-          <Text style={styles.buttonText}>S'inscrire</Text>
-        </TouchableOpacity>
-      )}
+            <View style={styles.inputContainer}>
+              <TextInput
+                label="Confirmer le mot de passe"
+                value={confirmPassword}
+                onChangeText={setConfirmPassword}
+                secureTextEntry={!showPassword}
+                mode="outlined"
+                style={styles.modernInput}
+                left={<TextInput.Icon icon="lock-check" />}
+                outlineStyle={styles.inputOutline}
+                contentStyle={styles.inputContent}
+                theme={{
+                  colors: {
+                    primary: colors.primary,
+                    outline: colors.primary + '40',
+                    onSurfaceVariant: colors.text + '80',
+                  }
+                }}
+              />
+            </View>
 
-      <Text style={styles.loginText} onPress={() => navigation.navigate("Login")}>
-        Déjà un compte ? <Text style={styles.loginLink}>Connectez-vous</Text>
-      </Text>
-    </View>
+            {/* Signup Button */}
+            <Button
+              mode="contained"
+              onPress={handleSignup}
+              disabled={loading}
+              loading={loading}
+              style={styles.modernButton}
+              buttonColor={colors.primary}
+              textColor={colors.white}
+              labelStyle={styles.buttonLabel}
+              contentStyle={styles.buttonContent}
+            >
+              {loading ? 'Création en cours...' : 'Créer mon compte'}
+            </Button>
+
+            {/* Login Link */}
+            <TouchableOpacity 
+              onPress={() => navigation.navigate("Login")}
+              style={styles.loginLink}
+            >
+              <Text style={styles.loginText}>
+                Déjà un compte ? <Text style={styles.loginTextBold}>Se connecter</Text>
+              </Text>
+            </TouchableOpacity>
+          </Card.Content>
+        </Card>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
+  safeArea: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 20,
     backgroundColor: colors.background,
   },
-  title: {
-    fontSize: 24,
-    fontWeight: "bold",
+  scrollContainer: {
+    flexGrow: 1,
+    padding: 16,
+  },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
     marginBottom: 20,
+  },
+  headerTitle: {
+    fontSize: 24,
+    fontWeight: 'bold',
     color: colors.primaryDark,
+    marginLeft: 10,
+  },
+  welcomeSection: {
+    alignItems: 'center',
+    marginBottom: 30,
+  },
+  logoContainer: {
+    marginBottom: 20,
+  },
+  logoImage: {
+    width: 120,
+    height: 120,
+  },
+  welcomeTitle: {
+    fontSize: 28,
+    fontWeight: 'bold',
+    color: colors.primaryDark,
+    marginBottom: 8,
+    textAlign: 'center',
+  },
+  welcomeSubtitle: {
+    fontSize: 16,
+    color: colors.text,
+    textAlign: 'center',
+    opacity: 0.8,
+    paddingHorizontal: 20,
+  },
+  formCard: {
+    backgroundColor: colors.white,
+    borderRadius: 16,
+    elevation: 4,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    marginBottom: 30,
+  },
+  cardContent: {
+    padding: 20,
+  },
+  imageSection: {
+    alignItems: 'center',
+    marginBottom: 24,
+  },
+  imageContainer: {
+    marginBottom: 12,
   },
   profileImage: {
     width: 100,
     height: 100,
     borderRadius: 50,
-    marginBottom: 10,
   },
-  addPhotoText: {
-    color: colors.primaryDark,
-    textDecorationLine: "underline",
-    marginBottom: 15,
+  placeholderImage: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    backgroundColor: colors.secondary,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 2,
+    borderColor: colors.primary,
+    borderStyle: 'dashed',
   },
-  input: {
-    width: "100%",
-    padding: 10,
-    borderWidth: 1,
-    borderColor: "#ddd",
-    borderRadius: 8,
-    marginBottom: 10,
-    backgroundColor: "#fff",
+  imageText: {
+    fontSize: 14,
+    color: colors.text,
+    marginBottom: 12,
   },
-  button: {
-    backgroundColor: colors.primary,
-    padding: 15,
-    borderRadius: 8,
-    width: "100%",
-    alignItems: "center",
-    marginTop: 10,
+  imageButtons: {
+    flexDirection: 'row',
+    gap: 12,
   },
-  buttonText: {
-    color: "white",
-    fontWeight: "bold",
+  imageButton: {
+    borderColor: colors.primary,
   },
-  loginText: {
-    marginTop: 15,
-    color: "#666",
+  inputContainer: {
+    marginBottom: 20,
+  },
+  modernInput: {
+    backgroundColor: colors.white,
+    fontSize: 16,
+    elevation: 2,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 4,
+  },
+  inputOutline: {
+    borderRadius: 16,
+    borderWidth: 2,
+  },
+  inputContent: {
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+  },
+  modernButton: {
+    marginTop: 24,
+    marginBottom: 16,
+    borderRadius: 16,
+    elevation: 4,
+    shadowColor: colors.primary,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+  },
+  buttonContent: {
+    paddingVertical: 8,
+    paddingHorizontal: 24,
+  },
+  buttonLabel: {
+    fontSize: 16,
+    fontWeight: '600',
+    letterSpacing: 0.5,
   },
   loginLink: {
-    color: colors.primaryDark,
-    textDecorationLine: "underline",
+    alignItems: 'center',
+    paddingVertical: 8,
   },
-  backButton: {
-    alignSelf: 'flex-start',
-    marginBottom: 10,
+  loginText: {
+    fontSize: 14,
+    color: colors.text,
+  },
+  loginTextBold: {
+    fontWeight: 'bold',
+    color: colors.primary,
   },
 });
 

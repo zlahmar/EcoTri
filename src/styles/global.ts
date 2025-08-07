@@ -73,9 +73,9 @@ export const createGlobalStyles = (insets: any) => StyleSheet.create({
     flex: 1,
   },
   searchLogo: {
-    width: 70,
-    height: 70,
-    marginRight: 0,
+    width: 30,
+    height: 30,
+    marginRight: 10,
   },
   bottomNav: {
     position: "absolute",

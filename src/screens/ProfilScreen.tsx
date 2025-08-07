@@ -1,38 +1,123 @@
 import React, { useState, useEffect } from 'react';
 import {
-  View, Text, Image, StyleSheet, ActivityIndicator,
+  View, Text, StyleSheet, ActivityIndicator,
   ScrollView, TextInput, Modal, Alert
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { auth, db, storage } from '../../firebaseConfig';
+import { auth, db } from '../../firebaseConfig';
 import { getDoc, doc, updateDoc, setDoc, deleteDoc } from "firebase/firestore";
-import { getDownloadURL, ref, uploadBytes, deleteObject } from "firebase/storage";
-import * as ImagePicker from 'expo-image-picker';
-import { Button, List, IconButton, Menu } from 'react-native-paper';
+import { Button, List, IconButton } from 'react-native-paper';
 import { colors } from '../styles/colors';
+import Avatar from 'react-native-avatar-generator';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as Location from 'expo-location';
 
 const ProfilScreen = ({ navigation }: { navigation: any }) => {
   const [, setUserData] = useState<any>(null);
-  const [profileImage, setProfileImage] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [name, setName] = useState('');
+  const [city, setCity] = useState('');
   const [editMode, setEditMode] = useState(false);
-  const [menuVisible, setMenuVisible] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const [saveSuccess, setSaveSuccess] = useState(false);
   const [stats, setStats] = useState({
     scansCompleted: 0,
     points: 0,
     challengesCompleted: 0,
-    level: 1
+    level: 1,
+    categoriesScanned: [],
+    weeklyScans: 0,
+    monthlyScans: 0,
+    currentStreak: 0,
+    bestStreak: 0,
+    lastScanDate: null,
+    categoryStats: {
+      Plastique: 0,
+      Métal: 0,
+      Papier: 0,
+      Verre: 0,
+      Carton: 0,
+      Autre: 0
+    }
   });
   const user = auth.currentUser;
 
-  useEffect(() => {
-    if (!user) {
-      navigation.replace("Login");
-      return;
+  // Calculer les habitudes et tendances
+  const calculateHabits = () => {
+    const totalScans = stats.scansCompleted;
+    const categories = Object.keys(stats.categoryStats || {});
+    
+    // Sécuriser la fonction reduce
+    let mostScannedCategory = 'Aucune';
+    if (categories.length > 0) {
+      mostScannedCategory = categories.reduce((a, b) => 
+        (stats.categoryStats[a] || 0) > (stats.categoryStats[b] || 0) ? a : b
+      );
+      // Si toutes les catégories ont 0 scans
+      if ((stats.categoryStats[mostScannedCategory] || 0) === 0) {
+        mostScannedCategory = 'Aucune';
+      }
     }
+    
+    const recyclingFrequency = stats.weeklyScans > 7 ? 'Quotidien' : 
+                              stats.weeklyScans > 3 ? 'Régulier' : 
+                              stats.weeklyScans > 0 ? 'Occasionnel' : 'Inactif';
+    
+    const progress = Math.min((stats.points / (stats.level * 100)) * 100, 100);
+    
+    return {
+      mostScannedCategory,
+      recyclingFrequency,
+      progress,
+      totalScans
+    };
+  };
 
-    const fetchUserData = async () => {
+  const habits = calculateHabits();
+
+  const handleRefresh = () => {
+    setLoading(true);
+    fetchUserData();
+    getCurrentCity();
+  };
+
+  const getCurrentCity = async () => {
+    try {
+      // Demander les permissions de localisation
+      const { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== 'granted') {
+        console.log('Permission de localisation refusée');
+        setCity('Localisation non autorisée');
+        return;
+      }
+
+      // Obtenir la position actuelle
+      const location = await Location.getCurrentPositionAsync({});
+      const { latitude, longitude } = location.coords;
+
+      // Géocodage inverse pour obtenir l'adresse
+      const address = await Location.reverseGeocodeAsync({
+        latitude,
+        longitude,
+      });
+
+      if (address.length > 0) {
+        const { city, region } = address[0];
+        const cityName = city || region || 'Ville inconnue';
+        setCity(cityName);
+        console.log('🌍 Ville détectée:', cityName);
+      } else {
+        setCity('Ville non trouvée');
+      }
+    } catch (error) {
+      console.log('Erreur lors de la récupération de la ville:', error);
+      setCity('Erreur de localisation');
+    }
+  };
+
+  const fetchUserData = async () => {
+    try {
+      // Essayer de charger depuis Firestore d'abord
       try {
         const docSnap = await getDoc(doc(db, "users", user.uid));
         if (docSnap.exists()) {
@@ -42,23 +127,47 @@ const ProfilScreen = ({ navigation }: { navigation: any }) => {
           // Charger les stats si elles existent
           if (data.stats) {
             setStats(data.stats);
+            return; // Arrêter ici si Firestore fonctionne
           }
         }
-
-        const imageUrl = await getDownloadURL(ref(storage, `profileImages/${user.uid}.jpg`));
-        setProfileImage(imageUrl);
-      } catch {
-        console.log("Aucune image trouvée.");
-      } finally {
-        setLoading(false);
+      } catch (firestoreError) {
+        console.log("Firestore non disponible, utilisation des stats locales");
       }
-    };
+
+      // Si Firestore ne fonctionne pas, charger depuis AsyncStorage
+      const statsKey = `user_stats_${user.uid}`;
+      const localStatsJson = await AsyncStorage.getItem(statsKey);
+      if (localStatsJson) {
+        const localStats = JSON.parse(localStatsJson);
+        setStats(localStats);
+        console.log("📊 Stats chargées depuis le stockage local:", localStats);
+      } else {
+        console.log("📊 Aucunes stats trouvées, utilisation des valeurs par défaut");
+      }
+
+    } catch (error) {
+      console.log("Erreur lors du chargement des données utilisateur:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (!user) {
+      navigation.replace("Login");
+      return;
+    }
 
     fetchUserData();
+    getCurrentCity();
   }, []);
 
   const updateProfile = async () => {
     if (!user) return;
+    
+    setIsSaving(true);
+    setSaveSuccess(false);
+    
     const userRef = doc(db, "users", user.uid);
 
     try {
@@ -68,51 +177,21 @@ const ProfilScreen = ({ navigation }: { navigation: any }) => {
       } else {
         await updateDoc(userRef, { name });
       }
-      alert("Profil mis à jour !");
+      
+      // Feedback visuel fluide
+      setSaveSuccess(true);
       setEditMode(false);
-    } catch {
-      console.log("Erreur mise à jour");
-    }
-  };
-
-  const uploadProfileImage = async (uri: string) => {
-    if (!user) return;
-
-    try {
-      setLoading(true);
-      const blob = await (await fetch(uri)).blob();
-      const imageRef = ref(storage, `profileImages/${user.uid}.jpg`);
-      await uploadBytes(imageRef, blob);
-      const url = await getDownloadURL(imageRef);
-      setProfileImage(url);
-      setMenuVisible(false);
-    } catch {
-      console.log("Erreur image");
-      Alert.alert("Erreur", "Impossible de télécharger l'image");
+      
+      // Masquer l'indicateur de succès après 2 secondes
+      setTimeout(() => {
+        setSaveSuccess(false);
+      }, 2000);
+      
+    } catch (error) {
+      console.log("Erreur mise à jour:", error);
+      Alert.alert("Erreur", "Impossible de mettre à jour le profil");
     } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleImagePick = async (fromCamera = false) => {
-    try {
-      const result = fromCamera
-        ? await ImagePicker.launchCameraAsync({ 
-            allowsEditing: true, 
-            aspect: [1, 1], 
-            quality: 0.8 
-          })
-        : await ImagePicker.launchImageLibraryAsync({ 
-            allowsEditing: true, 
-            aspect: [1, 1], 
-            quality: 0.8 
-          });
-
-      if (!result.canceled) {
-        uploadProfileImage(result.assets[0].uri);
-      }
-    } catch {
-      Alert.alert("Erreur", "Impossible d'accéder à la caméra/galerie");
+      setIsSaving(false);
     }
   };
 
@@ -131,10 +210,10 @@ const ProfilScreen = ({ navigation }: { navigation: any }) => {
             try {
               await user.delete();
               await deleteDoc(doc(db, "users", user.uid));
-              await deleteObject(ref(storage, `profileImages/${user.uid}.jpg`));
               alert("Compte supprimé");
               navigation.replace("Home");
-            } catch {
+            } catch (error) {
+              console.log("Erreur lors de la suppression:", error);
               alert("Erreur lors de la suppression");
             }
           }
@@ -160,14 +239,20 @@ const ProfilScreen = ({ navigation }: { navigation: any }) => {
     );
   };
 
+  // Générer un nom pour l'avatar (utilise le nom ou l'email)
+  const avatarName = name || user?.email?.split('@')[0] || 'Utilisateur';
+
   return (
     <SafeAreaView style={styles.safeArea}>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         {/* Header */}
         <View style={styles.header}>
-          <Button icon="arrow-left" onPress={() => navigation.navigate("Home")}>
-            Accueil
-          </Button>
+          <IconButton
+            icon="arrow-left"
+            size={30}
+            onPress={() => navigation.navigate("Home")}
+          />
+          <Text style={styles.title}>Profil</Text>
         </View>
 
         {/* Profile Card */}
@@ -177,45 +262,30 @@ const ProfilScreen = ({ navigation }: { navigation: any }) => {
               {loading ? (
                 <ActivityIndicator size="large" color={colors.primary} />
               ) : (
-                <Image 
-                  source={{ uri: profileImage || 'https://via.placeholder.com/100' }} 
-                  style={styles.profileImage} 
+                <Avatar
+                  size={80}
+                  name={avatarName}
+                  colors={[colors.primary, colors.primaryDark, colors.secondary]}
+                  style={styles.profileImage}
                 />
               )}
-              <Menu
-                visible={menuVisible}
-                onDismiss={() => setMenuVisible(false)}
-                anchor={
-                  <IconButton
-                    icon="dots-vertical"
-                    size={20}
-                    onPress={() => setMenuVisible(true)}
-                    style={styles.menuButton}
-                  />
-                }
-              >
-                <Menu.Item 
-                  onPress={() => {
-                    setMenuVisible(false);
-                    handleImagePick(false);
-                  }} 
-                  title="Choisir une image" 
-                  leadingIcon="image"
-                />
-                <Menu.Item 
-                  onPress={() => {
-                    setMenuVisible(false);
-                    handleImagePick(true);
-                  }} 
-                  title="Prendre une photo" 
-                  leadingIcon="camera"
-                />
-              </Menu>
             </View>
             
             <View style={styles.profileInfo}>
-              <Text style={styles.nameText}>{name || "Utilisateur"}</Text>
+              <View style={styles.nameContainer}>
+                <Text style={styles.nameText}>{name || "Utilisateur"}</Text>
+                {saveSuccess && (
+                  <View style={styles.successIndicator}>
+                    <Text style={styles.successText}>✓</Text>
+                  </View>
+                )}
+              </View>
               <Text style={styles.emailText}>{user?.email}</Text>
+              {city && (
+                <View style={styles.cityContainer}>
+                  <Text style={styles.cityText}>📍 {city}</Text>
+                </View>
+              )}
               <IconButton 
                 icon="pencil" 
                 size={20} 
@@ -227,23 +297,77 @@ const ProfilScreen = ({ navigation }: { navigation: any }) => {
 
           {/* Stats Section */}
           <View style={styles.statsContainer}>
-            <Text style={styles.statsTitle}>Vos statistiques</Text>
+            <View style={styles.statsHeader}>
+              <Text style={styles.statsTitle}>Suivi des habitudes</Text>
+            </View>
+            
+            {/* Statistiques principales */}
             <View style={styles.statsGrid}>
               <View style={styles.statItem}>
                 <Text style={styles.statNumber}>{stats.scansCompleted}</Text>
-                <Text style={styles.statLabel}>Scans</Text>
+                <Text style={styles.statLabel}>Total Scans</Text>
               </View>
               <View style={styles.statItem}>
-                <Text style={styles.statNumber}>{stats.points}</Text>
-                <Text style={styles.statLabel}>Points</Text>
+                <Text style={styles.statNumber}>{stats.currentStreak}</Text>
+                <Text style={styles.statLabel}>Série actuelle</Text>
               </View>
               <View style={styles.statItem}>
-                <Text style={styles.statNumber}>{stats.challengesCompleted}</Text>
-                <Text style={styles.statLabel}>Défis</Text>
+                <Text style={styles.statNumber}>{stats.weeklyScans}</Text>
+                <Text style={styles.statLabel}>Cette semaine</Text>
               </View>
               <View style={styles.statItem}>
-                <Text style={styles.statNumber}>{stats.level}</Text>
-                <Text style={styles.statLabel}>Niveau</Text>
+                <Text style={styles.statNumber}>Niv. {stats.level}</Text>
+                <Text style={styles.statLabel}>{stats.points} pts</Text>
+              </View>
+            </View>
+
+            {/* Barre de progression */}
+            <View style={styles.progressContainer}>
+              <Text style={styles.progressLabel}>Progression vers niveau {stats.level + 1}</Text>
+              <View style={styles.progressBar}>
+                <View style={[styles.progressFill, { width: `${habits.progress}%` }]} />
+              </View>
+              <Text style={styles.progressText}>{Math.round(habits.progress)}%</Text>
+            </View>
+
+            {/* Habitudes de recyclage */}
+            <View style={styles.habitsContainer}>
+              <Text style={styles.habitsTitle}>🌱 Vos habitudes</Text>
+              <View style={styles.habitItem}>
+                <Text style={styles.habitLabel}>Fréquence:</Text>
+                <Text style={[styles.habitValue, { 
+                  color: habits.recyclingFrequency === 'Quotidien' ? colors.success :
+                         habits.recyclingFrequency === 'Régulier' ? colors.primary :
+                         habits.recyclingFrequency === 'Occasionnel' ? colors.warning : colors.error
+                }]}>{habits.recyclingFrequency}</Text>
+              </View>
+              <View style={styles.habitItem}>
+                <Text style={styles.habitLabel}>Catégorie préférée:</Text>
+                <Text style={styles.habitValue}>{habits.mostScannedCategory}</Text>
+              </View>
+              <View style={styles.habitItem}>
+                <Text style={styles.habitLabel}>Meilleure série:</Text>
+                <Text style={styles.habitValue}>{stats.bestStreak} jours</Text>
+              </View>
+            </View>
+
+            {/* Répartition par catégories */}
+            <View style={styles.categoriesContainer}>
+              <Text style={styles.categoriesTitle}>📊 Répartition par catégories</Text>
+              <View style={styles.categoriesGrid}>
+                {Object.entries(stats.categoryStats || {}).map(([category, count]) => (
+                  <View key={category} style={styles.categoryItem}>
+                    <Text style={styles.categoryEmoji}>
+                      {category === 'Plastique' ? '🥤' :
+                       category === 'Métal' ? '🥫' :
+                       category === 'Papier' ? '📄' :
+                       category === 'Verre' ? '🍾' :
+                       category === 'Carton' ? '📦' : '♻️'}
+                    </Text>
+                    <Text style={styles.categoryName}>{category}</Text>
+                    <Text style={styles.categoryCount}>{count || 0}</Text>
+                  </View>
+                ))}
               </View>
             </View>
           </View>
@@ -251,37 +375,29 @@ const ProfilScreen = ({ navigation }: { navigation: any }) => {
 
         {/* Actions Section */}
         <List.Section style={styles.actionsSection}>
-          <List.Subheader style={styles.sectionTitle}>Fonctionnalités</List.Subheader>
+          <List.Subheader style={styles.sectionTitle}>Actions</List.Subheader>
           
           <List.Item 
-            title="Notifications" 
-            left={() => <List.Icon icon="bell" color={colors.primaryDark} />} 
-            onPress={() => Alert.alert("Notifications", "Fonctionnalité à venir")}
+            title="Guide d'utilisation" 
+            description="Apprenez à utiliser l'application"
+            left={() => <List.Icon icon="help-circle" color={colors.primary} />} 
+            right={() => <List.Icon icon="chevron-right" color={colors.text} />}
+            onPress={() => navigation.navigate("Guide")}
             style={styles.listItem}
           />
+          
           <List.Item 
-            title="Gamification" 
-            left={() => <List.Icon icon="trophy" color={colors.primaryDark} />} 
-            onPress={() => Alert.alert("Gamification", "Fonctionnalité à venir")}
-            style={styles.listItem}
-          />
-          <List.Item 
-            title="Suivi des défis" 
-            left={() => <List.Icon icon="target" color={colors.primaryDark} />} 
-            onPress={() => Alert.alert("Défis", "Fonctionnalité à venir")}
-            style={styles.listItem}
-          />
-          <List.Item 
-            title="Paramètres" 
-            left={() => <List.Icon icon="cog" color={colors.primaryDark} />} 
-            onPress={() => Alert.alert("Paramètres", "Fonctionnalité à venir")}
+            title="Actualiser les données" 
+            description="Recharger vos statistiques"
+            left={() => <List.Icon icon="refresh" color={colors.success} />} 
+            onPress={handleRefresh}
             style={styles.listItem}
           />
         </List.Section>
 
-        {/* Danger Section */}
+        {/* Account Section */}
         <List.Section style={styles.dangerSection}>
-          <List.Subheader style={styles.dangerTitle}>Actions dangereuses</List.Subheader>
+          <List.Subheader style={styles.dangerTitle}>Compte</List.Subheader>
           
           <List.Item 
             title="Déconnexion" 
@@ -310,13 +426,29 @@ const ProfilScreen = ({ navigation }: { navigation: any }) => {
                 onChangeText={setName}
                 placeholder="Votre nom"
                 autoFocus
+                onSubmitEditing={updateProfile}
+                returnKeyType="done"
+                blurOnSubmit={true}
               />
               <View style={styles.modalButtons}>
-                <Button mode="outlined" onPress={() => setEditMode(false)} style={styles.modalButton}>
+                <Button 
+                  mode="outlined" 
+                  onPress={() => setEditMode(false)} 
+                  style={styles.modalButton}
+                  disabled={isSaving}
+                >
                   Annuler
                 </Button>
-                <Button mode="contained" onPress={updateProfile} style={styles.modalButton}>
-                  Enregistrer
+                <Button 
+                  mode="contained" 
+                  onPress={updateProfile} 
+                  style={styles.modalButton}
+                  loading={isSaving}
+                  disabled={isSaving}
+                  buttonColor={saveSuccess ? colors.success : colors.primary}
+                  textColor={colors.white}
+                >
+                  {saveSuccess ? '✓ Sauvegardé' : isSaving ? 'Sauvegarde...' : 'Enregistrer'}
                 </Button>
               </View>
             </View>
@@ -336,7 +468,15 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   header: {
-    marginBottom: 20,
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 30,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: colors.primaryDark,
+    marginLeft: 10,
   },
   profileCard: {
     backgroundColor: colors.white,
@@ -355,37 +495,52 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   imageContainer: {
-    position: 'relative',
     marginRight: 16,
   },
   profileImage: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
     borderWidth: 3,
     borderColor: colors.primary,
-  },
-  menuButton: {
-    position: 'absolute',
-    top: -5,
-    right: -5,
-    backgroundColor: colors.white,
-    borderRadius: 12,
   },
   profileInfo: {
     flex: 1,
     position: 'relative',
   },
+  nameContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 4,
+  },
   nameText: {
     fontSize: 24,
     fontWeight: 'bold',
     color: colors.primaryDark,
-    marginBottom: 4,
+  },
+  successIndicator: {
+    marginLeft: 8,
+    backgroundColor: colors.success,
+    borderRadius: 12,
+    width: 24,
+    height: 24,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  successText: {
+    color: colors.white,
+    fontSize: 14,
+    fontWeight: 'bold',
   },
   emailText: {
     fontSize: 14,
     color: colors.text,
     opacity: 0.7,
+  },
+  cityContainer: {
+    marginTop: 4,
+  },
+  cityText: {
+    fontSize: 14,
+    color: colors.primary,
+    fontWeight: '500',
   },
   editButton: {
     position: 'absolute',
@@ -397,11 +552,108 @@ const styles = StyleSheet.create({
     borderTopColor: colors.secondary,
     paddingTop: 16,
   },
-  statsTitle: {
+  statsHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 12,
+  },
+  progressContainer: {
+    marginTop: 16,
+    marginBottom: 16,
+  },
+  progressLabel: {
+    fontSize: 14,
+    color: colors.text,
+    marginBottom: 8,
+    textAlign: 'center',
+  },
+  progressBar: {
+    height: 8,
+    backgroundColor: colors.mediumGray,
+    borderRadius: 4,
+    overflow: 'hidden',
+  },
+  progressFill: {
+    height: '100%',
+    backgroundColor: colors.primary,
+    borderRadius: 4,
+  },
+  progressText: {
+    fontSize: 12,
+    color: colors.text,
+    textAlign: 'center',
+    marginTop: 4,
+  },
+  habitsContainer: {
+    backgroundColor: colors.lightGray,
+    borderRadius: 8,
+    padding: 16,
+    marginBottom: 16,
+  },
+  habitsTitle: {
     fontSize: 16,
     fontWeight: 'bold',
     color: colors.primaryDark,
     marginBottom: 12,
+  },
+  habitItem: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 8,
+  },
+  habitLabel: {
+    fontSize: 14,
+    color: colors.text,
+  },
+  habitValue: {
+    fontSize: 14,
+    fontWeight: '600',
+  },
+  categoriesContainer: {
+    marginTop: 16,
+  },
+  categoriesTitle: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: colors.primaryDark,
+    marginBottom: 12,
+  },
+  categoriesGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+  },
+  categoryItem: {
+    width: '48%',
+    backgroundColor: colors.white,
+    borderRadius: 8,
+    padding: 12,
+    marginBottom: 8,
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: colors.mediumGray,
+  },
+  categoryEmoji: {
+    fontSize: 24,
+    marginBottom: 4,
+  },
+  categoryName: {
+    fontSize: 12,
+    color: colors.text,
+    textAlign: 'center',
+    marginBottom: 4,
+  },
+  categoryCount: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: colors.primary,
+  },
+  statsTitle: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: colors.primaryDark,
   },
   statsGrid: {
     flexDirection: 'row',
