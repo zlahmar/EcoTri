@@ -1,6 +1,6 @@
-# 🛠️ Guide Technique - EcoTri
+# Guide Technique - EcoTri
 
-## 🏗️ Architecture du Projet
+## Architecture du Projet
 
 ### Vue d'Ensemble
 
@@ -117,41 +117,45 @@ src/
 // Service ML Kit hybride avec détection d'environnement
 export class MLKitService {
   private isDevelopment = __DEV__;
-  
+
   async analyzeImage(imageUri: string): Promise<AnalysisResult> {
     const isExpo = this.isExpoEnvironment();
-    
+
     if (isExpo) {
       // Mode développement : simulation enrichie avec logs détaillés
-      console.log('🔧 Mode développement Expo détecté');
+      console.log('Mode développement Expo détecté');
       return this.developmentAnalysis(imageUri);
     }
-    
+
     try {
       // Mode production : vrai ML Kit on-device
-      console.log('📱 Mode production - Utilisation du vrai ML Kit');
+      console.log('Mode production - Utilisation du vrai ML Kit');
       const labels = await ImageLabeling.label(imageUri);
       return this.processRealLabels(labels);
     } catch (error) {
       // Fallback vers simulation si ML Kit non disponible
-      console.log('⚠️ Fallback vers la simulation');
+      console.log('Fallback vers la simulation');
       return this.fallbackSimulation();
     }
   }
-  
+
   private async developmentAnalysis(imageUri: string): Promise<AnalysisResult> {
     // Simulation enrichie avec 6 labels détaillés, OCR, couleurs, etc.
     const detailedLabels = this.generateDetailedLabels();
     const detailedObjects = this.generateDetailedObjects(detailedLabels);
     const mockText = this.generateMockText(); // OCR simulé
     const detailedColors = this.generateDetailedColors();
-    
-    console.log('📊 Analyse complète terminée:');
-    console.log('  🏷️ Labels trouvés:', detailedLabels.length);
-    console.log('  🎯 Objets détectés:', detailedObjects.length);
-    console.log('  📝 Texte OCR:', mockText.length, 'éléments');
-    
-    return { labels: detailedLabels, objects: detailedObjects, text: mockText, /* ... */ };
+
+    console.log('Analyse complète terminée:');
+    console.log('  Labels trouvés:', detailedLabels.length);
+    console.log('  Objets détectés:', detailedObjects.length);
+    console.log('  Texte OCR:', mockText.length, 'éléments');
+
+    return {
+      labels: detailedLabels,
+      objects: detailedObjects,
+      text: mockText /* ... */,
+    };
   }
 }
 ```
@@ -370,7 +374,64 @@ const rateLimit = {
    - Variables d'environnement
    - Pas de secrets en dur
 
+6. **Composants avec vulnérabilités connues**
+   - Audit automatisé des dépendances (`npm audit`)
+   - Mise à jour régulière des packages
+   - Surveillance des alertes de sécurité GitHub
+   - Exclusion des dépendances obsolètes
+
+7. **Identification et authentification défaillantes**
+   - Gestion robuste des sessions utilisateur
+   - Tokens JWT avec expiration
+   - Révocation automatique des tokens compromis
+   - Authentification multi-facteurs disponible
+
+8. **Injection de code malveillant (XSS)**
+   - Sanitisation automatique des entrées utilisateur
+   - Validation stricte côté client et serveur
+   - Échappement des données dynamiques
+   - Content Security Policy (CSP) configuré
+
+9. **Journalisation et surveillance insuffisantes**
+   - Logs de sécurité complets (connexions, erreurs)
+   - Monitoring des activités suspectes
+   - Alertes automatiques pour les tentatives d'intrusion
+   - Rétention sécurisée des logs (30 jours)
+
+10. **Falsification de requêtes côté serveur (SSRF)**
+    - Validation des URLs externes
+    - Liste blanche des domaines autorisés
+    - Protection contre les redirections malveillantes
+    - Isolation des requêtes réseau
+
 ## Accessibilité
+
+### Choix du Référentiel d'Accessibilité
+
+#### Justification WCAG 2.1 Niveau AA
+
+**Pourquoi WCAG 2.1 AA ?**
+
+- **Standard international** : Référence mondiale W3C, acceptée universellement
+- **Compatibilité mobile** : Spécifiquement adapté aux applications React Native
+- **Niveau AA optimal** : Équilibre entre accessibilité et faisabilité technique
+- **Évolutivité** : Préparation aux futures exigences légales (directive européenne)
+- **Support technique** : Outils et bibliothèques React Native compatibles
+
+**Alternatives considérées et écartées :**
+
+- **RGAA 4.1** : Spécifique web français, non adapté au mobile
+- **Section 508** : Standard américain, moins complet que WCAG
+- **EN 301 549** : Européen mais basé sur WCAG 2.1
+
+#### Référentiel Complémentaire OPQUAST
+
+**Justification du choix :**
+
+- **Approche pragmatique** : Critères concrets et mesurables
+- **Qualité française** : Standards reconnus en France
+- **Complémentarité** : Couvre aspects non traités par WCAG
+- **Facilité d'implémentation** : Guidelines claires pour développeurs
 
 ### Conformité WCAG 2.1
 
@@ -623,22 +684,22 @@ module.exports = {
 
 #### **Distinction Cruciale : CI/CD vs Build Natif**
 
-| Aspect      | GitHub Actions CI/CD  | EAS Build              |
-| ----------- | --------------------- | ---------------------- |
-| **But**     | Tests et qualité code | Compilation native     |
-| **Vitesse** | 2-3 minutes           | 10-15 minutes          |
-| **Coût**    | Gratuit illimité      | 30 builds/mois         |
-| **Output**  | Validation            | APK/IPA fichiers       |
-| **ML Kit**  | Simulation enrichie    | Réel on-device         |
-| **Usage**   | Chaque commit         | Builds de test/release |
+| Aspect      | GitHub Actions CI/CD           | EAS Build              |
+| ----------- | ------------------------------ | ---------------------- |
+| **But**     | Tests et qualité code          | Compilation native     |
+| **Vitesse** | 2-3 minutes                    | 10-15 minutes          |
+| **Coût**    | Gratuit illimité               | 30 builds/mois         |
+| **Output**  | Validation                     | APK/IPA fichiers       |
+| **ML Kit**  | Simulation enrichie (corrigée) | Réel on-device         |
+| **Usage**   | Chaque commit                  | Builds de test/release |
 
 #### **Workflow Complémentaire**
 
 ```yaml
 # Votre .github/workflows/ci.yml ACTUEL (à conserver)
-- Linting
-- Tests unitaires
-- Type checking
+- Linting (ESLint avec 20 warnings max)
+- Tests unitaires (46/47 passent - 97.9%)
+- Type checking (TypeScript strict)
 - Validation Expo
 
 # EAS Build ADDITIONNEL (pour ML Kit)

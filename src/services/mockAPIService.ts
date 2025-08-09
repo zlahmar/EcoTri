@@ -24,7 +24,7 @@ export interface APIError {
 }
 
 // Utiliser les vraies données du fichier JSON (combinaison des deux sources)
-const LOCAL_DATA: APICollectionData[] = collectionData.results || collectionData;
+const LOCAL_DATA: APICollectionData[] = (collectionData as any).results || collectionData;
 const NATIONAL_DATA: any[] = nationalData;
 
 // Convertir les données nationales au format APICollectionData

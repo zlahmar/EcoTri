@@ -75,6 +75,7 @@ const WASTE_CLASSIFICATION = {
 };
 
 // Mots-clés pour la classification
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const WASTE_KEYWORDS = {
   'bottle': ['bottle', 'water bottle', 'plastic bottle', 'drink bottle', 'soda bottle'],
   'can': ['can', 'aluminum can', 'tin can', 'soda can', 'beer can'],
@@ -239,7 +240,7 @@ class MLKitService {
   /**
    * Classifie le déchet basé sur les labels et objets détectés
    */
-  private classifyWaste(labels: VisionLabel[], objects: VisionObject[]): WasteCategory {
+  private classifyWaste(labels: VisionLabel[], _objects: VisionObject[]): WasteCategory {
     console.log(' Classification avec labels:', labels.map(l => l.description));
     
     // Classification directe basée sur les premiers labels
@@ -490,7 +491,7 @@ class MLKitService {
   /**
    * Classification détaillée pour le mode développement
    */
-  private classifyWasteDetailed(labels: VisionLabel[], objects: VisionObject[]): WasteCategory {
+  private classifyWasteDetailed(labels: VisionLabel[], _objects: VisionObject[]): WasteCategory {
     console.log(' Classification détaillée avec', labels.length, 'labels');
     
     // Analyse plus sophistiquée des labels

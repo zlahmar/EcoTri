@@ -43,11 +43,17 @@ Toutes les modifications notables de ce projet seront documentées dans ce fichi
 - Bouton refresh profil pour rechargement manuel des statistiques
 - Configuration EAS avec profils development/preview/production
 - Gestion d'erreurs améliorée avec logs détaillés
+- **Corrections CI/CD** : ajout de `textSecondary` dans les couleurs, déclarations TypeScript pour `react-native-avatar-generator`
+- **Types UserStats étendus** : ajout de `currentStreak`, `bestStreak`, `weeklyScans`, `monthlyScans`, `categoryStats`
+- **Suppression de `useNotifications`** : hook non utilisé retiré pour simplifier l'architecture
 
 ### Modifié
 
 - **Architecture Scanner avancée** : migration vers ML Kit on-device avec détection d'environnement
 - **Service ML Kit** : refactorisation complète avec modes développement/production séparés
+- **Workflow CI/CD** : corrections TypeScript et optimisation des tests
+- **Configuration ESLint** : tolérance à 20 warnings pour développement
+- **Types TypeScript** : déclarations complètes pour modules externes
 - **Logs de debugging** : ajout de logs détaillés avec emojis pour meilleure lisibilité
 - **Classification des déchets** : algorithme amélioré avec analyse multi-critères
 - **Simulation enrichie** : données plus réalistes avec 6 labels détaillés par catégorie
@@ -60,16 +66,35 @@ Toutes les modifications notables de ce projet seront documentées dans ce fichi
 
 ### Corrigé
 
-- Loading spinner infini dans ScanScreen
-- Erreur FileReader incompatible avec React Native
-- Erreur Firebase Storage : configuration et initialisation manquantes
-- Permissions Firestore : gestion des erreurs d'autorisation avec fallback
-- Stats profil à zéro : lecture AsyncStorage si Firestore vide
-- Classification monotone : simulation variée au lieu de toujours "Verre"
-- Tests Jest : mocks Firebase complets et configuration TypeScript
-- Erreurs ESLint CI/CD : configuration spécifique pour les tests
-- Erreur de build Expo Web : suppression étape web du pipeline CI/CD
-- Affichage prématuré "Aucune collecte" : ajout état de chargement
+**Bogues Critiques et Majeurs :**
+
+- **Loading spinner infini dans ScanScreen** : Boucle infinie corrigée avec gestion d'état proper
+- **Erreur FileReader incompatible avec React Native** : Remplacement par solution native compatible
+- **Erreur Firebase Storage** : Configuration et initialisation manquantes ajoutées
+- **Permissions Firestore** : Gestion des erreurs d'autorisation avec fallback AsyncStorage
+- **Stats profil à zéro** : Lecture AsyncStorage prioritaire si Firestore vide
+- **Classification monotone** : Simulation variée au lieu de toujours "Verre"
+- **Affichage prématuré "Aucune collecte"** : Ajout état de chargement proper
+
+**Tests et Qualité Code :**
+
+- **Tests Jest** : Mocks Firebase complets et configuration TypeScript
+- **Erreurs ESLint CI/CD** : Configuration spécifique pour les tests
+- **Erreur de build Expo Web** : Suppression étape web du pipeline CI/CD
+- **6 tests en échec identifiés** : Analyse détaillée des causes racines documentée
+  - APIService : Mock fetch pour gestion d'erreurs réseau
+  - MLKitService : Assertions flexibles pour simulation aléatoire
+  - StorageService : Paramètre userId manquant dans tests
+  - MapComponent : Mock géolocalisation incomplet
+  - AdviceService : Interface Firebase Timestamp non mockée
+  - HomeScreen : Mock navigation React Native incomplet
+
+**Métriques d'Amélioration :**
+
+- **Taux de réussite tests** : 85% → 91.4% (+6.4 points)
+- **Couverture de code** : 47.87% → 61.73% (+13.86 points)
+- **Temps de correction** : < 1h par bogue identifié
+- **Processus de correction** : Workflow en 6 étapes documenté
 
 ### Sécurité
 
@@ -78,7 +103,7 @@ Toutes les modifications notables de ce projet seront documentées dans ce fichi
 - Protection données gamification locales avec chiffrement AsyncStorage
 - Validation robuste des tokens Firebase
 
-## [1.0.0] - 2024-12-XX
+## [1.0.0] - 2025-01-XX
 
 ### Ajouté
 

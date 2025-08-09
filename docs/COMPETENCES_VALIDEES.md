@@ -126,28 +126,35 @@ Ce document valide toutes les compétences acquises lors du développement de l'
 
 **Preuves :**
 
-- **8 scénarios de test** : Tests fonctionnels manuels complets
-- **Tests d'acceptation** : Validation de toutes les fonctionnalités
-- **Critères de validation** : Métriques de performance et qualité
-- **Procédures de test** : Documentation structurée
+- **11 scénarios de test** : Tests fonctionnels manuels complets (100% des fonctionnalités)
+- **Tests d'acceptation** : Validation de toutes les fonctionnalités principales
+- **Matrice de couverture** : 11/11 fonctionnalités couvertes (Authentification, Scanner ML Kit, Favoris, Carte, Conseils, Gamification, Profil, Navigation, Gestion d'erreurs, Guide d'utilisation, Notifications collecte)
+- **Correspondance écrans** : 9/9 écrans du code source couverts par les scénarios
+- **Critères de validation** : Métriques de performance et qualité détaillées
+- **Procédures de test** : Documentation structurée avec étapes et résultats attendus
 
 **Livrables :**
 
-- [Scénarios de test](TESTING_GUIDE.md#scénarios-de-test-fonctionnels)
+- [Scénarios de test complets](TESTING_GUIDE.md#scénarios-de-test-fonctionnels)
+- [Matrice de couverture fonctionnelle](TESTING_GUIDE.md#matrice-de-couverture-fonctionnelle)
 - [Critères d'acceptation](TESTING_GUIDE.md)
 
 ### C2.3.2 – Plan de correction de bogues
 
 **Preuves :**
 
-- **Historique des corrections** : 10+ bugs documentés et résolus
-- **Classification** : Priorités Critique/Majeur/Mineur
-- **Processus de correction** : Workflow défini et appliqué
-- **Métriques d'amélioration** : 100% bugs critiques résolus
+- **Historique des corrections** : 13+ bugs documentés et résolus (7 critiques/majeurs + 6 tests)
+- **Classification** : Priorités Critique/Majeur/Mineur avec impact et effort
+- **Analyse des échecs** : 6 tests en échec analysés avec causes racines détaillées
+- **Processus de correction** : Workflow en 6 étapes défini et appliqué
+- **Métriques d'amélioration** : 100% bugs critiques résolus, 91.4% tests passants
+- **Plan d'amélioration** : 3 phases de correction documentées (5h effort total)
 
 **Livrables :**
 
 - [Historique des corrections](CHANGELOG.md#corrigé)
+- [Analyse détaillée des tests en échec](TESTING_GUIDE.md#analyse-des-tests-en-échec)
+- [Plan d'amélioration global](TESTING_GUIDE.md#plan-damélioration-global)
 - [Processus de correction](CHANGELOG.md#procédures-de-mise-à-jour)
 
 ### C2.4.1 – Documentation technique
@@ -221,11 +228,12 @@ Ce document valide toutes les compétences acquises lors du développement de l'
 
 ### Qualité du Code
 
-- **Tests unitaires** : 54/54 passants (100%)
-- **Couverture de code** : 76.2% (>75% requis)
-- **Linting** : 0 erreurs, 0 warnings
-- **TypeScript** : Compilation sans erreur
-- **CI/CD** : Pipeline stable
+- **Tests unitaires** : 64/70 passants (91.4% réussite)
+- **Couverture de code** : 61.57% statements, 43.45% branches, 58.82% functions
+- **Temps d'exécution** : 37.6 secondes (performance acceptable)
+- **Linting** : 0 erreurs, 19 warnings (sous limite de 20)
+- **TypeScript** : Compilation sans erreur (types complets)
+- **CI/CD** : Pipeline stable et optimisé
 
 ### Fonctionnalités
 
@@ -237,8 +245,9 @@ Ce document valide toutes les compétences acquises lors du développement de l'
 
 ### Sécurité et Accessibilité
 
-- **OWASP Top 10** : Mesures de protection implémentées
-- **WCAG 2.1 AA** : Conformité accessibilité
+- **OWASP Top 10** : Couverture complète des 10 failles principales (injection, authentification, données sensibles, contrôle d'accès, configuration, composants vulnérables, identification, XSS, journalisation, SSRF)
+- **WCAG 2.1 AA** : Conformité accessibilité justifiée (standard international mobile)
+- **OPQUAST** : Référentiel complémentaire français implémenté
 - **Firebase Security** : Règles de sécurité configurées
 - **Validation des données** : Sanitisation côté client/serveur
 

@@ -1,51 +1,136 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { getDoc, setDoc, doc } from 'firebase/firestore';
+import storageService from '../services/storageService';
+
 // Mocks
 jest.mock('firebase/firestore');
 jest.mock('../../firebaseConfig');
 jest.mock('@react-native-async-storage/async-storage');
+jest.mock('firebase/auth', () => ({
+  getAuth: () => ({
+    currentUser: { uid: 'test-user-id' }
+  })
+}));
 
-// Test simplifié pour éviter les erreurs TypeScript du service
-describe("StorageService", () => {
+const mockGetDoc = getDoc as jest.MockedFunction<typeof getDoc>;
+const mockSetDoc = setDoc as jest.MockedFunction<typeof setDoc>;
+const mockAsyncStorage = AsyncStorage as jest.Mocked<typeof AsyncStorage>;
+
+describe('StorageService', () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
-  // Test minimal pour vérifier que le service peut être importé
-  it("peut être importé sans erreur", () => {
-    // Ce test passe si l'import fonctionne
-    expect(true).toBe(true);
+  describe('saveScanStats', () => {
+    it('sauvegarde les statistiques de scan en local', async () => {
+      const scanStats = {
+        userId: 'test-user',
+        wasteCategory: 'Plastique',
+        confidence: 0.9,
+        timestamp: new Date(),
+      };
+
+      mockAsyncStorage.getItem.mockResolvedValue(JSON.stringify({
+        scansCompleted: 5,
+        points: 50,
+        challengesCompleted: 1,
+        level: 2,
+        currentStreak: 3,
+        bestStreak: 5,
+        weeklyScans: 7,
+        monthlyScans: 15,
+        categoriesScanned: { Plastique: 2 },
+        categoryStats: { Plastique: 2, Métal: 1 },
+      }));
+
+      await storageService.saveScanStats(scanStats);
+
+      expect(mockAsyncStorage.setItem).toHaveBeenCalled();
+    });
+
+    it('gère le cas où aucune statistique existante', async () => {
+      const scanStats = {
+        userId: 'test-user',
+        wasteCategory: 'Verre',
+        confidence: 0.85,
+      };
+
+      mockAsyncStorage.getItem.mockResolvedValue(null);
+
+      await storageService.saveScanStats(scanStats);
+
+      expect(mockAsyncStorage.setItem).toHaveBeenCalled();
+    });
   });
 
-  // Test des types de base
-  it("a les bonnes interfaces exportées", () => {
-    // Vérifier que les types sont disponibles
-    const mockScanStats = {
-      userId: "test",
-      wasteCategory: "Plastique",
-      confidence: 0.9,
-    };
-    
-    const mockUserStats = {
-      scansCompleted: 0,
-      points: 0,
-      challengesCompleted: 0,
-      level: 1,
-      categoriesScanned: {},
-    };
+  describe('getUserStats', () => {
+    it('récupère les stats depuis Firestore quand disponible', async () => {
+      const mockUserData = {
+        stats: {
+          scansCompleted: 10,
+          points: 100,
+          challengesCompleted: 2,
+          level: 3,
+          currentStreak: 5,
+          bestStreak: 8,
+          weeklyScans: 12,
+          monthlyScans: 25,
+          categoryStats: { Plastique: 5, Verre: 3, Métal: 2 },
+          lastScanDate: { toDate: () => new Date() },
+          categoriesScanned: { Plastique: 5 }
+        }
+      };
 
-    expect(mockScanStats.userId).toBe("test");
-    expect(mockUserStats.level).toBe(1);
+      mockGetDoc.mockResolvedValue({
+        exists: () => true,
+        data: () => mockUserData
+      } as any);
+
+      const result = await storageService.getUserStats('test-user-id');
+
+      expect(result.scansCompleted).toBe(10);
+      expect(result.points).toBe(100);
+      expect(result.level).toBe(3);
+      expect(result.categoryStats.Plastique).toBe(5);
+    });
+
+    it('crée des stats par défaut si utilisateur inexistant', async () => {
+      mockGetDoc.mockResolvedValue({
+        exists: () => false,
+        data: () => null
+      } as any);
+
+      const result = await storageService.getUserStats('test-user-id');
+
+      expect(result.scansCompleted).toBe(0);
+      expect(result.points).toBe(0);
+      expect(result.level).toBe(1);
+      expect(result.currentStreak).toBe(0);
+      expect(result.categoryStats.Plastique).toBe(0);
+      expect(mockSetDoc).toHaveBeenCalled();
+    });
+
+    it('gère les erreurs Firestore gracieusement', async () => {
+      mockGetDoc.mockRejectedValue(new Error('Firestore error'));
+
+      // Le service lance une erreur comme prévu
+      await expect(storageService.getUserStats('test-user-id')).rejects.toThrow('Impossible de récupérer');
+    });
   });
 
-  // Test que le service existe
-  it("service existe et est défini", async () => {
-    // Import dynamique pour éviter les erreurs TypeScript
-    try {
-      const serviceModule = await import('../services/storageService');
-      expect(serviceModule.default).toBeDefined();
-    } catch (error) {
-      // Si l'import échoue à cause d'erreurs TypeScript, on skip ce test
-      console.log('Service has TypeScript errors, skipping functional tests');
-      expect(true).toBe(true);
-    }
+  describe('méthodes utilitaires', () => {
+    it('teste les fonctionnalités de base du service', () => {
+      // Test que le service a les bonnes méthodes
+      expect(typeof storageService.saveScanStats).toBe('function');
+      expect(typeof storageService.getUserStats).toBe('function');
+    });
+
+    it('gère correctement les erreurs', async () => {
+      // Test de gestion d'erreur
+      mockGetDoc.mockRejectedValue(new Error('Database error'));
+      
+      // Le service lance une erreur comme attendu
+      await expect(storageService.getUserStats('invalid-user')).rejects.toThrow();
+    });
   });
 });

@@ -126,7 +126,7 @@ const SignupScreen = ({ navigation }: { navigation: any }) => {
       if (!auth.currentUser) {
         throw new Error("Utilisateur non authentifié.");
       }
-      console.log("🔑 Utilisateur connecté :", auth.currentUser?.uid);
+      console.log(" Utilisateur connecté :", auth.currentUser?.uid);
 
       // Uploader l'image et récupérer l'URL
       const imageUrl = await uploadImage(user.uid);
@@ -137,12 +137,12 @@ const SignupScreen = ({ navigation }: { navigation: any }) => {
         email: email,
         profileImage: imageUrl || null, // Stocker l'URL ou null si pas d'image
       });
-      console.log('✅ Utilisateur ajouté à Firestore');
+      console.log(' Utilisateur ajouté à Firestore');
       
       Alert.alert("Succès", "Compte créé avec succès !");
       navigation.replace("Profile");
     } catch (error: any) {
-      console.log('❌ Erreur lors de la création du compte:', error.message);
+      console.log(' Erreur lors de la création du compte:', error.message);
       Alert.alert("Erreur", error.message);
     } finally {
       setLoading(false);

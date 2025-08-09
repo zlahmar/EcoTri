@@ -16,8 +16,13 @@ export interface UserStats {
   points: number;
   challengesCompleted: number;
   level: number;
-  lastScanDate?: Date;
+  lastScanDate?: Date | null;
   categoriesScanned: { [category: string]: number };
+  currentStreak: number;
+  bestStreak: number;
+  weeklyScans: number;
+  monthlyScans: number;
+  categoryStats: { [category: string]: number };
 }
 
 class StorageService {
@@ -32,7 +37,7 @@ class StorageService {
       }
 
       // En développement, on simule la sauvegarde des stats
-      console.log('📊 Sauvegarde des statistiques de scan:', {
+      console.log(' Sauvegarde des statistiques de scan:', {
         userId,
         wasteCategory: scanStats.wasteCategory,
         confidence: scanStats.confidence,
@@ -44,7 +49,7 @@ class StorageService {
       // Mettre à jour les statistiques utilisateur
       await this.updateUserStats(scanStats.wasteCategory);
       
-      console.log('✅ Statistiques mises à jour avec succès !');
+      console.log(' Statistiques mises à jour avec succès !');
 
       /* Version complète pour la production :
       // Pas besoin de sauvegarder les détails du scan, juste mettre à jour les stats
@@ -74,6 +79,18 @@ class StorageService {
           level: userData.stats?.level || 1,
           lastScanDate: userData.stats?.lastScanDate?.toDate(),
           categoriesScanned: userData.stats?.categoriesScanned || {},
+          currentStreak: userData.stats?.currentStreak || 0,
+          bestStreak: userData.stats?.bestStreak || 0,
+          weeklyScans: userData.stats?.weeklyScans || 0,
+          monthlyScans: userData.stats?.monthlyScans || 0,
+          categoryStats: userData.stats?.categoryStats || {
+            Plastique: 0,
+            Métal: 0,
+            Papier: 0,
+            Verre: 0,
+            Carton: 0,
+            Autre: 0,
+          },
         };
       } else {
         // Créer des stats par défaut
@@ -83,6 +100,18 @@ class StorageService {
           challengesCompleted: 0,
           level: 1,
           categoriesScanned: {},
+          currentStreak: 0,
+          bestStreak: 0,
+          weeklyScans: 0,
+          monthlyScans: 0,
+          categoryStats: {
+            Plastique: 0,
+            Métal: 0,
+            Papier: 0,
+            Verre: 0,
+            Carton: 0,
+            Autre: 0,
+          },
         };
         
         await setDoc(doc(db, 'users', userId), { stats: defaultStats });
@@ -186,7 +215,7 @@ class StorageService {
       // Sauvegarder dans AsyncStorage
       await AsyncStorage.setItem(statsKey, JSON.stringify(updatedStats));
 
-      console.log('🎮 Stats mises à jour et sauvegardées:');
+      console.log('Stats mises à jour et sauvegardées:');
       console.log(`  - Catégorie: ${wasteCategory}`);
       console.log(`  - Total scans: ${updatedStats.scansCompleted}`);
       console.log(`  - Total points: ${updatedStats.points}`);
@@ -196,9 +225,9 @@ class StorageService {
       try {
         const userRef = doc(db, 'users', userId);
         await updateDoc(userRef, { stats: updatedStats });
-        console.log('📄 Stats aussi sauvegardées dans Firestore');
+        console.log(' Stats aussi sauvegardées dans Firestore');
       } catch (firestoreError) {
-        console.log('⚠️ Firestore non disponible, stats sauvées localement seulement');
+        console.log('Firestore non disponible, stats sauvées localement seulement');
       }
 
     } catch (error) {

@@ -51,10 +51,10 @@ const ProfilScreen = ({ navigation }: { navigation: any }) => {
     let mostScannedCategory = 'Aucune';
     if (categories.length > 0) {
       mostScannedCategory = categories.reduce((a, b) => 
-        (stats.categoryStats[a] || 0) > (stats.categoryStats[b] || 0) ? a : b
+        ((stats.categoryStats as any)[a] || 0) > ((stats.categoryStats as any)[b] || 0) ? a : b
       );
       // Si toutes les catégories ont 0 scans
-      if ((stats.categoryStats[mostScannedCategory] || 0) === 0) {
+      if (((stats.categoryStats as any)[mostScannedCategory] || 0) === 0) {
         mostScannedCategory = 'Aucune';
       }
     }
@@ -105,7 +105,7 @@ const ProfilScreen = ({ navigation }: { navigation: any }) => {
         const { city, region } = address[0];
         const cityName = city || region || 'Ville inconnue';
         setCity(cityName);
-        console.log('🌍 Ville détectée:', cityName);
+        console.log(' Ville détectée:', cityName);
       } else {
         setCity('Ville non trouvée');
       }
@@ -119,7 +119,7 @@ const ProfilScreen = ({ navigation }: { navigation: any }) => {
     try {
       // Essayer de charger depuis Firestore d'abord
       try {
-        const docSnap = await getDoc(doc(db, "users", user.uid));
+        const docSnap = await getDoc(doc(db, "users", user!.uid));
         if (docSnap.exists()) {
           const data = docSnap.data();
           setUserData(data);
@@ -135,14 +135,14 @@ const ProfilScreen = ({ navigation }: { navigation: any }) => {
       }
 
       // Si Firestore ne fonctionne pas, charger depuis AsyncStorage
-      const statsKey = `user_stats_${user.uid}`;
+      const statsKey = `user_stats_${user!.uid}`;
       const localStatsJson = await AsyncStorage.getItem(statsKey);
       if (localStatsJson) {
         const localStats = JSON.parse(localStatsJson);
         setStats(localStats);
-        console.log("📊 Stats chargées depuis le stockage local:", localStats);
+        console.log(" Stats chargées depuis le stockage local:", localStats);
       } else {
-        console.log("📊 Aucunes stats trouvées, utilisation des valeurs par défaut");
+        console.log(" Aucunes stats trouvées, utilisation des valeurs par défaut");
       }
 
     } catch (error) {

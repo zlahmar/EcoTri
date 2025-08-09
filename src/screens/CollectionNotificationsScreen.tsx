@@ -48,7 +48,7 @@ const CollectionNotificationsScreen = ({ navigation }: { navigation: any }) => {
         const { city, region } = address[0];
         const cityName = city || region || 'Ville inconnue';
         setCurrentCity(cityName);
-        console.log('🌍 Ville détectée pour la collecte:', cityName);
+        console.log(' Ville détectée pour la collecte:', cityName);
       } else {
         setCurrentCity('Ville non trouvée');
       }

@@ -16,4 +16,5 @@ export const colors = {
   error: "#F44336",
   lightGray: "#F5F5F5",
   mediumGray: "#E0E0E0",
+  textSecondary: "#666666",
 };

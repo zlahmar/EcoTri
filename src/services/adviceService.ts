@@ -760,7 +760,7 @@ export class AdviceService {
       favorites.push(newFavorite);
       await AsyncStorage.setItem(`favorites_${userId}`, JSON.stringify(favorites));
       
-      console.log('💖 Conseil ajouté aux favoris:', advice.title);
+      console.log(' Conseil ajouté aux favoris:', advice.title);
     } catch (error) {
       console.error('Erreur lors de l\'ajout aux favoris:', error);
       throw error;
@@ -782,7 +782,7 @@ export class AdviceService {
       
       await AsyncStorage.setItem(`favorites_${userId}`, JSON.stringify(updatedFavorites));
       
-      console.log('💔 Conseil supprimé des favoris:', adviceId);
+      console.log(' Conseil supprimé des favoris:', adviceId);
     } catch (error) {
       console.error('Erreur lors de la suppression des favoris:', error);
       throw error;

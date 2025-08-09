@@ -1,11 +1,13 @@
 # EcoTri - Application de Recyclage Intelligente
 
-## 🚀 Version 2.0.0 - Fonctionnelle à 95% !
+**GitHub** : [https://github.com/zlahmar](https://github.com/zlahmar)
 
-✅ **Toutes les fonctionnalités principales opérationnelles**  
-✅ **Interface utilisateur complète et moderne**  
-✅ **Système de favoris et conseils quotidiens**  
-✅ **EAS Build configuré pour ML Kit natif**
+## Version 2.0.0 - Fonctionnelle à 95% !
+
+**Toutes les fonctionnalités principales opérationnelles**  
+ **Interface utilisateur complète et moderne**  
+ **Système de favoris et conseils quotidiens**  
+ **EAS Build configuré pour ML Kit natif**
 
 Application mobile React Native/Expo pour le tri et le recyclage des déchets avec reconnaissance d'images et conseils personnalisés.
 
@@ -94,14 +96,16 @@ Application mobile React Native/Expo pour le tri et le recyclage des déchets av
 
 **Statut : VALIDÉ**
 
-- **Scénarios de test** : Tests manuels et automatisés
-- **Couverture fonctionnelle** : Toutes les fonctionnalités testées
-- **Documentation** : Procédures de test structurées
+- **Scénarios de test** : 11 tests fonctionnels manuels complets
+- **Couverture fonctionnelle** : 100% des fonctionnalités principales testées
+- **Matrice de couverture** : 11/11 fonctionnalités (Authentification, Scanner ML Kit, Favoris, Carte, Conseils, Gamification, Profil, Navigation, Gestion d'erreurs, Guide d'utilisation, Notifications collecte)
+- **Correspondance écrans** : 9/9 écrans du code source couverts
+- **Documentation** : Procédures de test structurées avec résultats attendus
 
 **Livrables :**
 
-- [Cahier de recettes](docs/TESTING_GUIDE.md#scénarios-de-test-fonctionnels)
-- [Scénarios de test](docs/TESTING_GUIDE.md#scénarios-de-test-fonctionnels)
+- [Cahier de recettes complet](docs/TESTING_GUIDE.md#scénarios-de-test-fonctionnels)
+- [Matrice de couverture fonctionnelle](docs/TESTING_GUIDE.md#matrice-de-couverture-fonctionnelle)
 
 ### C2.3.2 – Plan de correction de bogues
 
@@ -196,24 +200,95 @@ src/
 - **Qualité** : ESLint, TypeScript, Prettier
 - **CI/CD** : GitHub Actions
 
+## Sommaire Complet du Dossier
+
+### **Protocoles et Déploiement**
+
+| Élément                              | Document                                                   | Description                                      |
+| ------------------------------------ | ---------------------------------------------------------- | ------------------------------------------------ |
+| **Protocole de déploiement continu** | [CI_CD_README.md](CI_CD_README.md)                         | Pipeline automatisé, EAS Build, workflow complet |
+| **Protocole d'intégration continue** | [../.github/workflows/ci.yml](../.github/workflows/ci.yml) | GitHub Actions, tests automatisés, validation    |
+| **Manuel de déploiement**            | [TECHNICAL_GUIDE.md](TECHNICAL_GUIDE.md#déploiement)       | Instructions EAS Build, configuration, commandes |
+| **Manuel de mise à jour**            | [CHANGELOG.md](CHANGELOG.md#procédures-de-mise-à-jour)     | Procédures de maintenance, versioning, commandes |
+
+### **Architecture et Qualité**
+
+| Élément                                | Document                                                  | Description                                    |
+| -------------------------------------- | --------------------------------------------------------- | ---------------------------------------------- |
+| **Architecture logicielle**            | [TECHNICAL_GUIDE.md](TECHNICAL_GUIDE.md#architecture)     | Structure modulaire, services, composants      |
+| **Critères de qualité et performance** | [TESTING_GUIDE.md](TESTING_GUIDE.md)                      | Métriques, couverture 61.73%, tests 64/70      |
+| **Framework et paradigmes**            | [TECHNICAL_GUIDE.md](TECHNICAL_GUIDE.md#choix-techniques) | React Native, Firebase, ML Kit, justifications |
+| **Mesures de sécurité**                | [TECHNICAL_GUIDE.md](TECHNICAL_GUIDE.md#sécurité)         | OWASP Top 10, Firebase Auth, validation        |
+
+### **Tests et Validation**
+
+| Élément                           | Document                                                            | Description                                     |
+| --------------------------------- | ------------------------------------------------------------------- | ----------------------------------------------- |
+| **Tests unitaires**               | [TESTING_GUIDE.md](TESTING_GUIDE.md)                                | 64/70 tests, services, composants, hooks        |
+| **Cahier de recettes**            | [TESTING_GUIDE.md](TESTING_GUIDE.md#scénarios-de-test-fonctionnels) | 11 scénarios fonctionnels, couverture 100%      |
+| **Plan de correction des bogues** | [CHANGELOG.md](CHANGELOG.md#corrigé)                                | Historique corrections, processus de résolution |
+
+### **Produit et Utilisation**
+
+| Élément                       | Document                                            | Description                                 |
+| ----------------------------- | --------------------------------------------------- | ------------------------------------------- |
+| **Présentation du prototype** | [USER_GUIDE.md](USER_GUIDE.md) + [../src/](../src/) | Application fonctionnelle, captures d'écran |
+| **Manuel d'utilisation**      | [USER_GUIDE.md](USER_GUIDE.md)                      | Guide utilisateur complet, fonctionnalités  |
+| **Historique des versions**   | [CHANGELOG.md](CHANGELOG.md)                        | Versions 1.0.0 à 2.0.0, évolutions          |
+| **Version actuelle**          | [CHANGELOG.md](CHANGELOG.md)                        | Version 2.0.0 - Fonctionnelle à 95%         |
+
+### **Accessibilité**
+
+| Élément                     | Document                                               | Description                        |
+| --------------------------- | ------------------------------------------------------ | ---------------------------------- |
+| **Actions d'accessibilité** | [TECHNICAL_GUIDE.md](TECHNICAL_GUIDE.md#accessibilité) | WCAG 2.1 AA, navigation, contraste |
+
+### **Documentation Technique**
+
+| Document                                               | Description               | Taille      |
+| ------------------------------------------------------ | ------------------------- | ----------- |
+| **[TECHNICAL_GUIDE.md](TECHNICAL_GUIDE.md)**           | Guide technique complet   | 739 lignes  |
+| **[TESTING_GUIDE.md](TESTING_GUIDE.md)**               | Guide des tests et mocks  | 435 lignes  |
+| **[USER_GUIDE.md](USER_GUIDE.md)**                     | Manuel utilisateur        | 218 lignes  |
+| **[CHANGELOG.md](CHANGELOG.md)**                       | Historique et maintenance | 197 lignes  |
+| **[CI_CD_README.md](CI_CD_README.md)**                 | Pipeline et déploiement   | 150+ lignes |
+| **[COMPETENCES_VALIDEES.md](COMPETENCES_VALIDEES.md)** | Validation académique     | 384 lignes  |
+
+### **Récapitulatif de Conformité**
+
+**TOUS LES 16 ÉLÉMENTS REQUIS SONT PRÉSENTS ET DOCUMENTÉS**
+
+| **Catégorie**     | **Éléments**                                           | **Statut** |
+| ----------------- | ------------------------------------------------------ | ---------- |
+| **Protocoles**    | Déploiement continu, Intégration continue              | 2/2        |
+| **Architecture**  | Architecture, Qualité, Framework, Sécurité             | 4/4        |
+| **Tests**         | Tests unitaires, Cahier de recettes, Correction bogues | 3/3        |
+| **Produit**       | Prototype, Version actuelle, Historique                | 3/3        |
+| **Manuels**       | Déploiement, Utilisation, Mise à jour                  | 3/3        |
+| **Accessibilité** | Actions d'accessibilité                                | 1/1        |
+
+** RÉSULTAT : 16/16 (100% CONFORME)**
+
 ## Documentation Complète
 
-### 📚 Index de la Documentation
+### Index de la Documentation
 
-| Document | Description | Contenu Principal |
-|----------|-------------|-------------------|
-| **[TECHNICAL_GUIDE.md](docs/TECHNICAL_GUIDE.md)** | Guide technique complet | Architecture, ML Kit, Firebase, sécurité, déploiement |
-| **[TESTING_GUIDE.md](docs/TESTING_GUIDE.md)** | Guide des tests et mocks | Tests unitaires, mocks, scénarios d'acceptation |
-| **[CHANGELOG.md](docs/CHANGELOG.md)** | Historique et mises à jour | Versions, corrections, procédures de mise à jour |
-| **[USER_GUIDE.md](docs/USER_GUIDE.md)** | Manuel utilisateur | Utilisation de l'app, fonctionnalités, dépannage |
-| **[CI_CD_README.md](docs/CI_CD_README.md)** | Intégration continue | Pipeline GitHub Actions, configuration CI/CD |
-| **[COMPETENCES_VALIDEES.md](docs/COMPETENCES_VALIDEES.md)** | Validation des compétences | Preuves de conformité aux exigences académiques |
-| **[SCRIPTS_AND_COMMANDS.md](docs/SCRIPTS_AND_COMMANDS.md)** | Commandes et scripts | Scripts npm, commandes utiles, développement |
+| Document                                               | Description                | Contenu Principal                                     |
+| ------------------------------------------------------ | -------------------------- | ----------------------------------------------------- |
+| **[TECHNICAL_GUIDE.md](TECHNICAL_GUIDE.md)**           | Guide technique complet    | Architecture, ML Kit, Firebase, sécurité, déploiement |
+| **[TESTING_GUIDE.md](TESTING_GUIDE.md)**               | Guide des tests et mocks   | Tests unitaires, mocks, scénarios d'acceptation       |
+| **[CHANGELOG.md](CHANGELOG.md)**                       | Historique et mises à jour | Versions, corrections, procédures de mise à jour      |
+| **[USER_GUIDE.md](USER_GUIDE.md)**                     | Manuel utilisateur         | Utilisation de l'app, fonctionnalités, dépannage      |
+| **[CI_CD_README.md](CI_CD_README.md)**                 | Intégration continue       | Pipeline GitHub Actions, configuration CI/CD          |
+| **[COMPETENCES_VALIDEES.md](COMPETENCES_VALIDEES.md)** | Validation des compétences | Preuves de conformité aux exigences académiques       |
+| **[SCRIPTS_AND_COMMANDS.md](SCRIPTS_AND_COMMANDS.md)** | Commandes et scripts       | Scripts npm, commandes utiles, développement          |
 
-### 📖 Détails des Documents
+### Détails des Documents
 
-#### 🔧 Guide Technique (TECHNICAL_GUIDE.md)
+#### Guide Technique (TECHNICAL_GUIDE.md)
+
 **Contenu :** Architecture complète du projet
+
 - **Architecture système** : Frontend React Native + Backend Firebase
 - **ML Kit on-device** : Reconnaissance d'images avec EAS Build
 - **Système de notifications** : Configuration Expo Notifications
@@ -223,8 +298,10 @@ src/
 - **Performance** : Optimisations et métriques
 - **Déploiement** : Procédures EAS Build et production
 
-#### 🧪 Guide des Tests (TESTING_GUIDE.md)
+#### Guide des Tests (TESTING_GUIDE.md)
+
 **Contenu :** Stratégie de tests complète
+
 - **Tests unitaires** : 54 tests (100% passants), couverture 76.2%
 - **Documentation des mocks** : Structure complète des mocks Firebase, Expo, React Native
 - **Configuration Jest** : Setup TypeScript, moduleNameMapper
@@ -232,57 +309,70 @@ src/
 - **Bonnes pratiques** : Organisation, assertions, performance
 - **CI/CD** : Configuration pour Node.js 18/20, optimisations
 
-#### 📝 Changelog (CHANGELOG.md)
+#### Changelog (CHANGELOG.md)
+
 **Contenu :** Historique et procédures
+
 - **Version 2.0.0** : ML Kit on-device, EAS Build, gamification
 - **Version 1.0.0** : Fonctionnalités de base, authentification
 - **Métriques** : Performance, tests, couverture par version
 - **Roadmap** : Version 2.1.0 (Q1 2025)
 - **Procédures de mise à jour** : Types, workflow standard, commandes
 
-#### 👤 Guide Utilisateur (USER_GUIDE.md)
+#### Guide Utilisateur (USER_GUIDE.md)
+
 **Contenu :** Manuel d'utilisation
+
 - **Fonctionnalités** : Scanner, carte, conseils, profil
 - **Interface** : Navigation, utilisation des écrans
 - **Conseils d'usage** : Optimisation, bonnes pratiques
 - **Dépannage** : Solutions aux problèmes courants
 - **Support** : Contact et assistance
 
-#### 🔄 CI/CD (CI_CD_README.md)
+#### CI/CD (CI_CD_README.md)
+
 **Contenu :** Intégration continue
+
 - **Pipeline GitHub Actions** : Workflow automatisé
 - **Optimisations** : Node.js 18/20, cache Jest, workers
 - **Corrections** : Résolution des problèmes CI/CD
 - **Métriques** : 100% tests passants, 0 warnings ESLint
 
-#### 🎯 Compétences Validées (COMPETENCES_VALIDEES.md)
+#### Compétences Validées (COMPETENCES_VALIDEES.md)
+
 **Contenu :** Validation académique
+
 - **Preuves de conformité** : 16 critères couverts
 - **Documentation détaillée** : Chaque compétence avec preuves
 - **Métriques de qualité** : Tests, sécurité, accessibilité
 - **Livrables** : Correspondance exigences/réalisations
 
-#### ⚙️ Scripts et Commandes (SCRIPTS_AND_COMMANDS.md)
+#### Scripts et Commandes (SCRIPTS_AND_COMMANDS.md)
+
 **Contenu :** Référence des commandes
+
 - **Scripts npm** : Développement, tests, build
 - **Commandes Expo** : Start, build, doctor
 - **Commandes EAS** : Build natif, soumission stores
 - **Outils de développement** : Linting, type-check, debugging
 
-### 🎯 Navigation Rapide
+### Navigation Rapide
 
 **Pour débuter :**
-1. 📖 [Guide Utilisateur](docs/USER_GUIDE.md) - Comprendre l'application
-2. 🔧 [Guide Technique](docs/TECHNICAL_GUIDE.md) - Architecture et développement
-3. ⚙️ [Scripts et Commandes](docs/SCRIPTS_AND_COMMANDS.md) - Commandes utiles
+
+1. [Guide Utilisateur](USER_GUIDE.md) - Comprendre l'application
+2. [Guide Technique](TECHNICAL_GUIDE.md) - Architecture et développement
+3. [Scripts et Commandes](SCRIPTS_AND_COMMANDS.md) - Commandes utiles
 
 **Pour le développement :**
-1. 🧪 [Guide des Tests](docs/TESTING_GUIDE.md) - Tests et mocks
-2. 🔄 [CI/CD](docs/CI_CD_README.md) - Pipeline d'intégration
-3. 📝 [Changelog](docs/CHANGELOG.md) - Historique et mises à jour
+
+1. [Guide des Tests](TESTING_GUIDE.md) - Tests et mocks
+2. [CI/CD](CI_CD_README.md) - Pipeline d'intégration
+3. [Changelog](CHANGELOG.md) - Historique et mises à jour
 
 **Pour la validation :**
-1. 🎯 [Compétences Validées](docs/COMPETENCES_VALIDEES.md) - Conformité académique
+
+1. [Compétences Validées](COMPETENCES_VALIDEES.md) - Conformité académique
 
 ## Contribution
 
@@ -300,4 +390,6 @@ Ce projet est sous licence MIT. Voir le fichier `LICENSE` pour plus de détails.
 
 - **Étudiant** : LAHMAR Zainab
 - **Projet** : Master 2 YNOV - EcoTri : Application de Recyclage Intelligente
+- **Email** : zainab.lahmar@ynov.com
+- **GitHub** : [https://github.com/zlahmar](https://github.com/zlahmar)
 - **Année** : 2024-2025
