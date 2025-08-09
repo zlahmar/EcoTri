@@ -99,7 +99,7 @@ src/
 - **Auth** : Authentification utilisateur
 - **Analytics** : Métriques d'utilisation
 
-### IA - ML Kit (On-Device)
+### IA - ML Kit (On-Device Avancé)
 
 **Pourquoi ce choix ?**
 
@@ -109,41 +109,79 @@ src/
 - **Gratuit** : 100% gratuit, contrairement à Google Cloud Vision API
 - **Confidentialité** : Traitement local, aucune donnée envoyée au cloud
 - **Performance** : Analyse rapide directement sur l'appareil
+- **Détection d'environnement** : Mode développement vs production automatique
 
-**Architecture ML Kit :**
+**Architecture ML Kit Avancée :**
 
 ```typescript
-// Service ML Kit hybride avec fallback
+// Service ML Kit hybride avec détection d'environnement
 export class MLKitService {
+  private isDevelopment = __DEV__;
+  
   async analyzeImage(imageUri: string): Promise<AnalysisResult> {
+    const isExpo = this.isExpoEnvironment();
+    
+    if (isExpo) {
+      // Mode développement : simulation enrichie avec logs détaillés
+      console.log('🔧 Mode développement Expo détecté');
+      return this.developmentAnalysis(imageUri);
+    }
+    
     try {
-      // Tentative d'utilisation du vrai ML Kit on-device
+      // Mode production : vrai ML Kit on-device
+      console.log('📱 Mode production - Utilisation du vrai ML Kit');
       const labels = await ImageLabeling.label(imageUri);
       return this.processRealLabels(labels);
     } catch (error) {
       // Fallback vers simulation si ML Kit non disponible
-      console.log('ML Kit non disponible, utilisation de la simulation');
+      console.log('⚠️ Fallback vers la simulation');
       return this.fallbackSimulation();
     }
+  }
+  
+  private async developmentAnalysis(imageUri: string): Promise<AnalysisResult> {
+    // Simulation enrichie avec 6 labels détaillés, OCR, couleurs, etc.
+    const detailedLabels = this.generateDetailedLabels();
+    const detailedObjects = this.generateDetailedObjects(detailedLabels);
+    const mockText = this.generateMockText(); // OCR simulé
+    const detailedColors = this.generateDetailedColors();
+    
+    console.log('📊 Analyse complète terminée:');
+    console.log('  🏷️ Labels trouvés:', detailedLabels.length);
+    console.log('  🎯 Objets détectés:', detailedObjects.length);
+    console.log('  📝 Texte OCR:', mockText.length, 'éléments');
+    
+    return { labels: detailedLabels, objects: detailedObjects, text: mockText, /* ... */ };
   }
 }
 ```
 
-**Fonctionnalités ML Kit :**
+**Fonctionnalités ML Kit Avancées :**
 
+- **Détection d'environnement** : Mode Expo vs Build natif automatique
+- **Mode développement enrichi** : Simulation avec 6 labels détaillés par catégorie
+- **Labels étendus** : Description, confiance, MID (Machine ID)
+- **Objets détectés** : Bounding boxes avec coordonnées précises
+- **OCR simulé** : Texte sur emballages ("RECYCLABLE", "PET 1", "500mL")
+- **Couleurs dominantes** : RGB avec scores et fractions de pixels
+- **Classification intelligente** : Analyse multi-critères avec boost de confiance
+- **Logs détaillés** : Debugging avec emojis pour meilleure lisibilité
 - **Image Labeling** : Identification des objets dans les images
 - **Classification automatique** : Plastique, Métal, Papier, Verre, Carton
 - **On-device processing** : Traitement local pour la confidentialité
 - **Fallback intelligent** : Simulation si ML Kit indisponible
 - **Gamification** : Tracking des scans pour points et niveaux
 
-**Workflow de reconnaissance :**
+**Workflow de reconnaissance avancé :**
 
 1. **Capture** → Photo avec `expo-image-picker`
-2. **Analyse** → ML Kit analyse l'image localement
-3. **Classification** → Mapping vers catégories de déchets
-4. **Gamification** → +10 points, mise à jour statistiques
-5. **Sauvegarde** → AsyncStorage + Firestore (optionnel)
+2. **Détection environnement** → Mode Expo vs Build natif
+3. **Analyse** → ML Kit réel (production) ou simulation enrichie (développement)
+4. **Extraction données** → Labels, objets, OCR, couleurs dominantes
+5. **Classification intelligente** → Analyse multi-critères avec boost de confiance
+6. **Logs détaillés** → Affichage complet des résultats avec emojis
+7. **Gamification** → +10 points, mise à jour statistiques
+8. **Sauvegarde** → AsyncStorage + Firestore (optionnel)
 
 **Build EAS pour ML Kit :**
 
@@ -591,7 +629,7 @@ module.exports = {
 | **Vitesse** | 2-3 minutes           | 10-15 minutes          |
 | **Coût**    | Gratuit illimité      | 30 builds/mois         |
 | **Output**  | Validation            | APK/IPA fichiers       |
-| **ML Kit**  | Simulation seulement  | Réel on-device         |
+| **ML Kit**  | Simulation enrichie    | Réel on-device         |
 | **Usage**   | Chaque commit         | Builds de test/release |
 
 #### **Workflow Complémentaire**

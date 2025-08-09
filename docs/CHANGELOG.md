@@ -6,11 +6,14 @@ Toutes les modifications notables de ce projet seront documentées dans ce fichi
 
 ### Fonctionnalités Majeures
 
-**ML Kit On-Device**
+**ML Kit On-Device Avancé**
 
 - ML Kit natif gratuit avec reconnaissance d'images hors ligne
-- Fallback intelligent avec simulation si ML Kit non disponible
+- **Mode développement enrichi** : simulation détaillée avec logs complets
+- **Mode production optimisé** : utilisation du vrai ML Kit sur téléphone
 - Classification automatique : Plastique, Métal, Papier, Verre, Carton
+- **Détection automatique d'environnement** : Expo vs Build natif
+- **Informations enrichies** : labels MID, bounding boxes, OCR simulé, couleurs dominantes
 - Performance optimisée : traitement local ~500ms vs 2-3s Cloud Functions
 
 **EAS Build Support**
@@ -29,7 +32,13 @@ Toutes les modifications notables de ce projet seront documentées dans ce fichi
 
 ### Ajouté
 
-- Service ML Kit hybride avec fallback simulation
+- **Service ML Kit hybride avancé** avec détection d'environnement automatique
+- **Mode développement enrichi** avec simulation détaillée et logs complets
+- **Labels ML Kit étendus** avec MID (Machine ID) et métadonnées
+- **Objets détectés** avec bounding boxes et coordonnées précises
+- **OCR simulé** pour texte sur emballages (ex: "RECYCLABLE", "PET 1", "500mL")
+- **Couleurs dominantes** avec scores et fractions de pixels
+- **Classification intelligente** avec analyse multi-labels et boost de confiance
 - Intégration AsyncStorage pour persistance locale
 - Bouton refresh profil pour rechargement manuel des statistiques
 - Configuration EAS avec profils development/preview/production
@@ -37,7 +46,11 @@ Toutes les modifications notables de ce projet seront documentées dans ce fichi
 
 ### Modifié
 
-- Architecture Scanner : migration de Cloud Functions vers ML Kit on-device
+- **Architecture Scanner avancée** : migration vers ML Kit on-device avec détection d'environnement
+- **Service ML Kit** : refactorisation complète avec modes développement/production séparés
+- **Logs de debugging** : ajout de logs détaillés avec emojis pour meilleure lisibilité
+- **Classification des déchets** : algorithme amélioré avec analyse multi-critères
+- **Simulation enrichie** : données plus réalistes avec 6 labels détaillés par catégorie
 - Service de stockage : focus sur gamification, suppression sauvegarde d'images
 - Écran Profil : lecture AsyncStorage en priorité, fallback Firestore
 - Configuration Firebase : ajout Firebase Storage pour compatibilité
