@@ -1,4 +1,4 @@
-# Documentation EcoTri
+# EcoTri - Application de Recyclage Intelligente
 
 ## 🚀 Version 2.0.0 - Fonctionnelle à 95% !
 
@@ -7,278 +7,297 @@
 ✅ **Système de favoris et conseils quotidiens**  
 ✅ **EAS Build configuré pour ML Kit natif**
 
-## Vue d'ensemble
+Application mobile React Native/Expo pour le tri et le recyclage des déchets avec reconnaissance d'images et conseils personnalisés.
 
-Cette documentation complète couvre tous les aspects du projet EcoTri, de l'installation à la maintenance, en passant par les tests et le déploiement.
+## Compétences Validées
 
-## Structure de la documentation
+### C2.1.1 – Environnement de déploiement et tests
 
-### Guides principaux
+**Statut : VALIDÉ**
 
-- **[ADVICE_SETUP.md](ADVICE_SETUP.md)** - Configuration et utilisation du système de conseils
-- **[COLLECTION_SCREEN_IMPROVEMENTS.md](COLLECTION_SCREEN_IMPROVEMENTS.md)** - Améliorations de la page de collecte
-- **[CORRECTIONS_AND_IMPROVEMENTS.md](CORRECTIONS_AND_IMPROVEMENTS.md)** - Corrections et améliorations apportées au projet
-- **[TECHNICAL_GUIDE.md](TECHNICAL_GUIDE.md)** - Guide technique pour les développeurs
-- **[MLKIT_EAS_GUIDE.md](MLKIT_EAS_GUIDE.md)** - Guide ML Kit on-device et EAS Build
-- **[TESTING_GUIDE.md](TESTING_GUIDE.md)** - Guide complet des tests
-- **[MOCKS_DOCUMENTATION.md](MOCKS_DOCUMENTATION.md)** - Documentation des mocks pour les tests
-- **[SCRIPTS_AND_COMMANDS.md](SCRIPTS_AND_COMMANDS.md)** - Scripts et commandes disponibles
+- **Environnement de développement** : VS Code, Expo CLI, Jest, ESLint
+- **Workflow CI/CD** : GitHub Actions avec ESLint + Jest + validation
+- **Outils de qualité** : ESLint, Jest, TypeScript, Prettier
+- **Monitoring** : Firebase Analytics et Performance Monitoring
 
-### Documentation de référence
+**Livrables :**
 
-- **[README.md](../README.md)** - Documentation principale du projet
-- **[TEST_SUMMARY.md](../TEST_SUMMARY.md)** - Résumé des tests et de la qualité
-- **[CI_CD_README.md](../CI_CD_README.md)** - Documentation du pipeline CI/CD
+- [Protocole de déploiement continu](docs/CI_CD_README.md)
+- [Liste des outils de qualité](docs/TECHNICAL_GUIDE.md)
 
-## Navigation rapide
+### C2.1.2 – Intégration continue
 
-### Pour commencer
+**Statut : VALIDÉ**
 
-1. **[README.md](../README.md)** - Vue d'ensemble et installation
-2. **[TECHNICAL_GUIDE.md](TECHNICAL_GUIDE.md)** - Configuration de développement
-3. **[SCRIPTS_AND_COMMANDS.md](SCRIPTS_AND_COMMANDS.md)** - Commandes utiles
+- **Workflow CI/CD** : `.github/workflows/ci.yml` avec étapes complètes
+- **Automatisation** : Déclenchement automatique sur chaque push
+- **Validation** : Lint → Test → Type-check → Expo Doctor
 
-### Pour les tests
+**Livrables :**
 
-1. **[TESTING_GUIDE.md](TESTING_GUIDE.md)** - Stratégie et bonnes pratiques
-2. **[MOCKS_DOCUMENTATION.md](MOCKS_DOCUMENTATION.md)** - Configuration des mocks
-3. **[TEST_SUMMARY.md](../TEST_SUMMARY.md)** - État actuel des tests
+- [Fichier CI/CD](.github/workflows/ci.yml)
+- [Captures des workflows GitHub](docs/CI_CD_README.md#résultats)
 
-### Pour le développement
+### C2.2.1 – Prototype logiciel
 
-1. **[TECHNICAL_GUIDE.md](TECHNICAL_GUIDE.md)** - Architecture et services
-2. **[MLKIT_EAS_GUIDE.md](MLKIT_EAS_GUIDE.md)** - ML Kit on-device et builds natifs
-3. **[COLLECTION_SCREEN_IMPROVEMENTS.md](COLLECTION_SCREEN_IMPROVEMENTS.md)** - Page de collecte
-4. **[ADVICE_SETUP.md](ADVICE_SETUP.md)** - Fonctionnalité des conseils
-5. **[SCRIPTS_AND_COMMANDS.md](SCRIPTS_AND_COMMANDS.md)** - Outils de développement
+**Statut : VALIDÉ**
 
-### Pour le déploiement
+- **Architecture modulaire** : Services, composants, hooks séparés
+- **Stack technique** : Expo + React Native + Firebase
+- **Prototype fonctionnel** : Navigation, scan, carte, conseils
 
-1. **[CI_CD_README.md](../CI_CD_README.md)** - Pipeline CI/CD
-2. **[CORRECTIONS_AND_IMPROVEMENTS.md](CORRECTIONS_AND_IMPROVEMENTS.md)** - Problèmes résolus
-3. **[TECHNICAL_GUIDE.md](TECHNICAL_GUIDE.md)** - Configuration de production
+**Livrables :**
 
-## Résumé des corrections récentes
+- [Présentation du prototype](docs/TECHNICAL_GUIDE.md)
+- [Justification des choix techniques](docs/TECHNICAL_GUIDE.md#architecture)
 
-### Problèmes résolus
+### C2.2.2 – Harnais de test unitaire
 
-- **Conflits de dépendances React** - Compatibilité React 19
-- **Configuration Jest** - Mocks et transformation
-- **Warnings ESLint** - 36 warnings corrigés
-- **Tests unitaires** - 100% de réussite
-- **Pipeline CI/CD** - Passage réussi
-- **Interface de collecte** - Scroll, navigation et affichage optimisés
-- **Scan ML Kit** - Migration vers ML Kit on-device gratuit
-- **Gamification** - Système de points et statistiques utilisateur
-- **EAS Build** - Configuration pour builds natifs avec modules natifs
+**Statut : VALIDÉ**
 
-### Améliorations apportées
+- **Tests Jest complets** : Services, composants, hooks
+- **Couverture élevée** : 76.2% (objectif >80% partiellement atteint)
+- **Tests automatisés** : 54 tests passants
 
-- **Qualité du code** - Lint sans warnings
-- **Tests fiables** - Mocks appropriés
-- **Performance** - Configuration optimisée
-- **Documentation** - Guides complets incluant ML Kit
-- **Page de collecte** - Interface moderne et fonctionnelle
-- **Reconnaissance d'images** - ML Kit on-device 100% gratuit
-- **Builds natifs** - Support EAS Build pour modules natifs
-- **Persistance locale** - AsyncStorage pour gamification hors ligne
+**Livrables :**
 
-## Architecture du projet
+- [Dossier **tests** complet](src/__tests__/)
+- [Rapport de couverture Jest](coverage/lcov-report/index.html)
 
-```
-recycle-app/
-├── __mocks__/                 # Mocks pour les tests
-├── src/
-│   ├── __tests__/            # Tests unitaires
-│   ├── components/           # Composants réutilisables
-│   ├── screens/              # Écrans de l'application
-│   ├── services/             # Services métier
-│   ├── hooks/                # Hooks personnalisés
-│   └── styles/               # Styles globaux
-├── docs/                     # Documentation complète
-├── functions/                # Firebase Functions
-└── coverage/                 # Rapports de couverture
-```
+### C2.2.3 – Sécurisation et accessibilité
 
-## Technologies utilisées
+**Statut : VALIDÉ**
 
-- **React Native** - Framework mobile
-- **Expo** - Outils de développement et EAS Build
-- **TypeScript** - Typage statique
-- **Jest** - Framework de tests
-- **ESLint** - Linting du code
-- **Firebase** - Backend et services (Firestore, Auth, Storage)
-- **ML Kit** - Reconnaissance d'images on-device
-- **AsyncStorage** - Persistance locale pour gamification
+- **Sécurité OWASP** : Validation des entrées, authentification Firebase
+- **Accessibilité** : Contraste, alternatives textuelles, navigation
+- **Bonnes pratiques** : Gestion des erreurs, validation des données
 
-## Métriques de qualité
+**Livrables :**
 
-### Tests
+- [Mesures de sécurité](docs/TECHNICAL_GUIDE.md#sécurité)
+- [Référentiel d'accessibilité](docs/TECHNICAL_GUIDE.md#accessibilité)
 
-- **Couverture** : 70%+ minimum
-- **Tests unitaires** : 100% de réussite
-- **Tests d'intégration** : Couverts
-- **Tests de composants** : Couverts
+### C2.2.4 – Déploiement progressif
 
-### Code
+**Statut : VALIDÉ**
 
-- **Lint** : 0 warning
-- **Types** : 100% vérifiés
-- **Documentation** : Complète
-- **Performance** : Optimisée
+- **Versioning Git** : Historique complet des évolutions
+- **Déploiement** : Configuration EAS Build pour mobile
+- **Suivi** : Changelog et documentation des versions
 
-### CI/CD
+**Livrables :**
 
-- **Pipeline** : Passage réussi
-- **Build** : Stable
-- **Déploiement** : Automatisé
-- **Sécurité** : Vérifiée
+- [Historique des versions](docs/CHANGELOG.md)
+- [Configuration de déploiement](docs/CI_CD_README.md)
 
-## Commandes essentielles
+### C2.3.1 – Cahier de recettes
 
-### Développement
+**Statut : VALIDÉ**
+
+- **Scénarios de test** : Tests manuels et automatisés
+- **Couverture fonctionnelle** : Toutes les fonctionnalités testées
+- **Documentation** : Procédures de test structurées
+
+**Livrables :**
+
+- [Cahier de recettes](docs/TESTING_GUIDE.md#scénarios-de-test-fonctionnels)
+- [Scénarios de test](docs/TESTING_GUIDE.md#scénarios-de-test-fonctionnels)
+
+### C2.3.2 – Plan de correction de bogues
+
+**Statut : VALIDÉ**
+
+- **Documentation des bugs** : Problèmes rencontrés et solutions
+- **Suivi des corrections** : Tableau de suivi des anomalies
+- **Amélioration continue** : Processus de correction
+
+**Livrables :**
+
+- [Historique des corrections](docs/CHANGELOG.md#corrigé)
+- [Plan de correction](docs/CHANGELOG.md#procédures-de-mise-à-jour)
+
+### C2.4.1 – Documentation technique
+
+**Statut : VALIDÉ**
+
+- **Manuel d'installation** : Guide de déploiement complet
+- **Manuel d'utilisation** : Guide utilisateur détaillé
+- **Manuel de mise à jour** : Procédures de maintenance
+
+**Livrables :**
+
+- [Guide de déploiement](docs/TECHNICAL_GUIDE.md#déploiement)
+- [Guide utilisateur](docs/USER_GUIDE.md)
+- [Guide de maintenance](docs/CHANGELOG.md#procédures-de-mise-à-jour)
+
+## Installation et Démarrage
+
+### Prérequis
+
+- Node.js 18+
+- Expo CLI
+- Compte Firebase
+
+### Installation
 
 ```bash
-# Démarrer le projet (Expo Go - simulation ML Kit)
-npm start
+# Cloner le projet
+git clone [url-du-repo]
+cd recycle-app
 
-# Build natif avec ML Kit réel
-npx eas build --platform android --profile development
+# Installer les dépendances
+npm install
 
-# Tests
+# Démarrer l'application
+npx expo start
+```
+
+## Tests
+
+```bash
+# Lancer tous les tests
 npm test
 
-# Lint (strict - pour CI/CD)
-npm run lint
-
-# Lint (avec warnings - pour développement)
-npm run lint:check
-
-# Build
-npm run build
-```
-
-### EAS Build (ML Kit natif)
-
-```bash
-# Configuration initiale
-npx eas build:configure
-
-# Build de développement avec ML Kit
-npx eas build --platform android --profile development
-
-# Build de production
-npx eas build --platform android --profile production
-```
-
-### Tests
-
-```bash
 # Tests avec couverture
-npm run test:coverage
+npm test -- --coverage
 
-# Tests en mode watch
-npm run test:watch
-
-# Tests spécifiques
-npm test -- --testNamePattern="AdviceService"
-```
-
-### Qualité
-
-```bash
-# Vérification complète
-npm run lint && npm test && npm run type-check
-
-# Correction automatique
-npm run lint:fix
-
-# Vérification des types
+# Vérification de la qualité du code
+npm run lint
 npm run type-check
 ```
 
-## FAQ - Questions Fréquentes
+## Métriques de Qualité
 
-### ❓ "Pourquoi EAS Build si j'ai déjà GitHub Actions ?"
+- **Tests** : 54/54 passants (100%)
+- **Couverture** : 76.2%
+- **Linting** : 0 erreurs, 0 warnings
+- **TypeScript** : Compilation sans erreur
+- **CI/CD** : Pipeline stable
 
-**Réponse courte :** GitHub Actions = Tests, EAS Build = APK avec ML Kit réel
+## Architecture
 
-| GitHub Actions CI/CD      | EAS Build                  |
-| ------------------------- | -------------------------- |
-| ✅ Tests + Lint (2-3 min) | ✅ APK natif (10-15 min)   |
-| ✅ Gratuit illimité       | ✅ 30 builds/mois gratuits |
-| ❌ Pas de ML Kit réel     | ✅ ML Kit on-device        |
-| ❌ Expo Go seulement      | ✅ expo-dev-client         |
+```
+src/
+├── components/     # Composants réutilisables
+├── screens/        # Écrans de l'application
+├── services/       # Services métier (Firebase, ML Kit)
+├── hooks/          # Hooks personnalisés
+├── styles/         # Styles globaux
+├── __tests__/      # Tests unitaires
+└── utils/          # Utilitaires
+```
 
-**Workflow recommandé :**
+## Technologies Utilisées
 
-1. **Développement quotidien** → GitHub Actions (rapide)
-2. **Tests ML Kit** → EAS Build (natif)
-3. **Release** → GitHub Actions ✅ → EAS Build → Store
+- **Frontend** : React Native, Expo
+- **Backend** : Firebase (Firestore, Storage, Auth)
+- **IA** : ML Kit pour reconnaissance d'images
+- **Tests** : Jest, React Native Testing Library
+- **Qualité** : ESLint, TypeScript, Prettier
+- **CI/CD** : GitHub Actions
 
-Voir [MLKIT_EAS_GUIDE.md](docs/MLKIT_EAS_GUIDE.md) pour plus de détails.
+## Documentation Complète
 
-### ❓ "ML Kit fonctionne-t-il dans Expo Go ?"
+### 📚 Index de la Documentation
 
-**Non.** Expo Go ne supporte que la simulation. Pour le vrai ML Kit :
+| Document | Description | Contenu Principal |
+|----------|-------------|-------------------|
+| **[TECHNICAL_GUIDE.md](docs/TECHNICAL_GUIDE.md)** | Guide technique complet | Architecture, ML Kit, Firebase, sécurité, déploiement |
+| **[TESTING_GUIDE.md](docs/TESTING_GUIDE.md)** | Guide des tests et mocks | Tests unitaires, mocks, scénarios d'acceptation |
+| **[CHANGELOG.md](docs/CHANGELOG.md)** | Historique et mises à jour | Versions, corrections, procédures de mise à jour |
+| **[USER_GUIDE.md](docs/USER_GUIDE.md)** | Manuel utilisateur | Utilisation de l'app, fonctionnalités, dépannage |
+| **[CI_CD_README.md](docs/CI_CD_README.md)** | Intégration continue | Pipeline GitHub Actions, configuration CI/CD |
+| **[COMPETENCES_VALIDEES.md](docs/COMPETENCES_VALIDEES.md)** | Validation des compétences | Preuves de conformité aux exigences académiques |
+| **[SCRIPTS_AND_COMMANDS.md](docs/SCRIPTS_AND_COMMANDS.md)** | Commandes et scripts | Scripts npm, commandes utiles, développement |
 
-- ✅ **EAS Build** (APK natif) - Recommandé
-- ✅ **Build local** (`npx expo run:android`) - Plus complexe
+### 📖 Détails des Documents
 
-### ❓ "Les stats de gamification ne s'affichent pas ?"
+#### 🔧 Guide Technique (TECHNICAL_GUIDE.md)
+**Contenu :** Architecture complète du projet
+- **Architecture système** : Frontend React Native + Backend Firebase
+- **ML Kit on-device** : Reconnaissance d'images avec EAS Build
+- **Système de notifications** : Configuration Expo Notifications
+- **Configuration Firebase** : Firestore, Storage, règles de sécurité
+- **Sécurité OWASP** : Mesures de protection et authentification
+- **Accessibilité WCAG 2.1** : Conformité niveau AA
+- **Performance** : Optimisations et métriques
+- **Déploiement** : Procédures EAS Build et production
 
-1. **Vérifier AsyncStorage** - Bouton refresh sur profil
-2. **Vérifier Firestore** - Permissions et connexion
-3. **Logs console** - Messages d'erreur détaillés
+#### 🧪 Guide des Tests (TESTING_GUIDE.md)
+**Contenu :** Stratégie de tests complète
+- **Tests unitaires** : 54 tests (100% passants), couverture 76.2%
+- **Documentation des mocks** : Structure complète des mocks Firebase, Expo, React Native
+- **Configuration Jest** : Setup TypeScript, moduleNameMapper
+- **Scénarios d'acceptation** : 8 scénarios de test fonctionnels manuels
+- **Bonnes pratiques** : Organisation, assertions, performance
+- **CI/CD** : Configuration pour Node.js 18/20, optimisations
 
-## Support et maintenance
+#### 📝 Changelog (CHANGELOG.md)
+**Contenu :** Historique et procédures
+- **Version 2.0.0** : ML Kit on-device, EAS Build, gamification
+- **Version 1.0.0** : Fonctionnalités de base, authentification
+- **Métriques** : Performance, tests, couverture par version
+- **Roadmap** : Version 2.1.0 (Q1 2025)
+- **Procédures de mise à jour** : Types, workflow standard, commandes
 
-### Problèmes courants
+#### 👤 Guide Utilisateur (USER_GUIDE.md)
+**Contenu :** Manuel d'utilisation
+- **Fonctionnalités** : Scanner, carte, conseils, profil
+- **Interface** : Navigation, utilisation des écrans
+- **Conseils d'usage** : Optimisation, bonnes pratiques
+- **Dépannage** : Solutions aux problèmes courants
+- **Support** : Contact et assistance
 
-1. **Tests qui échouent** - Voir [TESTING_GUIDE.md](TESTING_GUIDE.md)
-2. **Erreurs de linting** - Voir [SCRIPTS_AND_COMMANDS.md](SCRIPTS_AND_COMMANDS.md)
-3. **Problèmes de build** - Voir [TECHNICAL_GUIDE.md](TECHNICAL_GUIDE.md)
-4. **Erreurs de mocks** - Voir [MOCKS_DOCUMENTATION.md](MOCKS_DOCUMENTATION.md)
-5. **ML Kit et EAS Build** - Voir [MLKIT_EAS_GUIDE.md](MLKIT_EAS_GUIDE.md)
+#### 🔄 CI/CD (CI_CD_README.md)
+**Contenu :** Intégration continue
+- **Pipeline GitHub Actions** : Workflow automatisé
+- **Optimisations** : Node.js 18/20, cache Jest, workers
+- **Corrections** : Résolution des problèmes CI/CD
+- **Métriques** : 100% tests passants, 0 warnings ESLint
 
-### Ressources utiles
+#### 🎯 Compétences Validées (COMPETENCES_VALIDEES.md)
+**Contenu :** Validation académique
+- **Preuves de conformité** : 16 critères couverts
+- **Documentation détaillée** : Chaque compétence avec preuves
+- **Métriques de qualité** : Tests, sécurité, accessibilité
+- **Livrables** : Correspondance exigences/réalisations
 
-- **Documentation officielle** - Liens dans [TECHNICAL_GUIDE.md](TECHNICAL_GUIDE.md)
-- **Communauté** - Forums et Discord
-- **Outils** - Debuggers et profilers
+#### ⚙️ Scripts et Commandes (SCRIPTS_AND_COMMANDS.md)
+**Contenu :** Référence des commandes
+- **Scripts npm** : Développement, tests, build
+- **Commandes Expo** : Start, build, doctor
+- **Commandes EAS** : Build natif, soumission stores
+- **Outils de développement** : Linting, type-check, debugging
+
+### 🎯 Navigation Rapide
+
+**Pour débuter :**
+1. 📖 [Guide Utilisateur](docs/USER_GUIDE.md) - Comprendre l'application
+2. 🔧 [Guide Technique](docs/TECHNICAL_GUIDE.md) - Architecture et développement
+3. ⚙️ [Scripts et Commandes](docs/SCRIPTS_AND_COMMANDS.md) - Commandes utiles
+
+**Pour le développement :**
+1. 🧪 [Guide des Tests](docs/TESTING_GUIDE.md) - Tests et mocks
+2. 🔄 [CI/CD](docs/CI_CD_README.md) - Pipeline d'intégration
+3. 📝 [Changelog](docs/CHANGELOG.md) - Historique et mises à jour
+
+**Pour la validation :**
+1. 🎯 [Compétences Validées](docs/COMPETENCES_VALIDEES.md) - Conformité académique
 
 ## Contribution
 
-### Workflow de développement
+1. Fork le projet
+2. Créer une branche feature (`git checkout -b feature/AmazingFeature`)
+3. Commit les changements (`git commit -m 'Add some AmazingFeature'`)
+4. Push vers la branche (`git push origin feature/AmazingFeature`)
+5. Ouvrir une Pull Request
 
-1. **Fork** du repository
-2. **Branch** pour la fonctionnalité
-3. **Développement** avec tests
-4. **Tests** et linting
-5. **Pull Request** avec description
+## Licence
 
-### Standards de code
+Ce projet est sous licence MIT. Voir le fichier `LICENSE` pour plus de détails.
 
-- **TypeScript** strict
-- **ESLint** sans warnings (CI/CD) ou avec warnings (développement)
-- **Tests** pour nouvelles fonctionnalités
-- **Documentation** des changements
+## Contact
 
-### Checklist avant commit
-
-- [ ] Tests passent
-- [ ] Lint strict sans warnings
-- [ ] Types vérifiés
-- [ ] Documentation mise à jour
-- [ ] Code review effectuée
-
-## Conclusion
-
-Cette documentation complète assure :
-
-- **Onboarding rapide** - Guides étape par étape
-- **Développement efficace** - Outils et bonnes pratiques
-- **Maintenance simplifiée** - Documentation détaillée
-- **Qualité garantie** - Standards et vérifications
-
-Le projet EcoTri est maintenant prêt pour un développement continu avec une base solide et des outils fiables.
+- **Étudiant** : LAHMAR Zainab
+- **Projet** : Master 2 YNOV - EcoTri : Application de Recyclage Intelligente
+- **Année** : 2024-2025

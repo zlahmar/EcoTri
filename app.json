@@ -6,7 +6,7 @@
     "orientation": "portrait",
     "icon": "./src/assets/icon.png",
     "userInterfaceStyle": "light",
-    "newArchEnabled": true,
+    "newArchEnabled": false,
     "splash": {
       "image": "./src/assets/logo.png",
       "resizeMode": "contain",
@@ -35,9 +35,7 @@
     "web": {
       "favicon": "./src/assets/favicon.png"
     },
-    "plugins": [
-      "expo-dev-client"
-    ],
+
     "extra": {
       "eas": {
         "projectId": "5ab86759-a642-4d6d-8a14-65c2cdb506d9"

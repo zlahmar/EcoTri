@@ -23,28 +23,49 @@ EcoTri suit une architecture modulaire basée sur React Native avec Expo, utilis
 
 ```
 src/
-├── components/          # Composants réutilisables
-│   ├── MapComponent.tsx # Carte interactive
-│   └── CategoryFilter.tsx # Filtres de catégories
-├── screens/             # Écrans de l'application
-│   ├── HomeScreen.tsx   # Écran d'accueil
-│   ├── ScanScreen.tsx   # Scanner de déchets
-│   ├── AdviceScreen.tsx # Conseils et astuces
-│   └── ProfilScreen.tsx # Profil utilisateur
-├── services/            # Services métier
-│   ├── mlKitService.ts  # Reconnaissance d'images
-│   ├── storageService.ts # Gestion des données
-│   └── adviceService.ts # Service des conseils
-├── hooks/               # Hooks personnalisés
-│   └── useLocation.ts   # Géolocalisation
-├── styles/              # Styles globaux
-│   ├── colors.ts        # Palette de couleurs
-│   └── global.ts        # Styles communs
-├── __tests__/           # Tests unitaires
-└── utils/               # Utilitaires
+├── components/                    # Composants réutilisables
+│   ├── MapComponent.tsx          # Carte interactive avec points de collecte
+│   ├── CollectionScheduleComponent.tsx # Calendrier de collecte
+│   ├── APIStatusComponent.tsx    # Statut des APIs externes
+│   ├── DataDebugComponent.tsx    # Débogage des données
+│   └── AvatarComponent.tsx       # Avatar utilisateur
+├── screens/                      # Écrans de l'application
+│   ├── SplashScreen.tsx         # Écran de démarrage
+│   ├── LoginScreen.tsx          # Authentification
+│   ├── SignupScreen.tsx         # Inscription
+│   ├── HomeScreen.tsx           # Écran d'accueil
+│   ├── ScanScreen.tsx           # Scanner IA de déchets
+│   ├── AdviceScreen.tsx         # Conseils et astuces
+│   ├── GuideScreen.tsx          # Guide d'utilisation
+│   ├── CollectionNotificationsScreen.tsx # Notifications collecte
+│   └── ProfilScreen.tsx         # Profil utilisateur avec gamification
+├── services/                     # Services métier
+│   ├── mlKitService.ts          # Reconnaissance d'images ML Kit
+│   ├── storageService.ts        # Gestion Firebase Storage
+│   ├── adviceService.ts         # Service des conseils
+│   ├── apiService.ts            # API générique
+│   ├── collectionScheduleService.ts # Calendrier de collecte
+│   ├── mockAPIService.ts        # Mock pour tests
+│   └── nationalAPIService.ts    # API nationale des déchets
+├── hooks/                        # Hooks personnalisés
+│   ├── useLocation.ts           # Géolocalisation
+│   └── useNotifications.ts      # Gestion des notifications
+├── navigation/                   # Navigation
+│   └── AppNavigator.tsx         # Configuration navigation
+├── styles/                       # Styles globaux
+│   ├── colors.ts                # Palette de couleurs WCAG
+│   └── global.ts                # Styles communs
+├── assets/                       # Ressources statiques
+│   ├── images/                  # Images et icônes
+│   └── data/                    # Données locales (JSON)
+└── __tests__/                    # Tests unitaires (54 tests)
+    ├── AdviceScreen.test.tsx    # Tests écrans
+    ├── AdviceService.test.ts    # Tests services
+    ├── MapComponent.test.tsx    # Tests composants
+    └── useLocation.test.ts      # Tests hooks
 ```
 
-## 🎯 Choix Techniques
+## Choix Techniques
 
 ### Frontend - React Native + Expo
 
@@ -124,7 +145,85 @@ export class MLKitService {
 4. **Gamification** → +10 points, mise à jour statistiques
 5. **Sauvegarde** → AsyncStorage + Firestore (optionnel)
 
-## 🔐 Sécurité
+**Build EAS pour ML Kit :**
+
+ML Kit nécessite des modules natifs, d'où l'utilisation d'EAS Build :
+
+```bash
+# Build de développement avec ML Kit
+npx eas build --platform android --profile development
+
+# Configuration eas.json
+{
+  "build": {
+    "development": {
+      "developmentClient": true,
+      "distribution": "internal",
+      "android": { "buildType": "apk" }
+    }
+  }
+}
+```
+
+### Système de Notifications
+
+**Architecture des notifications :**
+
+- **Service principal** : `NotificationService` pour les permissions et planification
+- **Données locales** : Fichier JSON avec 321 enregistrements de collecte nationale
+- **Cache intelligent** : Données mises en cache par ville pour performance
+
+**Configuration Expo Notifications :**
+
+```typescript
+import * as Notifications from 'expo-notifications';
+
+// Configuration des notifications
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: true,
+    shouldSetBadge: false,
+  }),
+});
+```
+
+### Configuration Firebase
+
+**Règles de sécurité Firestore :**
+
+```javascript
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Collection des conseils
+    match /advice/{adviceId} {
+      allow read: if resource.data.isPublished == true;
+      allow create: if request.auth != null;
+      allow update, delete: if request.auth != null &&
+        resource.data.authorId == request.auth.uid;
+    }
+
+    // Collection des utilisateurs
+    match /users/{userId} {
+      allow read, write: if request.auth != null &&
+        request.auth.uid == userId;
+    }
+  }
+}
+```
+
+**Configuration Storage :**
+
+```javascript
+// Images des conseils et scans
+match /advice-images/{imageId} {
+  allow read: if true;
+  allow write: if request.auth != null;
+}
+```
+
+## Sécurité
 
 ### Mesures de Sécurité Implémentées
 
@@ -208,32 +307,32 @@ const rateLimit = {
 
 #### OWASP Top 10 - Mesures Appliquées
 
-1. **Injection** ✅
+1. **Injection**
    - Paramètres typés avec TypeScript
    - Validation stricte des entrées
    - Utilisation de requêtes préparées Firebase
 
-2. **Authentification défaillante** ✅
+2. **Authentification défaillante**
    - Firebase Auth avec 2FA
    - Gestion sécurisée des sessions
    - Politique de mots de passe forts
 
-3. **Exposition de données sensibles** ✅
+3. **Exposition de données sensibles**
    - Chiffrement des données
    - Gestion sécurisée des tokens
    - Logs sans données sensibles
 
-4. **Contrôle d'accès défaillant** ✅
+4. **Contrôle d'accès défaillant**
    - Validation des permissions
    - Règles de sécurité Firestore
    - Vérification des autorisations
 
-5. **Configuration de sécurité défaillante** ✅
+5. **Configuration de sécurité défaillante**
    - Configuration sécurisée par défaut
    - Variables d'environnement
    - Pas de secrets en dur
 
-## ♿ Accessibilité
+## Accessibilité
 
 ### Conformité WCAG 2.1
 
@@ -325,26 +424,26 @@ const accessibleButton = (
 
 **Qualité Générale**
 
-- ✅ **Interface cohérente** : Design uniforme
-- ✅ **Navigation claire** : Structure logique
-- ✅ **Performance** : Temps de chargement optimisés
-- ✅ **Compatibilité** : Support multi-plateformes
+- **Interface cohérente** : Design uniforme
+- **Navigation claire** : Structure logique
+- **Performance** : Temps de chargement optimisés
+- **Compatibilité** : Support multi-plateformes
 
 **Contenu**
 
-- ✅ **Lisibilité** : Texte clair et compréhensible
-- ✅ **Hiérarchie** : Structure des informations
-- ✅ **Mise à jour** : Contenu à jour
-- ✅ **Précision** : Informations exactes
+- **Lisibilité** : Texte clair et compréhensible
+- **Hiérarchie** : Structure des informations
+- **Mise à jour** : Contenu à jour
+- **Précision** : Informations exactes
 
 **Formulaires**
 
-- ✅ **Validation** : Messages d'erreur clairs
-- ✅ **Assistance** : Aide contextuelle
-- ✅ **Accessibilité** : Labels et descriptions
-- ✅ **Sécurité** : Protection des données
+- **Validation** : Messages d'erreur clairs
+- **Assistance** : Aide contextuelle
+- **Accessibilité** : Labels et descriptions
+- **Sécurité** : Protection des données
 
-## 📊 Performance
+## Performance
 
 ### Métriques de Performance
 
@@ -393,7 +492,7 @@ import { getFirestore } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
 ```
 
-## 🧪 Tests et Qualité
+## Tests et Qualité
 
 ### Stratégie de Test
 
@@ -461,7 +560,7 @@ module.exports = {
 }
 ```
 
-## 🚀 Déploiement
+## Déploiement
 
 ### Pipeline CI/CD
 
@@ -486,28 +585,28 @@ module.exports = {
 
 #### **Distinction Cruciale : CI/CD vs Build Natif**
 
-| Aspect      | GitHub Actions CI/CD    | EAS Build              |
-| ----------- | ----------------------- | ---------------------- |
-| **But**     | Tests et qualité code   | Compilation native     |
-| **Vitesse** | 2-3 minutes             | 10-15 minutes          |
-| **Coût**    | Gratuit illimité        | 30 builds/mois         |
-| **Output**  | Validation ✅/❌        | APK/IPA fichiers       |
-| **ML Kit**  | ❌ Simulation seulement | ✅ Réel on-device      |
-| **Usage**   | Chaque commit           | Builds de test/release |
+| Aspect      | GitHub Actions CI/CD  | EAS Build              |
+| ----------- | --------------------- | ---------------------- |
+| **But**     | Tests et qualité code | Compilation native     |
+| **Vitesse** | 2-3 minutes           | 10-15 minutes          |
+| **Coût**    | Gratuit illimité      | 30 builds/mois         |
+| **Output**  | Validation            | APK/IPA fichiers       |
+| **ML Kit**  | Simulation seulement  | Réel on-device         |
+| **Usage**   | Chaque commit         | Builds de test/release |
 
 #### **Workflow Complémentaire**
 
 ```yaml
 # Votre .github/workflows/ci.yml ACTUEL (à conserver)
-- Linting ✅
-- Tests unitaires ✅
-- Type checking ✅
-- Validation Expo ✅
+- Linting
+- Tests unitaires
+- Type checking
+- Validation Expo
 
 # EAS Build ADDITIONNEL (pour ML Kit)
-- Compilation Android native ✅
-- Modules natifs (ML Kit) ✅
-- APK avec expo-dev-client ✅
+- Compilation Android native
+- Modules natifs (ML Kit)
+- APK avec expo-dev-client
 ```
 
 **Avantages EAS Build :**
@@ -560,7 +659,7 @@ npx eas build --platform android --profile production
 4. **Installation** : Installation manuelle de l'APK
 5. **Test ML Kit** : Vérification du vrai ML Kit on-device
 
-## 📈 Monitoring et Analytics
+## Monitoring et Analytics
 
 ### Firebase Analytics
 
@@ -576,7 +675,7 @@ npx eas build --platform android --profile production
 - **Priorisation** : Impact des bugs
 - **Résolution** : Suivi des corrections
 
-## 🔄 Maintenance
+## Maintenance
 
 ### Mises à Jour
 
@@ -594,6 +693,5 @@ npx eas build --platform android --profile production
 
 ---
 
-**Version** : 1.0.0  
-**Dernière mise à jour** : Décembre 2024  
+**Dernière mise à jour** : Aout 2025  
 **Maintenu par** : Équipe EcoTri

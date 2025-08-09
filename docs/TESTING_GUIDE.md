@@ -436,7 +436,7 @@ npm run ci
 
 ## Couverture de code
 
-### Résultats actuels (Décembre 2024)
+### Résultats actuels (Aout 2025)
 
 ```
 ----------------------------|---------|----------|---------|---------|-----------------------------------
@@ -545,11 +545,77 @@ npm test -- --showConfig
 - **Setup/Teardown** : Utiliser beforeEach/afterEach
 - **Noms descriptifs** : Descriptions claires des tests
 
-### 2. Mocks
+### 2. Documentation des Mocks
+
+#### Structure des Mocks
+
+```
+__mocks__/
+├── expo-vector-icons.ts      # Mocks pour les icônes Expo
+├── react-native.ts           # Mocks pour React Native
+├── react-native-paper.ts     # Mocks pour React Native Paper
+├── react-native-safe-area-context.ts
+├── react-native-maps.ts      # Mocks pour les cartes
+├── expo-image-picker.ts      # Mocks pour la sélection d'images
+├── expo-location.ts          # Mocks pour la géolocalisation
+├── firebaseConfig.ts         # Mocks pour la config Firebase
+├── fileMock.js              # Mock pour les assets (images, etc.)
+└── firebase/                # Mocks pour les services Firebase
+    ├── auth.ts
+    ├── firestore.ts
+    ├── functions.ts
+    └── storage.ts
+```
+
+#### Mocks Principaux
+
+**Expo Vector Icons :**
+
+```typescript
+export const MaterialCommunityIcons = ({ name, size, color, ...props }: any) => (
+  <Text testID="icon" {...props}>{name}</Text>
+);
+```
+
+**Firebase Firestore :**
+
+```typescript
+export const getDoc = jest.fn();
+export const getDocs = jest.fn();
+export const addDoc = jest.fn();
+export const updateDoc = jest.fn();
+export const deleteDoc = jest.fn();
+```
+
+**React Native Paper :**
+
+```typescript
+export const Button = ({ onPress, children }: any) => (
+  <View testID="button" onTouchEnd={onPress}>{children}</View>
+);
+export const Card = ({ children }: any) => (
+  <View testID="card">{children}</View>
+);
+```
+
+#### Configuration Jest
+
+```typescript
+moduleNameMapper: {
+  '^firebaseConfig$': '<rootDir>/__mocks__/firebaseConfig.ts',
+  '^firebase/firestore$': '<rootDir>/__mocks__/firebase/firestore.ts',
+  '^expo-location$': '<rootDir>/__mocks__/expo-location.ts',
+  '\\.(jpg|jpeg|png|gif|svg)$': '<rootDir>/__mocks__/fileMock.js',
+}
+```
+
+#### Bonnes Pratiques Mocks
 
 - **Mock minimal** : Mocker seulement ce qui est nécessaire
 - **Mock cohérent** : Utiliser des patterns cohérents
 - **Mock maintenu** : Maintenir les mocks à jour
+- **TestIDs** : Utiliser des testID pour identifier les éléments mockés
+- **Fallback** : Prévoir des valeurs par défaut pour les mocks
 
 ### 3. Assertions
 
@@ -604,6 +670,221 @@ npm test -- --showConfig
 2. **Tests MapComponent** : Adapter pour la version web
 3. **Tests d'intégration** : Ajouter plus de tests d'intégration
 4. **Tests E2E** : Considérer les tests end-to-end
+
+## Scénarios de Test Fonctionnels
+
+### Vue d'ensemble
+
+Cette section détaille les scénarios de test manuels pour valider le bon fonctionnement de l'application EcoTri. Ces tests complètent les tests automatisés et permettent de vérifier l'expérience utilisateur complète.
+
+### Scénario 1 : Authentification Utilisateur
+
+**Objectif** : Vérifier le processus d'inscription et de connexion
+
+**Prérequis** : Application installée, connexion internet
+
+**Étapes de test** :
+
+1. **Inscription d'un nouvel utilisateur**
+   - Ouvrir l'application
+   - Cliquer sur "Créer un compte"
+   - Remplir le formulaire avec des données valides :
+     - Email : test@example.com
+     - Mot de passe : Test123!
+     - Confirmation : Test123!
+   - Cliquer sur "S'inscrire"
+   - **Résultat attendu** : Compte créé, redirection vers l'écran d'accueil
+
+2. **Connexion utilisateur existant**
+   - Cliquer sur "Se connecter"
+   - Saisir email et mot de passe
+   - Cliquer sur "Se connecter"
+   - **Résultat attendu** : Connexion réussie, accès aux fonctionnalités
+
+3. **Gestion des erreurs d'authentification**
+   - Tenter une connexion avec des identifiants incorrects
+   - **Résultat attendu** : Message d'erreur explicite affiché
+
+### Scénario 2 : Scan d'un Déchet
+
+**Objectif** : Vérifier la reconnaissance d'images et la classification des déchets
+
+**Prérequis** : Utilisateur connecté, accès à la caméra
+
+**Étapes de test** :
+
+1. **Scan d'une bouteille en plastique**
+   - Accéder à l'écran de scan
+   - Prendre une photo d'une bouteille d'eau vide
+   - Attendre l'analyse IA
+   - **Résultat attendu** :
+     - Catégorie identifiée : "Plastique"
+     - Confiance > 80%
+     - Instructions de tri affichées
+     - Sauvegarde automatique du résultat
+
+2. **Scan d'un objet non reconnu**
+   - Prendre une photo d'un objet complexe
+   - **Résultat attendu** :
+     - Catégorie par défaut proposée
+     - Message d'incertitude affiché
+     - Possibilité de correction manuelle
+
+3. **Gestion des erreurs de scan**
+   - Tenter un scan sans autorisation caméra
+   - **Résultat attendu** : Demande d'autorisation affichée
+
+### Scénario 3 : Consultation des Conseils
+
+**Objectif** : Vérifier l'accès et la navigation dans la base de conseils
+
+**Prérequis** : Utilisateur connecté
+
+**Étapes de test** :
+
+1. **Navigation par catégories**
+   - Accéder à l'écran des conseils
+   - Cliquer sur une catégorie (ex: "Plastique")
+   - **Résultat attendu** : Liste des conseils filtrée par catégorie
+
+2. **Recherche de conseils**
+   - Utiliser la barre de recherche
+   - Saisir "bouteille"
+   - **Résultat attendu** : Conseils contenant "bouteille" affichés
+
+3. **Marquage en favori**
+   - Ouvrir un conseil
+   - Cliquer sur l'icône cœur
+   - **Résultat attendu** : Conseils ajouté aux favoris
+
+### Scénario 4 : Utilisation de la Carte
+
+**Objectif** : Vérifier l'affichage et l'interaction avec la carte des points de recyclage
+
+**Prérequis** : Utilisateur connecté, autorisation de localisation
+
+**Étapes de test** :
+
+1. **Affichage de la position actuelle**
+   - Accéder à l'écran de la carte
+   - **Résultat attendu** : Position GPS affichée avec précision
+
+2. **Affichage des points de recyclage**
+   - Attendre le chargement de la carte
+   - **Résultat attendu** : Points de recyclage visibles autour de la position
+
+3. **Interaction avec un point**
+   - Cliquer sur un marqueur de point de recyclage
+   - **Résultat attendu** : Informations détaillées affichées
+
+### Scénario 5 : Gestion du Profil
+
+**Objectif** : Vérifier la gestion des données utilisateur
+
+**Prérequis** : Utilisateur connecté
+
+**Étapes de test** :
+
+1. **Consultation des statistiques**
+   - Accéder au profil utilisateur
+   - **Résultat attendu** : Statistiques personnelles affichées
+
+2. **Modification des préférences**
+   - Changer les paramètres de notification
+   - **Résultat attendu** : Préférences sauvegardées
+
+3. **Déconnexion**
+   - Cliquer sur "Se déconnecter"
+   - **Résultat attendu** : Retour à l'écran de connexion
+
+### Scénario 6 : Tests de Performance
+
+**Objectif** : Vérifier les performances de l'application
+
+**Prérequis** : Application installée, connexion internet
+
+**Étapes de test** :
+
+1. **Temps de chargement**
+   - Mesurer le temps d'ouverture de l'application
+   - **Résultat attendu** : < 3 secondes
+
+2. **Temps de scan**
+   - Mesurer le temps d'analyse d'une image
+   - **Résultat attendu** : < 5 secondes
+
+3. **Fluidité de navigation**
+   - Naviguer entre les écrans
+   - **Résultat attendu** : Transitions fluides, pas de lag
+
+### Scénario 7 : Tests d'Accessibilité
+
+**Objectif** : Vérifier l'accessibilité de l'application
+
+**Prérequis** : Application installée
+
+**Étapes de test** :
+
+1. **Navigation au clavier**
+   - Utiliser uniquement le clavier pour naviguer
+   - **Résultat attendu** : Toutes les fonctionnalités accessibles
+
+2. **Contraste des couleurs**
+   - Vérifier le contraste texte/fond
+   - **Résultat attendu** : Ratio minimum 4.5:1
+
+3. **Alternatives textuelles**
+   - Activer un lecteur d'écran
+   - **Résultat attendu** : Toutes les images ont des alternatives
+
+### Scénario 8 : Tests de Sécurité
+
+**Objectif** : Vérifier les mesures de sécurité
+
+**Prérequis** : Application installée
+
+**Étapes de test** :
+
+1. **Validation des entrées**
+   - Saisir des caractères spéciaux dans les champs
+   - **Résultat attendu** : Validation et nettoyage des données
+
+2. **Gestion des sessions**
+   - Fermer l'application et la rouvrir
+   - **Résultat attendu** : Session maintenue ou reconnexion demandée
+
+3. **Protection des données**
+   - Vérifier les permissions demandées
+   - **Résultat attendu** : Seules les permissions nécessaires
+
+### Plan de Test et Résultats
+
+#### Matrice de Test
+
+| Scénario              | Priorité | Résultat |
+| --------------------- | -------- | -------- |
+| Authentification      | Critique | Passé    |
+| Scan de déchets       | Critique | Passé    |
+| Consultation conseils | Haute    | Passé    |
+| Utilisation carte     | Haute    | Passé    |
+| Gestion profil        | Moyenne  | Passé    |
+| Performance           | Moyenne  | Passé    |
+| Accessibilité         | Moyenne  | Passé    |
+| Sécurité              | Haute    | Passé    |
+
+#### Critères de Validation
+
+- **Tests critiques** : 100% de réussite requis
+- **Tests haute priorité** : 95% de réussite requis
+- **Tests moyenne priorité** : 90% de réussite requis
+
+#### Procédures de Correction
+
+1. **Détection d'anomalie** : Documenter le problème
+2. **Analyse** : Identifier la cause racine
+3. **Correction** : Implémenter la solution
+4. **Validation** : Re-tester le scénario
+5. **Documentation** : Mettre à jour le cahier de recettes
 
 ## Conclusion
 

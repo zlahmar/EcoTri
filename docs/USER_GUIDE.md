@@ -172,7 +172,7 @@ L'application se compose de 4 sections principales :
 - **Email** : support@ecotri-app.com
 - **Communauté** : Forum d'entraide utilisateurs
 
-## 🎯 Conseils d'Utilisation
+## Conseils d'Utilisation
 
 ### Optimisez votre Expérience
 
@@ -195,12 +195,11 @@ L'application se compose de 4 sections principales :
 - **Partage** : Sensibilisez votre entourage
 - **Amélioration** : Progressez dans vos habitudes
 
-## 📞 Contact et Support
+## Contact et Support
 
 ### Équipe EcoTri
 
 - **Email** : contact@ecotri-app.com
-- **Site web** : www.ecotri-app.com
 - **Réseaux sociaux** : @EcoTriApp
 - **Newsletter** : Restez informé des nouveautés
 
@@ -213,6 +212,6 @@ L'application se compose de 4 sections principales :
 
 ---
 
-**Version** : 1.0.0  
-**Dernière mise à jour** : Décembre 2024  
+**Version** : 2.0.0  
+**Dernière mise à jour** : Aout 2025  
 **Compatibilité** : iOS 12+, Android 8+

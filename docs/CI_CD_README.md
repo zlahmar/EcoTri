@@ -1,4 +1,4 @@
-## Corrections Récentes (Décembre 2024)
+## Corrections Récentes (Août 2025)
 
 ### Problèmes Résolus
 

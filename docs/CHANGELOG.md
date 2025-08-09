@@ -2,270 +2,177 @@
 
 Toutes les modifications notables de ce projet seront documentées dans ce fichier.
 
-Le format est basé sur [Keep a Changelog](https://keepachangelog.com/fr/1.0.0/),
-et ce projet adhère au [Semantic Versioning](https://semver.org/lang/fr/).
+## [2.0.0] - 2024-12-XX
 
-## [2.0.0] - 2024-12-XX - 🚀 Fonctionnelle à 95% !
+### Fonctionnalités Majeures
 
-### 📊 État du Projet
+**ML Kit On-Device**
 
-✅ **Toutes les fonctionnalités principales opérationnelles**  
-✅ **Interface utilisateur complète et moderne**  
-✅ **Système de favoris et conseils quotidiens**  
-✅ **EAS Build configuré pour ML Kit natif**
+- ML Kit natif gratuit avec reconnaissance d'images hors ligne
+- Fallback intelligent avec simulation si ML Kit non disponible
+- Classification automatique : Plastique, Métal, Papier, Verre, Carton
+- Performance optimisée : traitement local ~500ms vs 2-3s Cloud Functions
 
-### 🚀 Fonctionnalités Majeures
+**EAS Build Support**
 
-#### ML Kit On-Device
+- Configuration EAS Build pour modules natifs
+- 30 builds cloud gratuits par mois
+- APK de développement avec expo-dev-client
+- Workflow simplifié : `npx eas build --platform android --profile development`
 
-- **ML Kit natif gratuit** : Reconnaissance d'images 100% gratuite et hors ligne avec `@react-native-ml-kit/image-labeling`
-- **Fallback intelligent** : Simulation automatique si ML Kit non disponible (Expo Go)
-- **Classification automatique** : Plastique, Métal, Papier, Verre, Carton avec mapping intelligent
-- **Performance optimisée** : Traitement local ~500ms vs 2-3s Cloud Functions
+**Système de Gamification**
 
-#### EAS Build Support
-
-- **Configuration EAS Build** : Support complet des modules natifs sans configuration locale
-- **Builds cloud gratuits** : 30 builds/mois avec environnement optimisé
-- **APK de développement** : expo-dev-client avec rechargement à chaud
-- **Workflow simplifié** : `npx eas build --platform android --profile development`
-
-#### Système de Gamification
-
-- **Points et niveaux** : +10 points par scan réel, +5 pour simulation
-- **Statistiques complètes** : Scans, points, niveau, catégories scannées
-- **Persistance locale** : AsyncStorage pour fonctionnement hors ligne
-- **Synchronisation cloud** : Backup Firestore optionnel
+- Points et niveaux : +10 points par scan réel, +5 pour simulation
+- Statistiques complètes : scans, points, niveau, catégories
+- Persistance locale avec AsyncStorage
+- Synchronisation cloud optionnelle avec Firestore
 
 ### Ajouté
 
-- **Service ML Kit hybride** : Vrai ML Kit + fallback simulation
-- **AsyncStorage integration** : Persistance locale robuste des stats utilisateur
-- **Bouton refresh profil** : Rechargement manuel des statistiques
-- **Documentation ML Kit** : Guide complet [MLKIT_EAS_GUIDE.md](MLKIT_EAS_GUIDE.md)
-- **Configuration EAS** : eas.json avec profils development/preview/production
-- **Gestion d'erreurs améliorée** : Logs détaillés et fallbacks intelligents
+- Service ML Kit hybride avec fallback simulation
+- Intégration AsyncStorage pour persistance locale
+- Bouton refresh profil pour rechargement manuel des statistiques
+- Configuration EAS avec profils development/preview/production
+- Gestion d'erreurs améliorée avec logs détaillés
 
 ### Modifié
 
-- **Architecture Scanner** : Migration de Cloud Functions vers ML Kit on-device
-- **Service de stockage** : Suppression sauvegarde d'images, focus sur gamification
-- **Écran Profil** : Lecture AsyncStorage en priorité, fallback Firestore
-- **Configuration Firebase** : Ajout Firebase Storage pour compatibilité
-- **Documentation technique** : Mise à jour complète avec ML Kit et EAS Build
+- Architecture Scanner : migration de Cloud Functions vers ML Kit on-device
+- Service de stockage : focus sur gamification, suppression sauvegarde d'images
+- Écran Profil : lecture AsyncStorage en priorité, fallback Firestore
+- Configuration Firebase : ajout Firebase Storage pour compatibilité
+- Interface Collection : header personnalisé cohérent avec les autres écrans
+- Modal de sélection de ville : ajout du scroll pour la liste des villes
+- Couleur de l'heure des collectes : amélioration de la lisibilité
 
 ### Corrigé
 
-- **Loading spinner infini** : Correction état `isScanning` dans ScanScreen
-- **Erreur FileReader** : Suppression code incompatible React Native
-- **Erreur Firebase Storage** : Configuration et initialisation manquantes
-- **Permissions Firestore** : Gestion des erreurs d'autorisation avec fallback
-- **Stats profil à zéro** : Lecture AsyncStorage si Firestore vide
-- **Classification monotone** : Simulation variée au lieu de toujours "Verre"
+- Loading spinner infini dans ScanScreen
+- Erreur FileReader incompatible avec React Native
+- Erreur Firebase Storage : configuration et initialisation manquantes
+- Permissions Firestore : gestion des erreurs d'autorisation avec fallback
+- Stats profil à zéro : lecture AsyncStorage si Firestore vide
+- Classification monotone : simulation variée au lieu de toujours "Verre"
+- Tests Jest : mocks Firebase complets et configuration TypeScript
+- Erreurs ESLint CI/CD : configuration spécifique pour les tests
+- Erreur de build Expo Web : suppression étape web du pipeline CI/CD
+- Affichage prématuré "Aucune collecte" : ajout état de chargement
 
 ### Sécurité
 
-- **Confidentialité ML Kit** : Traitement local, aucune donnée envoyée au cloud
-- **Gestion permissions** : Amélioration gestion autorisations caméra
-- **Chiffrement AsyncStorage** : Protection données gamification locales
-- **Validation tokens Firebase** : Vérification robuste authentification
+- Confidentialité ML Kit : traitement local, aucune donnée envoyée au cloud
+- Amélioration gestion permissions caméra
+- Protection données gamification locales avec chiffrement AsyncStorage
+- Validation robuste des tokens Firebase
 
 ## [1.0.0] - 2024-12-XX
 
 ### Ajouté
 
-- **Fonctionnalité Scanner** : Reconnaissance d'images de déchets avec Firebase Cloud Functions
-- **Fonctionnalité Carte** : Carte interactive avec points de recyclage
-- **Fonctionnalité Conseils** : Base de conseils personnalisés sur le recyclage
-- **Authentification** : Système de connexion avec Firebase Auth
-- **Profil utilisateur** : Gestion des statistiques et préférences
-- **Tests unitaires** : Suite complète de tests avec Jest (54 tests)
-- **CI/CD** : Pipeline GitHub Actions automatisé
-- **Documentation** : Guides utilisateur et technique complets
+- Fonctionnalité Scanner avec reconnaissance d'images via Firebase Cloud Functions
+- Carte interactive avec points de recyclage
+- Base de conseils personnalisés sur le recyclage
+- Système d'authentification avec Firebase Auth
+- Profil utilisateur avec gestion des statistiques
+- Suite complète de tests avec Jest (54 tests)
+- Pipeline CI/CD avec GitHub Actions
+- Documentation utilisateur et technique
 
 ### Modifié
 
-- **Architecture** : Refactoring vers une architecture modulaire
-- **Performance** : Optimisation des temps de chargement
-- **Sécurité** : Implémentation des mesures OWASP
-- **Accessibilité** : Conformité WCAG 2.1 niveau AA
+- Architecture modulaire
+- Optimisation des temps de chargement
+- Implémentation des mesures de sécurité OWASP
+- Conformité WCAG 2.1 niveau AA pour l'accessibilité
 
 ### Corrigé
 
-- **Bugs de navigation** : Correction des problèmes de routing
-- **Gestion d'erreurs** : Amélioration des messages d'erreur
-- **Compatibilité** : Support iOS 12+ et Android 8+
-- **Tests** : Correction des tests défaillants
+- Problèmes de navigation et routing
+- Messages d'erreur améliorés
+- Compatibilité iOS 12+ et Android 8+
+- Tests défaillants
 
 ### Sécurité
 
-- **Validation des entrées** : Sanitisation des données utilisateur
-- **Authentification** : Implémentation Firebase Auth sécurisé
-- **Chiffrement** : Protection des données sensibles
-- **Permissions** : Gestion stricte des accès
-
-## [0.9.0] - 2024-11-XX
-
-### Ajouté
-
-- **Interface utilisateur** : Design système complet
-- **Navigation** : Système de navigation entre écrans
-- **Composants de base** : Boutons, formulaires, cartes
-- **Styles globaux** : Système de couleurs et typographie
-
-### Modifié
-
-- **Structure du projet** : Organisation des dossiers
-- **Configuration** : Setup Expo et React Native
-
-### Corrigé
-
-- **Dépendances** : Mise à jour des packages
-- **Configuration** : Correction des erreurs de build
-
-## [0.8.0] - 2024-10-XX
-
-### Ajouté
-
-- **Configuration Firebase** : Setup initial des services
-- **Configuration ML Kit** : Intégration de la reconnaissance d'images
-- **Tests de base** : Premiers tests unitaires
-- **ESLint et Prettier** : Configuration de la qualité du code
-
-### Modifié
-
-- **Architecture** : Planification de l'architecture modulaire
-- **Documentation** : Documentation technique initiale
-
-### Corrigé
-
-- **Configuration** : Résolution des problèmes de setup
-
-## [0.7.0] - 2024-09-XX
-
-### Ajouté
-
-- **Projet initial** : Création du projet Expo
-- **Configuration de base** : Setup React Native et Expo
-- **Structure des dossiers** : Organisation initiale
-- **README** : Documentation de base
-
-### Modifié
-
-- **Configuration** : Ajustements de la configuration Expo
-
-## [Non Versionné] - 2024-08-XX
-
-### Ajouté
-
-- **Conception** : Étude de faisabilité
-- **Architecture** : Design de l'architecture système
-- **Choix technologiques** : Sélection des technologies
-- **Planification** : Roadmap du projet
-
----
-
-## Types de Changements
-
-- **Ajouté** : Nouvelles fonctionnalités
-- **Modifié** : Changements dans les fonctionnalités existantes
-- **Déprécié** : Fonctionnalités qui seront bientôt supprimées
-- **Supprimé** : Fonctionnalités supprimées
-- **Corrigé** : Corrections de bugs
-- **Sécurité** : Améliorations de sécurité
+- Validation et sanitisation des données utilisateur
+- Authentification Firebase Auth sécurisée
+- Chiffrement des données sensibles
+- Gestion stricte des permissions
 
 ## Métriques de Version
 
 ### Version 2.0.0
 
-- **Tests** : 54/54 passants (100%)
-- **Couverture** : 76.2%
-- **Linting** : 0 erreurs, 0 warnings
-- **Performance ML Kit** : ~500ms analyse (vs 2-3s Cloud Functions)
-- **Taille APK** : +15MB (modèles ML Kit inclus)
-- **Fonctionnement hors ligne** : 100% (vs 0% avant)
-- **Builds EAS** : 30/mois gratuits
-- **Sécurité** : Confidentialité renforcée (traitement local)
-- **Accessibilité** : WCAG 2.1 AA maintenu
+- Tests : 54/54 passants (100%)
+- Couverture : 76.2%
+- Linting : 0 erreurs, 0 warnings
+- Performance ML Kit : ~500ms analyse
+- Fonctionnement hors ligne : 100%
+- Builds EAS : 30/mois gratuits
 
 ### Version 1.0.0
 
-- **Tests** : 54/54 passants (100%)
-- **Couverture** : 76.2%
-- **Linting** : 0 erreurs, 0 warnings
-- **Performance** : < 3s de chargement
-- **Sécurité** : Conformité OWASP Top 10
-- **Accessibilité** : WCAG 2.1 AA
-
-### Version 0.9.0
-
-- **Tests** : 15/15 passants (100%)
-- **Couverture** : 45%
-- **Linting** : 2 warnings
-- **Performance** : < 5s de chargement
-
-### Version 0.8.0
-
-- **Tests** : 5/5 passants (100%)
-- **Couverture** : 25%
-- **Linting** : 5 warnings
-- **Performance** : < 8s de chargement
+- Tests : 54/54 passants (100%)
+- Couverture : 76.2%
+- Linting : 0 erreurs, 0 warnings
+- Performance : < 3s de chargement
+- Sécurité : Conformité OWASP Top 10
+- Accessibilité : WCAG 2.1 AA
 
 ## Roadmap
 
 ### Version 2.1.0 (Q1 2025)
 
-- **Custom ML Models** : Modèles personnalisés pour déchets spécifiques
-- **Batch Processing** : Analyse multiple images simultanée
-- **Advanced Gamification** : Défis, achievements, leaderboards
-- **Social Features** : Partage scans et compétitions
-- **Analytics Dashboard** : Métriques détaillées utilisateur et app
+- Modèles ML personnalisés pour déchets spécifiques
+- Analyse multiple images simultanée
+- Gamification avancée : défis, achievements, leaderboards
+- Fonctionnalités sociales : partage scans et compétitions
 
-### Version 1.1.0 (Q1 2025) - DEPRECATED
+## Procédures de Mise à Jour
 
-- **Fonctionnalités avancées** : Gamification (✅ implémenté en v2.0)
-- **IA améliorée** : Modèles personnalisés pour déchets
-- **Communauté** : Partage et collaboration
-- **Analytics** : Tableaux de bord avancés
+### Types de Mises à Jour
 
-### Version 1.2.0 (Q2 2025)
+**Correctifs de Sécurité (Patch)**
 
-- **Mode hors ligne** : Synchronisation intelligente
-- **Notifications** : Rappels personnalisés
-- **Intégrations** : APIs tierces (municipalités)
-- **Accessibilité** : Support complet des technologies d'assistance
+- Format version : X.Y.Z → X.Y.Z+1
+- Fréquence : Immédiate (selon besoin)
+- Impact : Minimal, rétrocompatible
 
-### Version 2.0.0 (Q3 2025)
+**Mises à Jour Mineures (Minor)**
 
-- **Web** : Version web complète
-- **API publique** : Documentation et SDK
-- **Marketplace** : Extensions et plugins
-- **Enterprise** : Version entreprise
+- Format version : X.Y.Z → X.Y+1.0
+- Fréquence : Mensuelle
+- Impact : Rétrocompatible
 
-## Maintenance
+**Mises à Jour Majeures (Major)**
 
-### Mises à Jour Régulières
+- Format version : X.Y.Z → X+1.0.0
+- Fréquence : Trimestrielle
+- Impact : Peut nécessiter migration
 
-- **Dépendances** : Mise à jour mensuelle
-- **Sécurité** : Correctifs immédiats
-- **Compatibilité** : Support des nouvelles versions OS
-- **Performance** : Optimisations continues
+### Procédure Standard
 
-### Support des Versions
+1. **Préparation** : Vérification état projet, dépendances, tests
+2. **Mise à jour code** : Dépendances Expo/npm, code applicatif
+3. **Configuration** : app.json, package.json, variables environnement
+4. **Tests** : Validation automatisée et manuelle
+5. **Build** : EAS build de test puis production
+6. **Documentation** : Changelog et guides utilisateur
 
-- **Version actuelle** : 2.0.0 (support complet)
-- **Version précédente** : 1.0.0 (support limité - migration recommandée)
-- **Versions anciennes** : Pas de support (< 1.0.0)
+### Commandes Principales
 
-### Politique de Dépréciation
+```bash
+# Mise à jour dépendances
+npx expo install --check
+npm update
 
-- **Avertissement** : 6 mois avant dépréciation
-- **Support limité** : 3 mois après dépréciation
-- **Suppression** : 6 mois après dépréciation
+# Build et déploiement
+npx eas build --platform android --profile production
+npx eas submit --platform android
+```
 
 ---
 
 **Maintenu par** : Équipe EcoTri  
-**Dernière mise à jour** : Décembre 2024  
-**Version actuelle** : 2.0.0 (ML Kit on-device + EAS Build)  
-**Prochaine version** : 2.1.0 (Q1 2025)
+**Dernière mise à jour** : Décembre 2024
+**Version actuelle** : 2.0.0
