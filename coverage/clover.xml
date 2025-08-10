@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1754867079260" clover="3.2.0">
-  <project timestamp="1754867079260" name="All files">
-    <metrics statements="604" coveredstatements="390" conditionals="226" coveredconditionals="106" methods="122" coveredmethods="77" elements="952" coveredelements="573" complexity="0" loc="604" ncloc="604" packages="5" files="9" classes="9"/>
+<coverage generated="1754867654599" clover="3.2.0">
+  <project timestamp="1754867654600" name="All files">
+    <metrics statements="604" coveredstatements="391" conditionals="226" coveredconditionals="103" methods="122" coveredmethods="77" elements="952" coveredelements="571" complexity="0" loc="604" ncloc="604" packages="5" files="9" classes="9"/>
     <package name="recycle-app">
       <metrics statements="11" coveredstatements="11" conditionals="1" coveredconditionals="0" methods="0" coveredmethods="0"/>
       <file name="firebaseConfig.tsx" path="C:\Users\zineb\Documents\M2-YNOV\Projet-Master\recycle-app\firebaseConfig.tsx">
@@ -124,25 +124,25 @@
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
         <line num="4" count="1" type="stmt"/>
-        <line num="5" count="10" type="stmt"/>
-        <line num="9" count="10" type="stmt"/>
-        <line num="11" count="10" type="stmt"/>
-        <line num="12" count="9" type="stmt"/>
-        <line num="13" count="9" type="stmt"/>
+        <line num="5" count="8" type="stmt"/>
+        <line num="9" count="8" type="stmt"/>
+        <line num="11" count="8" type="stmt"/>
+        <line num="12" count="8" type="stmt"/>
+        <line num="13" count="8" type="stmt"/>
         <line num="14" count="8" type="cond" truecount="1" falsecount="0"/>
         <line num="15" count="2" type="stmt"/>
         <line num="16" count="2" type="stmt"/>
         <line num="18" count="6" type="stmt"/>
         <line num="19" count="4" type="stmt"/>
         <line num="20" count="2" type="stmt"/>
-        <line num="22" count="5" type="stmt"/>
-        <line num="26" count="10" type="stmt"/>
-        <line num="27" count="5" type="stmt"/>
-        <line num="30" count="10" type="stmt"/>
+        <line num="22" count="4" type="stmt"/>
+        <line num="26" count="8" type="stmt"/>
+        <line num="27" count="4" type="stmt"/>
+        <line num="30" count="8" type="stmt"/>
       </file>
     </package>
     <package name="recycle-app.src.services">
-      <metrics statements="478" coveredstatements="328" conditionals="172" coveredconditionals="98" methods="96" coveredmethods="70"/>
+      <metrics statements="478" coveredstatements="329" conditionals="172" coveredconditionals="95" methods="96" coveredmethods="70"/>
       <file name="adviceService.ts" path="C:\Users\zineb\Documents\M2-YNOV\Projet-Master\recycle-app\src\services\adviceService.ts">
         <metrics statements="194" coveredstatements="128" conditionals="35" coveredconditionals="14" methods="36" coveredmethods="26"/>
         <line num="1" count="1" type="stmt"/>
@@ -450,29 +450,29 @@
         <line num="301" count="1" type="stmt"/>
       </file>
       <file name="mlKitService.ts" path="C:\Users\zineb\Documents\M2-YNOV\Projet-Master\recycle-app\src\services\mlKitService.ts">
-        <metrics statements="118" coveredstatements="57" conditionals="64" coveredconditionals="34" methods="33" coveredmethods="19"/>
+        <metrics statements="118" coveredstatements="58" conditionals="64" coveredconditionals="31" methods="33" coveredmethods="19"/>
         <line num="2" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
         <line num="47" count="1" type="stmt"/>
         <line num="80" count="1" type="stmt"/>
-        <line num="84" count="10" type="cond" truecount="1" falsecount="1"/>
-        <line num="89" count="10" type="stmt"/>
-        <line num="91" count="10" type="cond" truecount="0" falsecount="1"/>
+        <line num="84" count="9" type="cond" truecount="1" falsecount="1"/>
+        <line num="89" count="9" type="stmt"/>
+        <line num="91" count="9" type="cond" truecount="0" falsecount="1"/>
         <line num="92" count="0" type="stmt"/>
         <line num="93" count="0" type="stmt"/>
-        <line num="96" count="10" type="stmt"/>
-        <line num="97" count="10" type="stmt"/>
-        <line num="98" count="10" type="stmt"/>
-        <line num="101" count="10" type="stmt"/>
-        <line num="103" count="2" type="stmt"/>
-        <line num="106" count="2" type="stmt"/>
-        <line num="107" count="8" type="cond" truecount="2" falsecount="0"/>
+        <line num="96" count="9" type="stmt"/>
+        <line num="97" count="9" type="stmt"/>
+        <line num="98" count="9" type="stmt"/>
+        <line num="101" count="9" type="stmt"/>
+        <line num="103" count="1" type="stmt"/>
+        <line num="106" count="1" type="stmt"/>
+        <line num="107" count="5" type="cond" truecount="2" falsecount="0"/>
         <line num="108" count="5" type="stmt"/>
-        <line num="114" count="2" type="stmt"/>
-        <line num="116" count="6" type="cond" truecount="2" falsecount="0"/>
+        <line num="114" count="1" type="stmt"/>
+        <line num="116" count="3" type="cond" truecount="2" falsecount="0"/>
         <line num="117" count="3" type="stmt"/>
-        <line num="123" count="2" type="stmt"/>
-        <line num="125" count="2" type="stmt"/>
+        <line num="123" count="1" type="stmt"/>
+        <line num="125" count="1" type="stmt"/>
         <line num="135" count="8" type="stmt"/>
         <line num="138" count="8" type="stmt"/>
         <line num="139" count="8" type="stmt"/>
@@ -502,31 +502,31 @@
         <line num="191" count="32" type="stmt"/>
         <line num="196" count="8" type="stmt"/>
         <line num="209" count="37" type="stmt"/>
-        <line num="211" count="10" type="cond" truecount="2" falsecount="0"/>
-        <line num="213" count="10" type="stmt"/>
-        <line num="215" count="10" type="cond" truecount="4" falsecount="0"/>
+        <line num="211" count="9" type="cond" truecount="1" falsecount="1"/>
+        <line num="213" count="9" type="stmt"/>
+        <line num="215" count="9" type="cond" truecount="4" falsecount="0"/>
         <line num="216" count="3" type="stmt"/>
-        <line num="217" count="7" type="cond" truecount="5" falsecount="0"/>
+        <line num="217" count="6" type="cond" truecount="5" falsecount="0"/>
         <line num="218" count="1" type="stmt"/>
-        <line num="219" count="6" type="cond" truecount="5" falsecount="0"/>
-        <line num="220" count="3" type="stmt"/>
-        <line num="221" count="3" type="cond" truecount="4" falsecount="0"/>
-        <line num="222" count="2" type="stmt"/>
-        <line num="223" count="1" type="cond" truecount="3" falsecount="1"/>
-        <line num="224" count="0" type="stmt"/>
-        <line num="227" count="10" type="stmt"/>
-        <line num="229" count="37" type="cond" truecount="2" falsecount="0"/>
-        <line num="231" count="10" type="stmt"/>
-        <line num="233" count="10" type="stmt"/>
+        <line num="219" count="5" type="cond" truecount="5" falsecount="0"/>
+        <line num="220" count="1" type="stmt"/>
+        <line num="221" count="4" type="cond" truecount="4" falsecount="0"/>
+        <line num="222" count="3" type="stmt"/>
+        <line num="223" count="1" type="cond" truecount="2" falsecount="2"/>
+        <line num="224" count="1" type="stmt"/>
+        <line num="227" count="9" type="stmt"/>
+        <line num="229" count="37" type="cond" truecount="1" falsecount="1"/>
+        <line num="231" count="9" type="stmt"/>
+        <line num="233" count="9" type="stmt"/>
         <line num="244" count="8" type="stmt"/>
         <line num="283" count="8" type="stmt"/>
         <line num="284" count="8" type="stmt"/>
         <line num="289" count="16" type="stmt"/>
-        <line num="297" count="10" type="stmt"/>
-        <line num="313" count="10" type="stmt"/>
-        <line num="314" count="270" type="stmt"/>
-        <line num="316" count="20" type="stmt"/>
-        <line num="324" count="10" type="stmt"/>
+        <line num="297" count="9" type="stmt"/>
+        <line num="313" count="9" type="stmt"/>
+        <line num="314" count="243" type="stmt"/>
+        <line num="316" count="18" type="stmt"/>
+        <line num="324" count="9" type="stmt"/>
         <line num="329" count="0" type="stmt"/>
         <line num="377" count="0" type="stmt"/>
         <line num="378" count="0" type="stmt"/>
