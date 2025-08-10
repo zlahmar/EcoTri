@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1754866630685" clover="3.2.0">
-  <project timestamp="1754866630685" name="All files">
+<coverage generated="1754867079260" clover="3.2.0">
+  <project timestamp="1754867079260" name="All files">
     <metrics statements="604" coveredstatements="390" conditionals="226" coveredconditionals="106" methods="122" coveredmethods="77" elements="952" coveredelements="573" complexity="0" loc="604" ncloc="604" packages="5" files="9" classes="9"/>
     <package name="recycle-app">
       <metrics statements="11" coveredstatements="11" conditionals="1" coveredconditionals="0" methods="0" coveredmethods="0"/>
@@ -507,13 +507,13 @@
         <line num="215" count="10" type="cond" truecount="4" falsecount="0"/>
         <line num="216" count="3" type="stmt"/>
         <line num="217" count="7" type="cond" truecount="5" falsecount="0"/>
-        <line num="218" count="2" type="stmt"/>
-        <line num="219" count="5" type="cond" truecount="5" falsecount="0"/>
-        <line num="220" count="2" type="stmt"/>
-        <line num="221" count="3" type="cond" truecount="3" falsecount="1"/>
-        <line num="222" count="0" type="stmt"/>
-        <line num="223" count="3" type="cond" truecount="4" falsecount="0"/>
-        <line num="224" count="2" type="stmt"/>
+        <line num="218" count="1" type="stmt"/>
+        <line num="219" count="6" type="cond" truecount="5" falsecount="0"/>
+        <line num="220" count="3" type="stmt"/>
+        <line num="221" count="3" type="cond" truecount="4" falsecount="0"/>
+        <line num="222" count="2" type="stmt"/>
+        <line num="223" count="1" type="cond" truecount="3" falsecount="1"/>
+        <line num="224" count="0" type="stmt"/>
         <line num="227" count="10" type="stmt"/>
         <line num="229" count="37" type="cond" truecount="2" falsecount="0"/>
         <line num="231" count="10" type="stmt"/>
