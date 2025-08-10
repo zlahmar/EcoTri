@@ -255,7 +255,7 @@ class NationalAPIService {
           status: "Disponible",
           responseTime: Date.now() - startTime
         });
-      } catch (error) {
+      } catch {
         results.sources.push({
           name: source.name,
           status: "Indisponible"

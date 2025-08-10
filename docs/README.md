@@ -83,7 +83,7 @@ npm run type-check
 ## Métriques de Qualité
 
 - **Tests** : 68/71 passants (95.8% - amélioration significative !)
-- **Couverture** : 64.73% (+3 points)
+- **Couverture** : 64.56% (+2.83 points)
 - **Linting** : 0 erreurs, 0 warnings
 - **TypeScript** : Compilation sans erreur
 - **CI/CD** : Pipeline stable
@@ -143,7 +143,7 @@ src/
 
 **Contenu :** Stratégie de tests complète
 
-- **Tests unitaires** : 71 tests (68 passants, 3 échoués), couverture 64.73%
+- **Tests unitaires** : 71 tests (68 passants, 3 échoués), couverture 64.56%
 - **Documentation des mocks** : Structure complète des mocks Firebase, Expo, React Native
 - **Configuration Jest** : Setup TypeScript, moduleNameMapper
 - **Scénarios d'acceptation** : 8 scénarios de test fonctionnels manuels

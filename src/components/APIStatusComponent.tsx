@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
-import { Card, Button, Chip, ActivityIndicator } from 'react-native-paper';
+import { Card, Button, Chip } from 'react-native-paper';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import MockAPIService from '../services/mockAPIService';
 import { colors } from '../styles/colors';

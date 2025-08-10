@@ -14,7 +14,7 @@ const ScanScreen = ({ navigation }: { navigation: any }) => {
   const [scanResult, setScanResult] = useState<VisionAnalysisResult | null>(null);
   const [showResult, setShowResult] = useState(false);
   const [capturedImage, setCapturedImage] = useState<string | null>(null);
-  const [savedImageUrl, setSavedImageUrl] = useState<string | null>(null);
+
 
   const takePicture = async () => {
     try {
@@ -66,7 +66,7 @@ const ScanScreen = ({ navigation }: { navigation: any }) => {
     setShowResult(false);
     setScanResult(null);
     setCapturedImage(null);
-    setSavedImageUrl(null);
+
   };
 
   const handleConfirm = async () => {

@@ -312,7 +312,7 @@ env:
   with:
     status: success
     webhook_url: ${{ secrets.SLACK_WEBHOOK }}
-    text: '✅ Build réussi pour ${{ github.repository }}#${{ github.run_number }}'
+    text: ' Build réussi pour ${{ github.repository }}#${{ github.run_number }}'
 
 - name: Notification Slack - Échec
   if: failure()
@@ -320,7 +320,7 @@ env:
   with:
     status: failure
     webhook_url: ${{ secrets.SLACK_WEBHOOK }}
-    text: '❌ Build échoué pour ${{ github.repository }}#${{ github.run_number }}'
+    text: ' Build échoué pour ${{ github.repository }}#${{ github.run_number }}'
 ```
 
 ### Status Checks
@@ -339,7 +339,7 @@ env:
 ### Couverture de Code
 
 - **Objectif** : > 60%
-- **Actuel** : 64.73%
+- **Actuel** : 64.56%
 - **Tendance** : Amélioration continue
 
 ### Performance des Tests
@@ -350,7 +350,7 @@ env:
 
 ### Qualité du Code
 
-- **ESLint** : 0 erreurs, < 20 warnings
+- **ESLint** : 0 erreurs, 0 warnings
 - **TypeScript** : 0 erreurs de compilation
 - **Tests** : 68/71 passants (95.8%)
 

@@ -566,7 +566,7 @@ const compressImage = async (image: Image) => {
 #### Tests Unitaires
 
 - **Tests** : 68/71 passants
-- **Couverture** : 64.73%
+- **Couverture** : 64.56%
 - **Services** : 95.8% des services testés
 - **Composants** : Tests des composants critiques
 

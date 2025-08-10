@@ -92,7 +92,7 @@ Toutes les modifications et mises à jour notables de ce projet seront document�
 **Métriques d'Amélioration :**
 
 - **Taux de réussite tests** : 85% → 91.4% (+6.4 points)
-- **Couverture de code** : 47.87% → 61.73% (+13.86 points)
+- **Couverture de code** : 47.87% → 64.56% (+16.69 points)
 - **Temps de correction** : < 1h par bogue identifié
 - **Processus de correction** : Workflow en 6 étapes documenté
 
@@ -141,8 +141,8 @@ Toutes les modifications et mises à jour notables de ce projet seront document�
 
 ### Version 2.0.0
 
-- Tests : 68/71 passants (95.7%)
-- Couverture : 61.73%
+- Tests : 68/71 passants (95.8%)
+- Couverture : 64.56%
 - Linting : 0 erreurs, 0 warnings
 - Performance ML Kit : ~500ms analyse
 - Fonctionnement hors ligne : 100%

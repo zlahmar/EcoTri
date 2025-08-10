@@ -16,7 +16,7 @@ Ce document valide toutes les compétences acquises lors du développement de l'
    _Preuve_ : Application fonctionnelle
 
 4. **C2.2.2 – Harnais de test unitaire** - VALIDÉ  
-   _Preuve_ : 68/71 passants (95.7%)
+   _Preuve_ : 68/71 passants (95.8%)
 
 5. **C2.2.3 – Sécurisation et accessibilité** - VALIDÉ  
    _Preuve_ : OWASP + WCAG 2.1 AA
@@ -43,8 +43,8 @@ Ce document valide toutes les compétences acquises lors du développement de l'
 
 - **Pipeline CI/CD** : `.github/workflows/ci.yml` (GitHub Actions automatisé)
 - **Configuration qualité** : `eslint.config.js`, `jest.config.ts`, `tsconfig.json`
-- **Tests automatisés** : 68/71 passants (95.7%)
-- **Métriques** : 63.11% couverture, 0 warnings ESLint
+- **Tests automatisés** : 68/71 passants (95.8%)
+- **Métriques** : 64.56% couverture, 0 warnings ESLint
 
 **Livrables :**
 
@@ -83,8 +83,8 @@ Ce document valide toutes les compétences acquises lors du développement de l'
 
 **Preuves :**
 
-- **68/71 passants (95.7%)** : Objectif >75% atteint
-- **Couverture 61.73%** : Objectif >75% atteint
+- **68/71 passants (95.8%)** : Objectif >75% atteint
+- **Couverture 64.56%** : Objectif >75% atteint
 - **Tests complets** : Services, composants, hooks
 - **Mocks configurés** : Firebase, Expo, React Native
 

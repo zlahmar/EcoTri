@@ -500,11 +500,7 @@
 <a name='L435'></a><a href='#L435'>435</a>
 <a name='L436'></a><a href='#L436'>436</a>
 <a name='L437'></a><a href='#L437'>437</a>
-<a name='L438'></a><a href='#L438'>438</a>
-<a name='L439'></a><a href='#L439'>439</a>
-<a name='L440'></a><a href='#L440'>440</a>
-<a name='L441'></a><a href='#L441'>441</a>
-<a name='L442'></a><a href='#L442'>442</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L438'></a><a href='#L438'>438</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -564,7 +560,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -650,7 +645,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">15x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">15x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -796,7 +790,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -821,7 +814,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -973,7 +965,7 @@ const MapComponent = ({ mapRef, location, filter }: {
   const [address, setAddress] = useState("");
   const [loadingAddress, setLoadingAddress] = useState(false);
 &nbsp;
-  /** Récupère les points de recyclage depuis Overpass API */
+  //Récupère les points de recyclage depuis Overpass API
   const fetchRecyclingPoints = <span class="fstat-no" title="function not covered" >async </span>() =&gt; {
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!location) <span class="cstat-no" title="statement not covered" >return;</span></span>
 &nbsp;
@@ -1005,7 +997,6 @@ const MapComponent = ({ mapRef, location, filter }: {
 &nbsp;
       const text = <span class="cstat-no" title="statement not covered" >await response.text();</span>
       
-      // Vérifier si le texte commence par du HTML (erreur)
 <span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (text.trim().startsWith("&lt;")) {</span>
 <span class="cstat-no" title="statement not covered" >        console.error("API surchargée - réessayez plus tard");</span>
 <span class="cstat-no" title="statement not covered" >        return;</span>
@@ -1021,9 +1012,9 @@ const MapComponent = ({ mapRef, location, filter }: {
           tags: el.tags,
         })));
       }
-    } catch (error) {
+    } catch {
 <span class="cstat-no" title="statement not covered" >      console.error("Erreur API - réessayez plus tard");</span>
-      // En cas d'erreur, on peut essayer avec un serveur alternatif
+      // En cas d'erreur, on essaie avec un serveur alternatif
 <span class="cstat-no" title="statement not covered" >      try {</span>
         const response = <span class="cstat-no" title="statement not covered" >await fetch("https://overpass-api.de/api/interpreter", {</span>
           method: "POST",
@@ -1045,13 +1036,13 @@ const MapComponent = ({ mapRef, location, filter }: {
             })));
           }
         }
-      } catch (fallbackError) {
+      } catch {
 <span class="cstat-no" title="statement not covered" >        console.error("Erreur API - réessayez plus tard");</span>
       }
     }
   };
 &nbsp;
-  /** Formate l'adresse pour n'afficher que le numéro, la rue, le code postal et la ville */
+  //Formate l'adresse pour n'afficher que le numéro, la rue, le code postal et la ville
   const formatAddress = <span class="fstat-no" title="function not covered" >(d</span>ata: any) =&gt; {
 <span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!data || !data.address) <span class="cstat-no" title="statement not covered" >return "Adresse non trouvée";</span></span>
     
@@ -1059,7 +1050,7 @@ const MapComponent = ({ mapRef, location, filter }: {
 <span class="cstat-no" title="statement not covered" >    return `${house_number ? house_number + " " : ""}${road || ""}, ${postcode || ""} ${town || city || ""}`;</span>
   };
 &nbsp;
-  /**Récupère l'adresse via Nominatim */
+  //Récupère l'adresse via Nominatim
   const fetchAddressFromCoordinates = <span class="fstat-no" title="function not covered" >async </span>(latitude: number, longitude: number) =&gt; {
 <span class="cstat-no" title="statement not covered" >    setLoadingAddress(true);</span>
 <span class="cstat-no" title="statement not covered" >    try {</span>
@@ -1070,13 +1061,13 @@ const MapComponent = ({ mapRef, location, filter }: {
       const data = <span class="cstat-no" title="statement not covered" >await response.json();</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >      setAddress(formatAddress(data));</span>
-    } catch (error) {
+    } catch {
 <span class="cstat-no" title="statement not covered" >      setAddress("Adresse non trouvée");</span>
     }
 <span class="cstat-no" title="statement not covered" >    setLoadingAddress(false);</span>
   };
 &nbsp;
-  /**Sélectionne un point de recyclage et récupère son adresse */
+  //Sélectionne un point de recyclage et récupère son adresse
   const handleSelectPoint = <span class="fstat-no" title="function not covered" >(p</span>oint: any) =&gt; {
 <span class="cstat-no" title="statement not covered" >    setSelectedPoint(point);</span>
 <span class="cstat-no" title="statement not covered" >    fetchAddressFromCoordinates(point.latitude, point.longitude);</span>
@@ -1089,17 +1080,16 @@ const MapComponent = ({ mapRef, location, filter }: {
     });
   };
 &nbsp;
-  /**Récupère les points de recyclage à chaque changement de location ou filtre */
+  //Récupère les points de recyclage à chaque changement de location ou filtre
   useEffect(() =&gt; {
-    // Ajouter un délai pour éviter de surcharger l'API
     const timeoutId = setTimeout(<span class="fstat-no" title="function not covered" >() =</span>&gt; {
 <span class="cstat-no" title="statement not covered" >      fetchRecyclingPoints();</span>
-    }, 500); // 500ms de délai
+    }, 500);
 &nbsp;
     return () =&gt; clearTimeout(timeoutId);
   }, [location, filter]);
 &nbsp;
-  /**Centre la carte sur la position actuelle */
+  //Centre la carte sur la position actuelle
   useEffect(() =&gt; {
     <span class="missing-if-branch" title="if path not taken" >I</span>if (location &amp;&amp; mapRef.current) {
 <span class="cstat-no" title="statement not covered" >      mapRef.current.animateToRegion({</span>
@@ -1112,7 +1102,7 @@ const MapComponent = ({ mapRef, location, filter }: {
   }, [location]);
   
 &nbsp;
-  /**Traduit les types de recyclage en français */
+  //Traduit les types de recyclage en français
   const translateRecyclingType = <span class="fstat-no" title="function not covered" >(t</span>ag: string): string =&gt; {
     const translations: { [key: string]: string } = <span class="cstat-no" title="statement not covered" >{</span>
       "recycling:glass_bottles": "Bouteilles en verre",
@@ -1237,7 +1227,6 @@ const MapComponent = ({ mapRef, location, filter }: {
     );
   }
 &nbsp;
-  // Interface mobile avec carte
 <span class="cstat-no" title="statement not covered" >  return (</span>
     &lt;View style={styles.container}&gt;
       &lt;MapView 
@@ -1264,7 +1253,6 @@ const MapComponent = ({ mapRef, location, filter }: {
 <span class="cstat-no" title="statement not covered" >            return null;</span>
           }
 &nbsp;
-          // Déterminer la couleur du marqueur selon le filtre
           let markerColor = <span class="cstat-no" title="statement not covered" >colors.primary;</span> // Couleur par défaut (vert)
           
 <span class="cstat-no" title="statement not covered" >          <span class="missing-if-branch" title="if path not taken" >I</span>if (filter) {</span>
@@ -1393,7 +1381,7 @@ export default MapComponent;</pre></td></tr></table></pre>
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-08-10T21:30:43.923Z
+                at 2025-08-10T22:57:10.631Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

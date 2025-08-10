@@ -19,9 +19,8 @@ interface CollectionScheduleComponentProps {
 
 const CollectionScheduleComponent: React.FC<CollectionScheduleComponentProps> = ({
   city,
-  onCityChange,
 }) => {
-  const [schedules, setSchedules] = useState<CollectionSchedule[]>([]);
+  const [, setSchedules] = useState<CollectionSchedule[]>([]);
   const [weekSchedules, setWeekSchedules] = useState<{ [day: string]: CollectionSchedule[] }>({});
   const [loading, setLoading] = useState(true);
 

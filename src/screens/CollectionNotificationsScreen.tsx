@@ -1,18 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, Alert, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
-import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Appbar, Portal, Modal, TextInput, Button, Card, IconButton } from 'react-native-paper';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Portal, Modal, TextInput, Button, Card, IconButton } from 'react-native-paper';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import * as Location from 'expo-location';
 import CollectionScheduleComponent from '../components/CollectionScheduleComponent';
-import DataDebugComponent from '../components/DataDebugComponent';
+
 import CollectionScheduleService from '../services/collectionScheduleService';
-import { createGlobalStyles } from '../styles/global';
+
 import { colors } from '../styles/colors';
 
 const CollectionNotificationsScreen = ({ navigation }: { navigation: any }) => {
-  const insets = useSafeAreaInsets();
-  const globalStyles = createGlobalStyles(insets);
+
   const [selectedCity, setSelectedCity] = useState('centre ville');
   const [showCityModal, setShowCityModal] = useState(false);
   const [citySearch, setCitySearch] = useState('');

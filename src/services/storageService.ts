@@ -170,10 +170,6 @@ class StorageService {
         newStreak = 1;
       }
 
-      // Calcul des stats hebdomadaires et mensuelles
-      const weekAgo = new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000);
-      const monthAgo = new Date(today.getTime() - 30 * 24 * 60 * 60 * 1000);
-      
       // Pour simplifier, on incrémente juste les compteurs (dans un vrai cas, on analyserait l'historique)
       const weeklyScans = Math.min((currentStats.weeklyScans || 0) + 1, 50);
       const monthlyScans = Math.min((currentStats.monthlyScans || 0) + 1, 200);
@@ -215,7 +211,7 @@ class StorageService {
         const userRef = doc(db, 'users', userId);
         await updateDoc(userRef, { stats: updatedStats });
         console.log(' Stats aussi sauvegardées dans Firestore');
-      } catch (firestoreError) {
+      } catch {
         console.log('Firestore non disponible, stats sauvées localement seulement');
       }
 

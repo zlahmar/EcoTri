@@ -74,36 +74,7 @@ const WASTE_CLASSIFICATION = {
   'tea': { category: 'Déchets verts', icon: 'tea', color: '#8BC34A', instructions: 'Composter ou jeter dans le bac organique' },
 };
 
-// Mots-clés pour la classification
-const WASTE_KEYWORDS = {
-  'bottle': ['bottle', 'water bottle', 'plastic bottle', 'drink bottle', 'soda bottle'],
-  'can': ['can', 'aluminum can', 'tin can', 'soda can', 'beer can'],
-  'paper': ['paper', 'document', 'sheet', 'page'],
-  'glass': ['glass', 'bottle', 'jar', 'container'],
-  'cardboard': ['cardboard', 'box', 'carton', 'package'],
-  'plastic': ['plastic', 'container', 'package', 'wrapper'],
-  'metal': ['metal', 'aluminum', 'steel', 'tin'],
-  'organic': ['food', 'fruit', 'vegetable', 'bread', 'organic'],
-  'electronics': ['battery', 'phone', 'electronic', 'device'],
-  'textile': ['clothing', 'fabric', 'textile', 'shirt', 'cloth'],
-  'food': ['food', 'fruit', 'vegetable', 'bread', 'meal'],
-  'drink': ['drink', 'beverage', 'soda', 'water', 'juice'],
-  'container': ['container', 'package', 'box'],
-  'newspaper': ['newspaper', 'magazine', 'journal'],
-  'magazine': ['magazine', 'journal', 'publication'],
-  'box': ['box', 'carton', 'package'],
-  'bag': ['bag', 'plastic bag', 'shopping bag'],
-  'wrapper': ['wrapper', 'packaging', 'film'],
-  'battery': ['battery', 'cell'],
-  'phone': ['phone', 'mobile', 'cellphone'],
-  'clothing': ['clothing', 'shirt', 'pants', 'dress'],
-  'fabric': ['fabric', 'cloth', 'textile'],
-  'fruit': ['fruit', 'apple', 'banana', 'orange'],
-  'vegetable': ['vegetable', 'carrot', 'tomato', 'lettuce'],
-  'bread': ['bread', 'toast', 'sandwich'],
-  'coffee': ['coffee', 'tea', 'beverage'],
-  'tea': ['tea', 'herbal', 'beverage'],
-};
+
 
 class MLKitService {
   private isDevelopment = __DEV__;
@@ -149,7 +120,7 @@ class MLKitService {
         }));
       
       // Classification du déchet basé sur les vrais résultats ML Kit
-      const wasteCategory = this.classifyWaste(visionLabels, visionObjects);
+      const wasteCategory = this.classifyWaste(visionLabels);
       
       return {
         labels: visionLabels,
@@ -184,7 +155,7 @@ class MLKitService {
     const detailedColors = this.generateDetailedColors();
     
     // Classification avec plus de détails
-    const wasteCategory = this.classifyWasteDetailed(detailedLabels, detailedObjects);
+          const wasteCategory = this.classifyWasteDetailed(detailedLabels);
     const alternatives = this.getDetailedAlternatives(wasteCategory.category);
     
     // Logs détaillés pour le développement
@@ -214,7 +185,7 @@ class MLKitService {
     
     const simulatedLabels = this.generateSimulatedLabels();
     const simulatedObjects = this.generateSimulatedObjects(simulatedLabels);
-    const wasteCategory = this.classifyWaste(simulatedLabels, simulatedObjects);
+    const wasteCategory = this.classifyWaste(simulatedLabels);
     
     console.log(' Simulation générée:', {
       labels: simulatedLabels.map(l => l.description),
@@ -234,7 +205,7 @@ class MLKitService {
   }
 
   // Classification du déchet basé sur les labels et objets détectés
-  private classifyWaste(labels: VisionLabel[], _objects: VisionObject[]): WasteCategory {
+  private classifyWaste(labels: VisionLabel[]): WasteCategory {
     console.log(' Classification avec labels:', labels.map(l => l.description));
     
     const primaryLabel = labels[0]?.description.toLowerCase() || '';
@@ -465,7 +436,7 @@ class MLKitService {
   }
 
   // Classification détaillée pour le mode développement
-  private classifyWasteDetailed(labels: VisionLabel[], _objects: VisionObject[]): WasteCategory {
+  private classifyWasteDetailed(labels: VisionLabel[]): WasteCategory {
     console.log(' Classification détaillée avec', labels.length, 'labels');
     
     const primaryLabel = labels[0]?.description.toLowerCase() || '';

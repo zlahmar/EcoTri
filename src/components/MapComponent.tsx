@@ -73,7 +73,7 @@ const MapComponent = ({ mapRef, location, filter }: {
           tags: el.tags,
         })));
       }
-    } catch (error) {
+    } catch {
       console.error("Erreur API - réessayez plus tard");
       // En cas d'erreur, on essaie avec un serveur alternatif
       try {
@@ -97,7 +97,7 @@ const MapComponent = ({ mapRef, location, filter }: {
             })));
           }
         }
-      } catch (fallbackError) {
+      } catch {
         console.error("Erreur API - réessayez plus tard");
       }
     }
@@ -122,7 +122,7 @@ const MapComponent = ({ mapRef, location, filter }: {
       const data = await response.json();
 
       setAddress(formatAddress(data));
-    } catch (error) {
+    } catch {
       setAddress("Adresse non trouvée");
     }
     setLoadingAddress(false);

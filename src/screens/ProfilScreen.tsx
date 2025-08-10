@@ -128,7 +128,7 @@ const ProfilScreen = ({ navigation }: { navigation: any }) => {
             return;
           }
         }
-      } catch (firestoreError) {
+      } catch {
         console.log("Firestore non disponible, utilisation des stats locales");
       }
 

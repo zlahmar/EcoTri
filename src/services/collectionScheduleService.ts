@@ -116,7 +116,7 @@ class CollectionScheduleService {
     const schedules: CollectionSchedule[] = [];
     const processed = new Set<string>();
 
-    apiData.forEach((item, index) => {
+    apiData.forEach((item) => {
       const key = `${item.lieu}-${item.jour}-${item.type_recyclable_ordures_menageresllecte}`;
       
       if (processed.has(key)) return;
