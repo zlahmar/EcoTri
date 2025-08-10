@@ -87,7 +87,7 @@ const CollectionNotificationsScreen = ({ navigation }: { navigation: any }) => {
 
   const useCurrentLocation = () => {
     if (currentCity && currentCity !== 'Localisation non autorisée' && currentCity !== 'Ville non trouvée' && currentCity !== 'Erreur de localisation') {
-      // Chercher une ville correspondante dans les villes disponibles
+      // Recherche d'une ville correspondante dans les villes disponibles
       const matchingCity = availableCities.find(city => 
         city.toLowerCase().includes(currentCity.toLowerCase()) || 
         currentCity.toLowerCase().includes(city.toLowerCase())
@@ -96,7 +96,7 @@ const CollectionNotificationsScreen = ({ navigation }: { navigation: any }) => {
       if (matchingCity) {
         handleCityChange(matchingCity);
       } else {
-        // Si aucune correspondance exacte, utiliser la ville détectée directement
+        // Si aucune correspondance exacte, utilisation de la ville détectée directement
         setSelectedCity(currentCity);
       }
     }
@@ -196,7 +196,6 @@ const CollectionNotificationsScreen = ({ navigation }: { navigation: any }) => {
      return (
      <SafeAreaView style={styles.safeAreaContainer}>
        <View style={styles.container}>
-         {/* Header */}
          <View style={styles.header}>
            <IconButton
              icon="arrow-left"
@@ -206,7 +205,7 @@ const CollectionNotificationsScreen = ({ navigation }: { navigation: any }) => {
            <Text style={styles.headerTitle}>Horaires de collecte</Text>
          </View>
 
-               {/* Affichage de la ville en grand cliquable */}
+               {/* Affichage de la ville*/}
                  <View style={styles.citySection}>
           <TouchableOpacity 
             style={styles.cityDisplayContainer}

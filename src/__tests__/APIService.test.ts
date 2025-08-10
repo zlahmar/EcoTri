@@ -78,13 +78,12 @@ describe('APIService', () => {
     });
 
     it('should handle API errors', async () => {
-      // Mock pour faire échouer complètement la requête avec une vraie erreur
-      const networkError = new Error('Network Error');
-      (fetch as jest.Mock).mockImplementation(() => {
-        throw networkError;
-      });
+      // Mock pour faire échouer toutes les tentatives
+      (fetch as jest.Mock).mockRejectedValue(new Error('Network Error'));
 
+      // Le service fait 3 tentatives avant de lancer l'erreur
       await expect(apiService.getCollectionData()).rejects.toThrow('Network Error');
+      expect(fetch).toHaveBeenCalledTimes(3); // 3 tentatives
     });
 
     it('should retry on network errors', async () => {

@@ -35,7 +35,7 @@ class APIService {
     return APIService.instance;
   }
 
-  // Générer une clé de cache
+  // Génération d'une clé de cache
   private generateCacheKey(endpoint: string, params: Record<string, string> = {}): string {
     const sortedParams = Object.keys(params)
       .sort()
@@ -44,7 +44,7 @@ class APIService {
     return `${endpoint}?${sortedParams}`;
   }
 
-  // Vérifier si les données en cache sont valides
+  // Vérification si les données en cache sont valides
   private isCacheValid(cacheKey: string): boolean {
     const cached = this.cache.get(cacheKey);
     if (!cached) return false;
@@ -53,7 +53,7 @@ class APIService {
     return (now - cached.timestamp) < this.cacheExpiry;
   }
 
-  // Récupérer les données depuis le cache
+  // Récupération des données depuis le cache
   private getFromCache<T>(cacheKey: string): T | null {
     if (this.isCacheValid(cacheKey)) {
       const cached = this.cache.get(cacheKey);
@@ -63,7 +63,7 @@ class APIService {
     return null;
   }
 
-  // Mettre en cache les données
+  // Mise en cache des données
   private setCache<T>(cacheKey: string, data: T): void {
     this.cache.set(cacheKey, {
       data,
@@ -72,12 +72,12 @@ class APIService {
     console.log(`Données mises en cache: ${cacheKey}`);
   }
 
-  // Attendre un délai
+  // Attente d'un délai
   private delay(ms: number): Promise<void> {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
 
-  // Effectuer une requête avec retry
+  // Exécution d'une requête avec retry
   private async fetchWithRetry(url: string, options: RequestInit = {}): Promise<Response> {
     let lastError: Error | null = null;
 
@@ -98,7 +98,7 @@ class APIService {
           return response;
         }
 
-        // Si c'est une erreur 4xx, ne pas retenter
+        // Si c'est une erreur 4xx, ne pas réessayer
         if (response.status >= 400 && response.status < 500) {
           throw new Error(`Erreur client: ${response.status} ${response.statusText}`);
         }
@@ -109,7 +109,7 @@ class APIService {
         console.warn(`Tentative ${attempt} échouée:`, error);
         
         if (attempt < this.retryAttempts) {
-          await this.delay(this.retryDelay * attempt); // Délai exponentiel
+          await this.delay(this.retryDelay * attempt);
         }
       }
     }
@@ -117,7 +117,7 @@ class APIService {
     throw lastError || new Error('Toutes les tentatives ont échoué');
   }
 
-  // Récupérer les données de collecte
+  // Récupération des données de collecte
   async getCollectionData(params: {
     city?: string;
     limit?: number;
@@ -126,7 +126,7 @@ class APIService {
   } = {}): Promise<APICollectionData[]> {
     const { city, limit = 1000, offset = 0, useCache = true } = params;
     
-    // Construire l'URL
+    // Construction de l'URL
     const url = new URL(this.baseUrl);
     url.searchParams.set('limit', limit.toString());
     url.searchParams.set('offset', offset.toString());
@@ -137,7 +137,7 @@ class APIService {
 
     const cacheKey = this.generateCacheKey(url.pathname, Object.fromEntries(url.searchParams));
     
-    // Vérifier le cache
+    // Vérification du cache
     if (useCache) {
       const cached = this.getFromCache<APICollectionData[]>(cacheKey);
       if (cached) {
@@ -153,7 +153,7 @@ class APIService {
       
       console.log(`Récupéré ${data.results.length} enregistrements de l'API`);
       
-      // Mettre en cache
+      // Mise en cache
       if (useCache) {
         this.setCache(cacheKey, data.results);
       }
@@ -165,7 +165,7 @@ class APIService {
     }
   }
 
-  // Récupérer toutes les villes disponibles
+  // Récupération de toutes les villes disponibles
   async getAllCities(useCache: boolean = true): Promise<string[]> {
     const cacheKey = 'all_cities';
     
@@ -191,7 +191,7 @@ class APIService {
     }
   }
 
-  // Rechercher des villes par nom
+  // Recherche de villes par nom
   async searchCities(searchTerm: string, limit: number = 10): Promise<string[]> {
     try {
       const allCities = await this.getAllCities();
@@ -206,7 +206,7 @@ class APIService {
     }
   }
 
-  // Récupérer les données pour une ville spécifique
+  // Récupération des données pour une ville spécifique
   async getCityData(city: string, useCache: boolean = true): Promise<APICollectionData[]> {
     try {
       return await this.getCollectionData({ city, useCache });
@@ -216,7 +216,7 @@ class APIService {
     }
   }
 
-  // Vérifier la connectivité à l'API
+  // Vérification de la connectivité à l'API
   async checkConnectivity(): Promise<boolean> {
     try {
       const url = new URL(this.baseUrl);
@@ -230,19 +230,19 @@ class APIService {
     }
   }
 
-  // Vider le cache
+  // Vidage du cache
   clearCache(): void {
     this.cache.clear();
     console.log('Cache API vidé');
   }
 
-  // Vider le cache pour une clé spécifique
+  // Vidage du cache pour une clé spécifique
   clearCacheKey(cacheKey: string): void {
     this.cache.delete(cacheKey);
     console.log(`Cache vidé pour: ${cacheKey}`);
   }
 
-  // Obtenir les statistiques du cache
+  // Récupération des statistiques du cache
   getCacheStats(): {
     size: number;
     keys: string[];
@@ -260,7 +260,7 @@ class APIService {
     };
   }
 
-  // Créer une erreur API standardisée
+  // Création d'une erreur API standardisée
   private createAPIError(error: Error): APIError {
     return {
       message: error.message,
@@ -268,7 +268,7 @@ class APIService {
     };
   }
 
-  // Tester l'API avec des données d'exemple
+  // Test de l'API avec des données d'exemple
   async testAPI(): Promise<{
     success: boolean;
     dataCount?: number;

@@ -64,7 +64,7 @@ const GuideScreen = ({ navigation }: { navigation: any }) => {
           <Text style={styles.title}>Guide d'utilisation</Text>
         </View>
 
-        {/* Welcome Section */}
+        {/* Bienvenue Section */}
         <Card style={styles.welcomeCard}>
           <Card.Content>
             <View style={styles.welcomeHeader}>
@@ -77,7 +77,7 @@ const GuideScreen = ({ navigation }: { navigation: any }) => {
           </Card.Content>
         </Card>
 
-        {/* Steps Section */}
+        {/* Étapes Section */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>🚀 Comment utiliser l'app ?</Text>
           {guideSteps.map((step, index) => (
@@ -95,7 +95,7 @@ const GuideScreen = ({ navigation }: { navigation: any }) => {
           ))}
         </View>
 
-        {/* Features Section */}
+        {/* Fonctionnalités Section */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>✨ Fonctionnalités principales</Text>
           {features.map((feature, index) => (

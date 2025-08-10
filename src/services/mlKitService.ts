@@ -75,7 +75,6 @@ const WASTE_CLASSIFICATION = {
 };
 
 // Mots-clés pour la classification
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const WASTE_KEYWORDS = {
   'bottle': ['bottle', 'water bottle', 'plastic bottle', 'drink bottle', 'soda bottle'],
   'can': ['can', 'aluminum can', 'tin can', 'soda can', 'beer can'],
@@ -109,21 +108,17 @@ const WASTE_KEYWORDS = {
 class MLKitService {
   private isDevelopment = __DEV__;
   
-  /**
-   * Détermine si on est en mode développement avec Expo
-   */
+  // Détermination si on est en mode développement avec Expo
   private isExpoEnvironment(): boolean {
     return this.isDevelopment && Platform.OS !== 'web';
   }
   
-  /**
-   * Analyse une image avec ML Kit (reconnaissance locale)
-   */
+  // Analyse d'une image avec ML Kit (reconnaissance locale)
   async analyzeImage(imageUri: string): Promise<VisionAnalysisResult> {
     const isExpo = this.isExpoEnvironment();
     
     if (isExpo) {
-      console.log('🔧 Mode développement Expo détecté - Utilisation de la simulation enrichie');
+      console.log('Mode développement Expo détecté - Utilisation de la simulation enrichie');
       return this.developmentAnalysis(imageUri);
     }
     
@@ -131,31 +126,36 @@ class MLKitService {
       console.log(' Mode production - Utilisation du vrai ML Kit');
       console.log(' Analyse ML Kit de l\'image:', imageUri);
       
-      // Utiliser le vrai ML Kit pour analyser l'image
+      // Utilisation du vrai ML Kit pour analyser l'image
       const labels = await ImageLabeling.label(imageUri);
       
       console.log(' Labels détectés par ML Kit:', labels);
       
-      // Convertir les résultats ML Kit vers notre format
-      const visionLabels: VisionLabel[] = labels.map(label => ({
-        description: label.text,
-        confidence: label.confidence,
-      }));
+      // Conversion des résultats ML Kit vers notre format
+      const visionLabels: VisionLabel[] = labels
+        .filter(label => label.text && label.text.trim() !== '')
+        .map(label => ({
+          description: label.text || 'Unknown object',
+          confidence: label.confidence || 0,
+        }));
       
-      // Créer des objets basés sur les labels (ML Kit ne fait que du labeling)
-      const visionObjects: VisionObject[] = labels.slice(0, 3).map(label => ({
-        name: label.text.toLowerCase(),
-        confidence: label.confidence,
-      }));
+      // Création des objets basés sur les labels (ML Kit ne fait que du labeling)
+      const visionObjects: VisionObject[] = labels
+        .slice(0, 3)
+        .filter(label => label.text && label.text.trim() !== '')
+        .map(label => ({
+          name: (label.text || 'unknown').toLowerCase(),
+          confidence: label.confidence || 0,
+        }));
       
-      // Classifier le déchet basé sur les vrais résultats ML Kit
+      // Classification du déchet basé sur les vrais résultats ML Kit
       const wasteCategory = this.classifyWaste(visionLabels, visionObjects);
       
       return {
         labels: visionLabels,
         objects: visionObjects,
-        text: [], // ML Kit image labeling ne fait pas d'OCR
-        dominantColors: this.generateSimulatedColors(), // On garde les couleurs simulées
+        text: [],
+        dominantColors: this.generateSimulatedColors(),
         wasteCategory,
         confidence: wasteCategory.confidence,
         alternatives: this.getAlternativeClassifications(wasteCategory.category),
@@ -169,17 +169,15 @@ class MLKitService {
     }
   }
 
-  /**
-   * Analyse enrichie pour le mode développement avec Expo
-   */
+  // Analyse enrichie pour le mode développement avec Expo
   private async developmentAnalysis(imageUri: string): Promise<VisionAnalysisResult> {
-    console.log('🔧 Début de l\'analyse en mode développement');
-    console.log('📸 URI de l\'image:', imageUri);
+    console.log('Début de l\'analyse en mode développement');
+    console.log('URI de l\'image:', imageUri);
     
-    // Simuler un délai d'analyse réaliste
+    // Simulation d'un délai d'analyse réaliste
     await new Promise(resolve => setTimeout(resolve, 1500));
     
-    // Générer des labels plus détaillés et réalistes
+    // Génération des labels plus détaillés et réalistes
     const detailedLabels = this.generateDetailedLabels();
     const detailedObjects = this.generateDetailedObjects(detailedLabels);
     const mockText = this.generateMockText();
@@ -210,9 +208,7 @@ class MLKitService {
     };
   }
 
-  /**
-   * Méthode de fallback en cas d'échec de ML Kit
-   */
+  // Méthode de fallback en cas d'échec de ML Kit
   private async fallbackSimulation(): Promise<VisionAnalysisResult> {
     await new Promise(resolve => setTimeout(resolve, 1000));
     
@@ -237,16 +233,12 @@ class MLKitService {
     };
   }
 
-  /**
-   * Classifie le déchet basé sur les labels et objets détectés
-   */
+  // Classification du déchet basé sur les labels et objets détectés
   private classifyWaste(labels: VisionLabel[], _objects: VisionObject[]): WasteCategory {
     console.log(' Classification avec labels:', labels.map(l => l.description));
     
-    // Classification directe basée sur les premiers labels
     const primaryLabel = labels[0]?.description.toLowerCase() || '';
     
-    // Mappage direct et simple
     let wasteType = 'plastic'; // Défaut
     
     if (primaryLabel.includes('bottle') || primaryLabel.includes('plastic')) {
@@ -262,7 +254,8 @@ class MLKitService {
     }
     
     const wasteInfo = WASTE_CLASSIFICATION[wasteType as keyof typeof WASTE_CLASSIFICATION];
-    const confidence = labels[0]?.confidence || 0.8;
+    // Utilisation de la confiance la plus élevée parmi les labels valides
+    const confidence = labels.length > 0 ? Math.max(...labels.map(l => l.confidence)) : 0.8;
     
     console.log(' Classifié comme:', wasteInfo.category, 'avec confiance:', confidence);
     
@@ -275,13 +268,11 @@ class MLKitService {
     };
   }
 
-  /**
-   * Génère des labels simulés pour la démonstration (plus variés)
-   */
+  //Génération des labels simulés pour la démonstration (plus variés)
   private generateSimulatedLabels(): VisionLabel[] {
     const labelSets = [
-      // Set bouteille plastique
       [
+        // Set bouteille plastique
         { description: 'Bottle', confidence: 0.95 },
         { description: 'Plastic', confidence: 0.89 },
         { description: 'Container', confidence: 0.82 },
@@ -317,25 +308,20 @@ class MLKitService {
       ]
     ];
     
-    // Choisir un set aléatoire
+    // Choix d'un set aléatoire
     const randomSet = labelSets[Math.floor(Math.random() * labelSets.length)];
     return randomSet;
   }
 
-  /**
-   * Génère des objets simulés pour la démonstration (adaptés aux labels)
-   */
+  // Génération des objets simulés pour la démonstration (adaptés aux labels)
   private generateSimulatedObjects(labels: VisionLabel[]): VisionObject[] {
-    // Créer des objets basés sur les labels générés
     return labels.slice(0, 2).map(label => ({
       name: label.description.toLowerCase(),
-      confidence: label.confidence - 0.1, // Légèrement moins confiant que les labels
+      confidence: label.confidence - 0.1,
     }));
   }
 
-  /**
-   * Génère des couleurs simulées pour la démonstration
-   */
+  // Génération des couleurs simulées pour la démonstration
   private generateSimulatedColors(): ColorInfo[] {
     return [
       {
@@ -351,9 +337,7 @@ class MLKitService {
     ];
   }
 
-  /**
-   * Obtient des classifications alternatives
-   */
+  // Récupération des classifications alternatives
   private getAlternativeClassifications(primaryCategory: string): WasteCategory[] {
     const alternatives = Object.entries(WASTE_CLASSIFICATION)
       .filter(([, info]) => info.category !== primaryCategory)
@@ -369,9 +353,7 @@ class MLKitService {
     return alternatives;
   }
 
-  /**
-   * Génère des labels détaillés pour le mode développement
-   */
+  // Génération des labels détaillés pour le mode développement
   private generateDetailedLabels(): VisionLabel[] {
     const detailedLabelSets = [
       // Bouteille plastique avec plus de détails
@@ -425,13 +407,11 @@ class MLKitService {
     return randomSet;
   }
 
-  /**
-   * Génère des objets détaillés basés sur les labels
-   */
+  // Génération des objets détaillés basés sur les labels
   private generateDetailedObjects(labels: VisionLabel[]): VisionObject[] {
     return labels.slice(0, 4).map((label, index) => ({
       name: label.description.toLowerCase(),
-      confidence: label.confidence - (index * 0.05), // Confiance décroissante
+      confidence: label.confidence - (index * 0.05),
       boundingPoly: {
         vertices: [
           { x: 100 + index * 20, y: 150 + index * 15 },
@@ -443,9 +423,7 @@ class MLKitService {
     }));
   }
 
-  /**
-   * Génère du texte OCR simulé
-   */
+  // Génération du texte OCR simulé
   private generateMockText(): string[] {
     const textOptions = [
       ['RECYCLABLE', 'PET 1', '500mL'],
@@ -460,9 +438,7 @@ class MLKitService {
     return randomTexts;
   }
 
-  /**
-   * Génère des couleurs détaillées
-   */
+  // Génération des couleurs détaillées
   private generateDetailedColors(): ColorInfo[] {
     const colorOptions = [
       // Bouteille plastique transparente
@@ -488,13 +464,10 @@ class MLKitService {
     return colorOptions[Math.floor(Math.random() * colorOptions.length)];
   }
 
-  /**
-   * Classification détaillée pour le mode développement
-   */
+  // Classification détaillée pour le mode développement
   private classifyWasteDetailed(labels: VisionLabel[], _objects: VisionObject[]): WasteCategory {
     console.log(' Classification détaillée avec', labels.length, 'labels');
     
-    // Analyse plus sophistiquée des labels
     const primaryLabel = labels[0]?.description.toLowerCase() || '';
     const secondaryLabels = labels.slice(1, 3).map(l => l.description.toLowerCase());
     
@@ -504,10 +477,9 @@ class MLKitService {
     let wasteType = 'plastic'; // Défaut
     let confidence = labels[0]?.confidence || 0.8;
     
-    // Classification plus précise
     if (primaryLabel.includes('bottle') && primaryLabel.includes('plastic')) {
       wasteType = 'bottle';
-      confidence = Math.min(confidence + 0.1, 0.98); // Boost de confiance
+      confidence = Math.min(confidence + 0.1, 0.98);
     } else if (primaryLabel.includes('can') && primaryLabel.includes('aluminum')) {
       wasteType = 'can';
       confidence = Math.min(confidence + 0.08, 0.96);
@@ -536,21 +508,19 @@ class MLKitService {
     };
   }
 
-  /**
-   * Obtient des alternatives détaillées
-   */
+  // Récupération des alternatives détaillées
   private getDetailedAlternatives(primaryCategory: string): WasteCategory[] {
     const alternatives = Object.entries(WASTE_CLASSIFICATION)
       .filter(([, info]) => info.category !== primaryCategory)
-      .slice(0, 3) // Plus d'alternatives en mode dev
+      .slice(0, 3)
       .map(([, info]) => ({
         category: info.category,
         icon: info.icon,
         color: info.color,
         instructions: info.instructions,
-        confidence: Math.random() * 0.4 + 0.15, // 15-55% de confiance
+        confidence: Math.random() * 0.4 + 0.15,
       }))
-      .sort((a, b) => b.confidence - a.confidence); // Trier par confiance
+      .sort((a, b) => b.confidence - a.confidence);
 
     return alternatives;
   }

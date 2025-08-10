@@ -10,7 +10,7 @@ export const colors = {
   yellow: "#FFFF00",
   orange: "#FFA500",
   text: "#333333",
-  // Nouvelles couleurs pour les habitudes
+  // Couleurs pour les habitudes
   success: "#4CAF50",
   warning: "#FF9800",
   error: "#F44336",

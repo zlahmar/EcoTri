@@ -14,18 +14,18 @@ const ScanScreen = ({ navigation }: { navigation: any }) => {
   const [scanResult, setScanResult] = useState<VisionAnalysisResult | null>(null);
   const [showResult, setShowResult] = useState(false);
   const [capturedImage, setCapturedImage] = useState<string | null>(null);
-  const [savedImageUrl, setSavedImageUrl] = useState<string | null>(null); // eslint-disable-line @typescript-eslint/no-unused-vars
+  const [savedImageUrl, setSavedImageUrl] = useState<string | null>(null);
 
   const takePicture = async () => {
     try {
-      // Demander les permissions AVANT d'afficher le loading
+      // Demande des permissions AVANT d'afficher le loading
       const { status } = await ImagePicker.requestCameraPermissionsAsync();
       if (status !== 'granted') {
         Alert.alert('Permission refusée', 'Vous devez autoriser l\'accès à la caméra pour scanner.');
         return;
       }
 
-      // Prendre la photo
+      // Prise de la photo
       const result = await ImagePicker.launchCameraAsync({
         allowsEditing: true,
         aspect: [1, 1],
@@ -34,11 +34,9 @@ const ScanScreen = ({ navigation }: { navigation: any }) => {
 
       if (!result.canceled) {
         setCapturedImage(result.assets[0].uri);
-        
-        // Maintenant on peut commencer l'analyse et afficher le loading
         setIsScanning(true);
         
-        // Analyser l'image avec ML Kit
+        // Analyse de l'image avec ML Kit
         await analyzeImage(result.assets[0].uri);
       }
       
@@ -51,7 +49,6 @@ const ScanScreen = ({ navigation }: { navigation: any }) => {
 
   const analyzeImage = async (imageUri: string) => {
     try {
-      // Analyser directement avec ML Kit (pas besoin de conversion base64)
       const analysisResult = await mlKitService.analyzeImage(imageUri);
       
       setScanResult(analysisResult);
@@ -61,7 +58,6 @@ const ScanScreen = ({ navigation }: { navigation: any }) => {
       console.error('Erreur lors de l\'analyse:', error);
       Alert.alert('Erreur', 'Impossible d\'analyser l\'image. Veuillez réessayer.');
     } finally {
-      // S'assurer que le loading s'arrête même en cas d'erreur
       setIsScanning(false);
     }
   };
@@ -85,7 +81,7 @@ const ScanScreen = ({ navigation }: { navigation: any }) => {
         return;
       }
 
-      // Sauvegarder seulement les statistiques de scan (pas d'image)
+      // Sauvegarde des statistiques de scan (pas d'image)
       await storageService.saveScanStats({
         userId,
         wasteCategory: scanResult.wasteCategory.category,
@@ -118,9 +114,7 @@ const ScanScreen = ({ navigation }: { navigation: any }) => {
   return (
     <View style={styles.container}>
       {!showResult ? (
-        // Vue principale
         <View style={styles.mainContainer}>
-          {/* Header */}
           <View style={styles.header}>
             <IconButton
               icon="arrow-left"
@@ -130,7 +124,6 @@ const ScanScreen = ({ navigation }: { navigation: any }) => {
             <Text style={styles.title}>Scanner un déchet</Text>
           </View>
 
-          {/* Zone de scan */}
           <View style={styles.scanArea}>
             <View style={styles.scanFrame}>
               <MaterialCommunityIcons name="camera" size={80} color={colors.primary} />
@@ -138,7 +131,6 @@ const ScanScreen = ({ navigation }: { navigation: any }) => {
             </View>
           </View>
 
-          {/* Bouton de capture */}
           <View style={styles.captureContainer}>
             <TouchableOpacity
               testID="button"
@@ -167,7 +159,6 @@ const ScanScreen = ({ navigation }: { navigation: any }) => {
           </View>
         </View>
       ) : (
-        // Vue résultats
         <View style={styles.resultContainer}>
           <View style={styles.resultHeader}>
             <IconButton
@@ -266,7 +257,6 @@ const ScanScreen = ({ navigation }: { navigation: any }) => {
         </View>
       )}
 
-      {/* Modal de chargement */}
       <Modal visible={isScanning} transparent>
         <View style={styles.loadingModal}>
           <View style={styles.loadingContent}>

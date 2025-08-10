@@ -1,6 +1,6 @@
 import MockAPIService, { APICollectionData } from './mockAPIService';
 
-// Interface pour les paramètres de notification (maintenant définie localement)
+// Interface pour les paramètres de notification (actuellement définie localement)
 interface NotificationSettings {
   enabled: boolean;
   reminderTime: number;
@@ -66,7 +66,7 @@ class CollectionScheduleService {
     return CollectionScheduleService.instance;
   }
 
-  // Récupérer les données depuis l'API nationale
+  // Récupération des données depuis l'API nationale
   private async fetchFromAPI(city?: string): Promise<APICollectionData[]> {
     try {
       if (city) {
@@ -76,7 +76,7 @@ class CollectionScheduleService {
       }
     } catch (error) {
       console.error('Erreur lors de la récupération des données API:', error);
-      // Retourner des données d'exemple en cas d'erreur
+      // Retourne des données d'exemple en cas d'erreur
       return this.getFallbackData();
     }
   }
@@ -111,7 +111,7 @@ class CollectionScheduleService {
     ];
   }
 
-  // Convertir les données API vers notre format
+  // Conversion des données API vers notre format
   private convertAPIDataToSchedules(apiData: APICollectionData[]): CollectionSchedule[] {
     const schedules: CollectionSchedule[] = [];
     const processed = new Set<string>();
@@ -119,7 +119,7 @@ class CollectionScheduleService {
     apiData.forEach((item, index) => {
       const key = `${item.lieu}-${item.jour}-${item.type_recyclable_ordures_menageresllecte}`;
       
-      if (processed.has(key)) return; // Éviter les doublons
+      if (processed.has(key)) return;
       processed.add(key);
 
       const dayOfWeek = DAY_MAPPING[item.jour.toLowerCase()];
@@ -138,7 +138,7 @@ class CollectionScheduleService {
         id: `api-${item.lieu}-${type}-${dayOfWeek}`,
         type: type as any,
         dayOfWeek: dayOfWeek,
-        time: '06:00', // Heure par défaut
+        time: '06:00',
         enabled: true,
         location: item.lieu
       });
@@ -147,7 +147,7 @@ class CollectionScheduleService {
     return schedules;
   }
 
-  // Mapper les types de l'API vers nos types
+  // Mapping des types de l'API vers nos types
   private mapAPITypeToOurType(apiType: string): string | null {
     const normalizedType = apiType.toLowerCase().trim();
     
@@ -160,9 +160,9 @@ class CollectionScheduleService {
     return null;
   }
 
-  // Obtenir les horaires de collecte pour une ville
+  // Récupération des horaires de collecte pour une ville
   async getCollectionSchedules(city: string): Promise<CollectionSchedule[]> {
-    // Vérifier le cache
+    // Vérification du cache
     const now = Date.now();
     if (this.cachedData[city] && this.lastFetch[city] && 
         (now - this.lastFetch[city]) < this.cacheExpiry) {
@@ -175,13 +175,13 @@ class CollectionScheduleService {
       const apiData = await this.fetchFromAPI(city);
       const schedules = this.convertAPIDataToSchedules(apiData);
       
-      // Filtrer par ville si nécessaire
+      // Filtre par ville si nécessaire
       const citySchedules = schedules.filter(schedule => 
         schedule.location.toLowerCase().includes(city.toLowerCase()) ||
         city.toLowerCase().includes(schedule.location.toLowerCase())
       );
 
-      // Mettre en cache
+      // Mise en cache
       this.cachedData[city] = citySchedules;
       this.lastFetch[city] = now;
 
@@ -193,7 +193,7 @@ class CollectionScheduleService {
     }
   }
 
-  // Obtenir les horaires de collecte pour aujourd'hui
+  // Récupération des horaires de collecte pour aujourd'hui
   async getTodaySchedules(city: string): Promise<CollectionSchedule[]> {
     const allSchedules = await this.getCollectionSchedules(city);
     const today = new Date().getDay(); // 0 = Dimanche, 1 = Lundi, etc.
@@ -203,7 +203,7 @@ class CollectionScheduleService {
     );
   }
 
-  // Obtenir les horaires de collecte pour demain
+  // Récupération des horaires de collecte pour demain
   async getTomorrowSchedules(city: string): Promise<CollectionSchedule[]> {
     const allSchedules = await this.getCollectionSchedules(city);
     const tomorrow = (new Date().getDay() + 1) % 7; // 0 = Dimanche, 1 = Lundi, etc.
@@ -213,7 +213,7 @@ class CollectionScheduleService {
     );
   }
 
-  // Obtenir les horaires de collecte pour cette semaine
+  // Récupération des horaires de collecte pour cette semaine
   async getWeekSchedules(city: string): Promise<{ [day: string]: CollectionSchedule[] }> {
     const allSchedules = await this.getCollectionSchedules(city);
     const weekSchedules: { [day: string]: CollectionSchedule[] } = {};
@@ -229,12 +229,12 @@ class CollectionScheduleService {
     return weekSchedules;
   }
 
-  // Obtenir les paramètres de notification par défaut
+  // Récupération des paramètres de notification par défaut
   getDefaultNotificationSettings(): NotificationSettings {
     return { ...DEFAULT_NOTIFICATION_SETTINGS };
   }
 
-  // Rechercher une ville par nom
+  // Recherche d'une ville par nom
   async searchCity(cityName: string): Promise<string[]> {
     try {
       return await this.apiService.searchCities(cityName, 10);
@@ -244,7 +244,7 @@ class CollectionScheduleService {
     }
   }
 
-  // Obtenir toutes les villes disponibles
+  // Récupération de toutes les villes disponibles
   async getAvailableCities(): Promise<string[]> {
     try {
       return await this.apiService.getAllCities();
@@ -254,7 +254,7 @@ class CollectionScheduleService {
     }
   }
 
-  // Obtenir les informations détaillées d'un type de collecte
+  // Récupération des informations détaillées d'un type de collecte
   getCollectionTypeInfo(type: string): {
     name: string;
     description: string;
@@ -351,7 +351,7 @@ class CollectionScheduleService {
     };
   }
 
-  // Vérifier si une collecte a lieu aujourd'hui
+    // Vérification si une collecte a lieu aujourd'hui
   async hasCollectionToday(city: string, type?: string): Promise<boolean> {
     const todaySchedules = await this.getTodaySchedules(city);
     
@@ -362,7 +362,7 @@ class CollectionScheduleService {
     return todaySchedules.length > 0;
   }
 
-  // Obtenir le prochain jour de collecte pour un type
+  // Récupération du prochain jour de collecte pour un type
   async getNextCollectionDay(city: string, type: string): Promise<{ day: string; time: string } | null> {
     const allSchedules = await this.getCollectionSchedules(city);
     const typeSchedules = allSchedules.filter(schedule => 
@@ -376,7 +376,7 @@ class CollectionScheduleService {
     const today = new Date().getDay();
     const daysOfWeek = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];
     
-    // Trouver le prochain jour de collecte
+    // Recherche du prochain jour de collecte
     for (let i = 1; i <= 7; i++) {
       const checkDay = (today + i) % 7;
       const schedule = typeSchedules.find(s => s.dayOfWeek === checkDay);
@@ -392,14 +392,14 @@ class CollectionScheduleService {
     return null;
   }
 
-  // Vider le cache
+  // Vidage du cache
   clearCache(): void {
     this.cachedData = {};
     this.lastFetch = {};
     console.log('Cache vidé');
   }
 
-  // Forcer la mise à jour des données
+  // Force la mise à jour des données
   async refreshData(city?: string): Promise<void> {
     if (city) {
       delete this.cachedData[city];

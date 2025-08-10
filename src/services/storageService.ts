@@ -26,9 +26,7 @@ export interface UserStats {
 }
 
 class StorageService {
-  /**
-   * Sauvegarde seulement les statistiques de scan (pour la gamification)
-   */
+  // Sauvegarde seulement les statistiques de scan (pour la gamification)
   async saveScanStats(scanStats: ScanStats): Promise<void> {
     try {
       const userId = auth.currentUser?.uid;
@@ -36,25 +34,23 @@ class StorageService {
         throw new Error('Utilisateur non authentifié');
       }
 
-      // En développement, on simule la sauvegarde des stats
+      // Simulation de la sauvegarde des stats
       console.log(' Sauvegarde des statistiques de scan:', {
         userId,
         wasteCategory: scanStats.wasteCategory,
         confidence: scanStats.confidence,
       });
 
-      // Simuler un délai de sauvegarde
+      // Simulation d'un délai de sauvegarde
       await new Promise(resolve => setTimeout(resolve, 300));
       
-      // Mettre à jour les statistiques utilisateur
+      // Mise à jour des statistiques utilisateur
       await this.updateUserStats(scanStats.wasteCategory);
       
       console.log(' Statistiques mises à jour avec succès !');
 
-      /* Version complète pour la production :
+      // Version complète pour la production :
       // Pas besoin de sauvegarder les détails du scan, juste mettre à jour les stats
-      await this.updateUserStats(scanStats.wasteCategory);
-      */
     } catch (error) {
       console.error('Erreur lors de la sauvegarde des statistiques:', error);
       throw new Error('Impossible de sauvegarder les statistiques');
@@ -63,9 +59,7 @@ class StorageService {
 
 
 
-  /**
-   * Récupère les statistiques d'un utilisateur
-   */
+  // Récupération des statistiques d'un utilisateur
   async getUserStats(userId: string): Promise<UserStats> {
     try {
       const userDoc = await getDoc(doc(db, 'users', userId));
@@ -93,7 +87,7 @@ class StorageService {
           },
         };
       } else {
-        // Créer des stats par défaut
+        // Création des stats par défaut
         const defaultStats: UserStats = {
           scansCompleted: 0,
           points: 0,
@@ -123,15 +117,13 @@ class StorageService {
     }
   }
 
-  /**
-   * Met à jour les statistiques utilisateur après un scan (avec persistance locale)
-   */
+  // Mise à jour des statistiques utilisateur après un scan (avec persistance locale)
   async updateUserStats(wasteCategory: string): Promise<void> {
     try {
       const userId = auth.currentUser?.uid;
       if (!userId) return;
 
-      // Récupérer les stats actuelles depuis AsyncStorage
+      // Récupération des stats actuelles depuis AsyncStorage
       const statsKey = `user_stats_${userId}`;
       const currentStatsJson = await AsyncStorage.getItem(statsKey);
       
@@ -161,7 +153,7 @@ class StorageService {
         };
       }
 
-      // Calculer la série (streak)
+      // Calcul de la série (streak)
       const today = new Date();
       const lastScan = currentStats.lastScanDate ? new Date(currentStats.lastScanDate) : null;
       let newStreak = currentStats.currentStreak;
@@ -172,24 +164,21 @@ class StorageService {
           // Scan le jour suivant, continuer la série
           newStreak = currentStats.currentStreak + 1;
         } else if (daysDiff > 1) {
-          // Gap dans les scans, recommencer la série
           newStreak = 1;
         }
-        // Si daysDiff === 0, c'est le même jour, garder la série actuelle
       } else {
-        // Premier scan
         newStreak = 1;
       }
 
-      // Calculer les stats hebdomadaires et mensuelles
+      // Calcul des stats hebdomadaires et mensuelles
       const weekAgo = new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000);
       const monthAgo = new Date(today.getTime() - 30 * 24 * 60 * 60 * 1000);
       
       // Pour simplifier, on incrémente juste les compteurs (dans un vrai cas, on analyserait l'historique)
-      const weeklyScans = Math.min((currentStats.weeklyScans || 0) + 1, 50); // Cap à 50 pour éviter l'accumulation
+      const weeklyScans = Math.min((currentStats.weeklyScans || 0) + 1, 50);
       const monthlyScans = Math.min((currentStats.monthlyScans || 0) + 1, 200);
 
-      // Mettre à jour les statistiques
+      // Mise à jour des statistiques
       const updatedStats: UserStats = {
         ...currentStats,
         scansCompleted: currentStats.scansCompleted + 1,
@@ -209,10 +198,10 @@ class StorageService {
         }
       };
 
-      // Calculer le niveau basé sur les points
+      // Calcul du niveau basé sur les points
       updatedStats.level = Math.floor(updatedStats.points / 100) + 1;
 
-      // Sauvegarder dans AsyncStorage
+      // Sauvegarde dans AsyncStorage
       await AsyncStorage.setItem(statsKey, JSON.stringify(updatedStats));
 
       console.log('Stats mises à jour et sauvegardées:');
@@ -221,7 +210,7 @@ class StorageService {
       console.log(`  - Total points: ${updatedStats.points}`);
       console.log(`  - Niveau: ${updatedStats.level}`);
 
-      // Aussi sauvegarder dans Firestore pour synchronisation (optionnel)
+      // Sauvegarde dans Firestore pour synchronisation (optionnel)
       try {
         const userRef = doc(db, 'users', userId);
         await updateDoc(userRef, { stats: updatedStats });

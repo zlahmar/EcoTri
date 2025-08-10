@@ -54,19 +54,18 @@ class NationalAPIService {
     return NationalAPIService.instance;
   }
 
-  // Récupérer les sources d'APIs disponibles
+  // Récupération des sources d'APIs disponibles
   getAvailableSources(): APISource[] {
     return this.API_SOURCES;
   }
 
-  // Rechercher des données par ville
+  // Recherche de données par ville
   async searchByCity(cityName: string): Promise<NationalCollectionData[]> {
     console.log(`Recherche de données pour la ville: ${cityName}`);
     
     // Simulation de recherche dans plusieurs sources
     const results: NationalCollectionData[] = [];
-    
-    // Exemple de données pour quelques grandes villes françaises
+
     const sampleData: { [key: string]: NationalCollectionData[] } = {
       "Paris": [
         {
@@ -185,7 +184,7 @@ class NationalAPIService {
 
     const normalizedCityName = cityName.toLowerCase().trim();
     
-    // Rechercher dans les données d'exemple
+    // Recherche dans les données d'exemple
     for (const [city, data] of Object.entries(sampleData)) {
       if (city.toLowerCase().includes(normalizedCityName) || 
           normalizedCityName.includes(city.toLowerCase())) {
@@ -197,16 +196,15 @@ class NationalAPIService {
     return results;
   }
 
-  // Rechercher par code postal
+  // Recherche par code postal
   async searchByPostalCode(postalCode: string): Promise<NationalCollectionData[]> {
     console.log(`Recherche par code postal: ${postalCode}`);
     
-    // Simulation de recherche par code postal
     const allData = await this.getAllSampleData();
     return allData.filter(data => data.code_postal.startsWith(postalCode.substring(0, 2)));
   }
 
-  // Récupérer toutes les données d'exemple
+  // Récupération de toutes les données d'exemple
   async getAllSampleData(): Promise<NationalCollectionData[]> {
     const allData: NationalCollectionData[] = [];
     
@@ -220,7 +218,7 @@ class NationalAPIService {
     return allData;
   }
 
-  // Obtenir la liste des villes disponibles
+  // Récupération de la liste des villes disponibles
   async getAvailableCities(): Promise<string[]> {
     const cities = [
       "Paris", "Lyon", "Marseille", "Bordeaux", "Toulouse", "Nantes", "Strasbourg",
@@ -236,7 +234,7 @@ class NationalAPIService {
     return cities.sort();
   }
 
-  // Tester la connectivité aux APIs
+  // Test de la connectivité aux APIs
   async testAPIConnectivity(): Promise<{
     success: boolean;
     sources: { name: string; status: string; responseTime?: number }[];
@@ -250,7 +248,6 @@ class NationalAPIService {
       const startTime = Date.now();
       
       try {
-        // Simulation de test de connectivité
         await new Promise(resolve => setTimeout(resolve, 100 + Math.random() * 200));
         
         results.sources.push({

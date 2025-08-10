@@ -54,12 +54,10 @@ const SplashScreen = ({ navigation }: { navigation: NavigationProp<any> }) => {
 
   return (
     <View style={[globalStyles.container, styles.container]}>
-      {/* Fond avec gradient simulé */}
       <View style={styles.background}>
         <View style={styles.gradientTop} />
         <View style={styles.gradientBottom} />
       </View>
-
       {/* Contenu principal */}
       <Animated.View 
         style={[
@@ -73,7 +71,6 @@ const SplashScreen = ({ navigation }: { navigation: NavigationProp<any> }) => {
           }
         ]}
       >
-        {/* Logo avec animation de rotation */}
         <Animated.View style={{ transform: [{ rotate: spin }] }}>
           <Image 
             source={require("../assets/logo.png")} 
@@ -81,13 +78,10 @@ const SplashScreen = ({ navigation }: { navigation: NavigationProp<any> }) => {
           />
         </Animated.View>
 
-        {/* Nom de l'app */}
         <Text style={styles.appName}>EcoTri</Text>
         
-        {/* Tagline */}
         <Text style={styles.tagline}>Transformez vos déchets en trésors</Text>
 
-        {/* Indicateur de chargement */}
         <View style={styles.loadingContainer}>
           <View style={styles.loadingDot} />
           <View style={styles.loadingDot} />
@@ -95,7 +89,6 @@ const SplashScreen = ({ navigation }: { navigation: NavigationProp<any> }) => {
         </View>
       </Animated.View>
 
-      {/* Éléments décoratifs */}
       <View style={styles.decorativeElements}>
         <View style={[styles.circle, styles.circle1]} />
         <View style={[styles.circle, styles.circle2]} />

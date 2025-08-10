@@ -4,6 +4,8 @@
 
 Ce document liste tous les scripts et commandes disponibles dans le projet EcoTri pour le développement, les tests et le déploiement.
 
+> **Note importante** : Ce projet utilise Expo SDK 53 et EAS (Expo Application Services) pour le build et le déploiement. Certaines commandes Expo classiques ont été remplacées par les commandes EAS.
+
 ## Scripts package.json
 
 ### Scripts de développement
@@ -44,12 +46,9 @@ npm run eject
 ```json
 {
   "scripts": {
-    "test": "jest",
+    "test": "jest --coverage",
     "test:watch": "jest --watch",
-    "test:coverage": "jest --coverage",
-    "test:verbose": "jest --verbose",
-    "test:update": "jest --updateSnapshot",
-    "test:clear": "jest --clearCache"
+    "test:verbose": "jest --coverage --verbose"
   }
 }
 ```
@@ -57,23 +56,14 @@ npm run eject
 #### Utilisation
 
 ```bash
-# Exécuter tous les tests
+# Exécuter tous les tests (avec couverture par défaut)
 npm test
 
 # Tests en mode watch (redémarre automatiquement)
 npm run test:watch
 
-# Tests avec rapport de couverture
-npm run test:coverage
-
-# Tests avec logs détaillés
+# Tests avec logs détaillés et couverture
 npm run test:verbose
-
-# Mettre à jour les snapshots
-npm run test:update
-
-# Nettoyer le cache Jest
-npm run test:clear
 ```
 
 ### Scripts de qualité du code
@@ -81,11 +71,10 @@ npm run test:clear
 ```json
 {
   "scripts": {
-    "lint": "eslint src --ext .ts,.tsx",
+    "lint": "eslint src --ext .ts,.tsx --max-warnings 20",
     "lint:fix": "eslint src --ext .ts,.tsx --fix",
-    "type-check": "tsc --noEmit",
-    "format": "prettier --write src/**/*.{ts,tsx}",
-    "format:check": "prettier --check src/**/*.{ts,tsx}"
+    "lint:check": "eslint src --ext .ts,.tsx",
+    "type-check": "tsc --noEmit --project tsconfig.build.json"
   }
 }
 ```
@@ -99,14 +88,11 @@ npm run lint
 # Corriger automatiquement les erreurs de linting
 npm run lint:fix
 
+# Vérifier le linting (sans correction)
+npm run lint:check
+
 # Vérifier les types TypeScript
 npm run type-check
-
-# Formater le code avec Prettier
-npm run format
-
-# Vérifier le formatage
-npm run format:check
 ```
 
 ### Scripts de build
@@ -115,10 +101,10 @@ npm run format:check
 {
   "scripts": {
     "build": "expo export:web",
-    "build:android": "expo build:android",
-    "build:ios": "expo build:ios",
-    "build:web": "expo export:web",
-    "prebuild": "npm run lint && npm test"
+    "build:clear": "expo export:web --clear",
+    "doctor": "npx expo-doctor",
+    "audit": "npm audit --audit-level=moderate",
+    "ci": "npm run lint && npm run type-check && npm test && npm run audit"
   }
 }
 ```
@@ -129,17 +115,17 @@ npm run format:check
 # Build pour le web
 npm run build
 
-# Build pour Android
-npm run build:android
+# Build pour le web avec nettoyage du cache
+npm run build:clear
 
-# Build pour iOS
-npm run build:ios
+# Vérifier la configuration Expo
+npm run doctor
 
-# Build web spécifique
-npm run build:web
+# Audit de sécurité des dépendances
+npm run audit
 
-# Pre-build (lint + tests)
-npm run prebuild
+# Vérification complète (lint + type-check + tests + audit)
+npm run ci
 ```
 
 ## Commandes Expo
@@ -169,33 +155,36 @@ expo start --dev-client
 ### Commandes de build
 
 ```bash
-# Build pour Android
-expo build:android
-
-# Build pour iOS
-expo build:ios
-
 # Build pour le web
 expo export:web
 
-# Build avec configuration spécifique
-expo build:android --type apk
-expo build:android --type app-bundle
-expo build:ios --type archive
-expo build:ios --type simulator
+# Build pour le web avec nettoyage du cache
+expo export:web --clear
+
+# Build avec EAS (Expo Application Services)
+eas build --platform android
+eas build --platform ios
+eas build --platform all
+
+# Build avec profil spécifique
+eas build --profile development
+eas build --profile preview
+eas build --profile production
 ```
 
 ### Commandes de publication
 
 ```bash
-# Publier sur Expo
-expo publish
-
-# Publier avec configuration
-expo publish --release-channel production
+# Publier avec EAS (Expo Application Services)
+eas update --branch production
+eas update --branch preview
+eas update --branch development
 
 # Publier avec message
-expo publish --message "Nouvelle version"
+eas update --message "Nouvelle version"
+
+# Publier avec configuration spécifique
+eas update --branch production --message "Version stable"
 ```
 
 ### Commandes de diagnostic
@@ -347,6 +336,67 @@ npx tsc --noEmit --strict
 npx tsc --noEmit src/components/MyComponent.tsx
 ```
 
+## Commandes EAS (Expo Application Services)
+
+### Commandes de base
+
+```bash
+# Initialiser EAS
+eas init
+
+# Configurer EAS
+eas build:configure
+
+# Voir la configuration
+eas build:list
+```
+
+### Commandes de build
+
+```bash
+# Build pour Android
+eas build --platform android
+
+# Build pour iOS
+eas build --platform ios
+
+# Build pour toutes les plateformes
+eas build --platform all
+
+# Build avec profil spécifique
+eas build --profile development
+eas build --profile preview
+eas build --profile production
+
+# Build avec configuration locale
+eas build --local
+```
+
+### Commandes de soumission
+
+```bash
+# Soumettre à Google Play Store
+eas submit --platform android
+
+# Soumettre à Apple App Store
+eas submit --platform ios
+
+# Soumettre avec profil spécifique
+eas submit --profile production
+```
+
+### Commandes de mise à jour
+
+```bash
+# Mettre à jour l'application
+eas update --branch production
+eas update --branch preview
+eas update --branch development
+
+# Voir l'historique des mises à jour
+eas update:list
+```
+
 ## Commandes Firebase
 
 ### Commandes de base
@@ -416,7 +466,7 @@ npm cache clean --force
 expo r -c
 
 # Nettoyer le cache Jest
-npm run test:clear
+npx jest --clearCache
 ```
 
 ### Commandes de mise à jour
@@ -457,24 +507,27 @@ npm config list
 ### Scripts de vérification complète
 
 ```bash
-# Vérification complète avant commit
-npm run pre-commit
+# Vérification complète du projet (lint + type-check + tests + audit)
+npm run ci
 
-# Vérification complète du projet
-npm run verify
+# Vérifier la configuration Expo
+npm run doctor
+
+# Audit de sécurité des dépendances
+npm run audit
 ```
 
 ### Scripts de déploiement
 
 ```bash
-# Déploiement complet
-npm run deploy
+# Build pour le web
+npm run build
 
-# Déploiement de production
-npm run deploy:prod
+# Build avec nettoyage du cache
+npm run build:clear
 
-# Déploiement de staging
-npm run deploy:staging
+# Vérification complète avant déploiement
+npm run ci
 ```
 
 ## Variables d'environnement
@@ -561,9 +614,10 @@ npx expo export:web --dump-assetmap
 
 Ces scripts et commandes facilitent :
 
-- **Développement rapide** : Commandes optimisées pour le workflow
-- **Qualité du code** : Vérifications automatiques
-- **Tests fiables** : Exécution et monitoring des tests
-- **Déploiement sécurisé** : Processus automatisé et vérifié
+- **Développement rapide** : Commandes optimisées pour le workflow Expo/EAS
+- **Qualité du code** : Vérifications automatiques avec ESLint et TypeScript
+- **Tests fiables** : Exécution et monitoring des tests avec couverture intégrée
+- **Build et déploiement** : Processus automatisé via EAS avec profils configurables
+- **Sécurité** : Audit automatique des dépendances
 
-Utilisez ces commandes pour optimiser votre workflow de développement. 
+Utilisez ces commandes pour optimiser votre workflow de développement avec Expo SDK 53 et EAS.

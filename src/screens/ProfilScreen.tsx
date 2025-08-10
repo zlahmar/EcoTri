@@ -42,18 +42,17 @@ const ProfilScreen = ({ navigation }: { navigation: any }) => {
   });
   const user = auth.currentUser;
 
-  // Calculer les habitudes et tendances
+  // Calcul des habitudes et tendances
   const calculateHabits = () => {
     const totalScans = stats.scansCompleted;
     const categories = Object.keys(stats.categoryStats || {});
     
-    // Sécuriser la fonction reduce
+    // Sécurisation de la fonction reduce
     let mostScannedCategory = 'Aucune';
     if (categories.length > 0) {
       mostScannedCategory = categories.reduce((a, b) => 
         ((stats.categoryStats as any)[a] || 0) > ((stats.categoryStats as any)[b] || 0) ? a : b
       );
-      // Si toutes les catégories ont 0 scans
       if (((stats.categoryStats as any)[mostScannedCategory] || 0) === 0) {
         mostScannedCategory = 'Aucune';
       }
@@ -83,7 +82,7 @@ const ProfilScreen = ({ navigation }: { navigation: any }) => {
 
   const getCurrentCity = async () => {
     try {
-      // Demander les permissions de localisation
+      // Demande des permissions de localisation
       const { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== 'granted') {
         console.log('Permission de localisation refusée');
@@ -91,11 +90,11 @@ const ProfilScreen = ({ navigation }: { navigation: any }) => {
         return;
       }
 
-      // Obtenir la position actuelle
+      // Récupération de la position actuelle
       const location = await Location.getCurrentPositionAsync({});
       const { latitude, longitude } = location.coords;
 
-      // Géocodage inverse pour obtenir l'adresse
+      // Géocodage inverse pour récupérer l'adresse
       const address = await Location.reverseGeocodeAsync({
         latitude,
         longitude,
@@ -117,32 +116,31 @@ const ProfilScreen = ({ navigation }: { navigation: any }) => {
 
   const fetchUserData = async () => {
     try {
-      // Essayer de charger depuis Firestore d'abord
+      // Essai de chargement depuis Firestore d'abord
       try {
         const docSnap = await getDoc(doc(db, "users", user!.uid));
         if (docSnap.exists()) {
           const data = docSnap.data();
           setUserData(data);
           setName(data.name || '');
-          // Charger les stats si elles existent
           if (data.stats) {
             setStats(data.stats);
-            return; // Arrêter ici si Firestore fonctionne
+            return;
           }
         }
       } catch (firestoreError) {
         console.log("Firestore non disponible, utilisation des stats locales");
       }
 
-      // Si Firestore ne fonctionne pas, charger depuis AsyncStorage
+      // Si Firestore ne fonctionne pas, chargement depuis AsyncStorage
       const statsKey = `user_stats_${user!.uid}`;
       const localStatsJson = await AsyncStorage.getItem(statsKey);
       if (localStatsJson) {
         const localStats = JSON.parse(localStatsJson);
         setStats(localStats);
-        console.log(" Stats chargées depuis le stockage local:", localStats);
+        console.log(" Statistiques chargées depuis le stockage local:", localStats);
       } else {
-        console.log(" Aucunes stats trouvées, utilisation des valeurs par défaut");
+        console.log(" Aucunes statistiques trouvées, utilisation des valeurs par défaut");
       }
 
     } catch (error) {
@@ -178,11 +176,9 @@ const ProfilScreen = ({ navigation }: { navigation: any }) => {
         await updateDoc(userRef, { name });
       }
       
-      // Feedback visuel fluide
       setSaveSuccess(true);
       setEditMode(false);
       
-      // Masquer l'indicateur de succès après 2 secondes
       setTimeout(() => {
         setSaveSuccess(false);
       }, 2000);
@@ -239,13 +235,12 @@ const ProfilScreen = ({ navigation }: { navigation: any }) => {
     );
   };
 
-  // Générer un nom pour l'avatar (utilise le nom ou l'email)
+  // Génération d'un nom pour l'avatar (utilise le nom ou l'email)
   const avatarName = name || user?.email?.split('@')[0] || 'Utilisateur';
 
   return (
     <SafeAreaView style={styles.safeArea}>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
-        {/* Header */}
         <View style={styles.header}>
           <IconButton
             icon="arrow-left"
@@ -255,7 +250,7 @@ const ProfilScreen = ({ navigation }: { navigation: any }) => {
           <Text style={styles.title}>Profil</Text>
         </View>
 
-        {/* Profile Card */}
+        {/* Carte de profil */}
         <View style={styles.profileCard}>
           <View style={styles.profileHeader}>
             <View style={styles.imageContainer}>
@@ -295,13 +290,12 @@ const ProfilScreen = ({ navigation }: { navigation: any }) => {
             </View>
           </View>
 
-          {/* Stats Section */}
+          {/* Section des statistiques */}
           <View style={styles.statsContainer}>
             <View style={styles.statsHeader}>
               <Text style={styles.statsTitle}>Suivi des habitudes</Text>
             </View>
             
-            {/* Statistiques principales */}
             <View style={styles.statsGrid}>
               <View style={styles.statItem}>
                 <Text style={styles.statNumber}>{stats.scansCompleted}</Text>
@@ -321,7 +315,6 @@ const ProfilScreen = ({ navigation }: { navigation: any }) => {
               </View>
             </View>
 
-            {/* Barre de progression */}
             <View style={styles.progressContainer}>
               <Text style={styles.progressLabel}>Progression vers niveau {stats.level + 1}</Text>
               <View style={styles.progressBar}>
@@ -330,7 +323,6 @@ const ProfilScreen = ({ navigation }: { navigation: any }) => {
               <Text style={styles.progressText}>{Math.round(habits.progress)}%</Text>
             </View>
 
-            {/* Habitudes de recyclage */}
             <View style={styles.habitsContainer}>
               <Text style={styles.habitsTitle}>🌱 Vos habitudes</Text>
               <View style={styles.habitItem}>
@@ -351,7 +343,6 @@ const ProfilScreen = ({ navigation }: { navigation: any }) => {
               </View>
             </View>
 
-            {/* Répartition par catégories */}
             <View style={styles.categoriesContainer}>
               <Text style={styles.categoriesTitle}>📊 Répartition par catégories</Text>
               <View style={styles.categoriesGrid}>
@@ -373,7 +364,7 @@ const ProfilScreen = ({ navigation }: { navigation: any }) => {
           </View>
         </View>
 
-        {/* Actions Section */}
+        {/* Section des actions */}
         <List.Section style={styles.actionsSection}>
           <List.Subheader style={styles.sectionTitle}>Actions</List.Subheader>
           
@@ -395,7 +386,7 @@ const ProfilScreen = ({ navigation }: { navigation: any }) => {
           />
         </List.Section>
 
-        {/* Account Section */}
+        {/* Section du compte */}
         <List.Section style={styles.dangerSection}>
           <List.Subheader style={styles.dangerTitle}>Compte</List.Subheader>
           
@@ -415,7 +406,7 @@ const ProfilScreen = ({ navigation }: { navigation: any }) => {
           />
         </List.Section>
 
-        {/* Edit Name Modal */}
+        {/* Modale de modification du nom */}
         <Modal visible={editMode} animationType="slide" transparent>
           <View style={styles.modalOverlay}>
             <View style={styles.modalContent}>

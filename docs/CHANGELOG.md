@@ -1,8 +1,8 @@
 # Changelog - EcoTri
 
-Toutes les modifications notables de ce projet seront documentées dans ce fichier.
+Toutes les modifications et mises à jour notables de ce projet seront documentées dans ce fichier.
 
-## [2.0.0] - 2024-12-XX
+## [2.0.0] - 2025-08-XX
 
 ### Fonctionnalités Majeures
 
@@ -36,7 +36,7 @@ Toutes les modifications notables de ce projet seront documentées dans ce fichi
 - **Mode développement enrichi** avec simulation détaillée et logs complets
 - **Labels ML Kit étendus** avec MID (Machine ID) et métadonnées
 - **Objets détectés** avec bounding boxes et coordonnées précises
-- **OCR simulé** pour texte sur emballages (ex: "RECYCLABLE", "PET 1", "500mL")
+- **OCR simulé** pour texte sur emballages
 - **Couleurs dominantes** avec scores et fractions de pixels
 - **Classification intelligente** avec analyse multi-labels et boost de confiance
 - Intégration AsyncStorage pour persistance locale
@@ -141,8 +141,8 @@ Toutes les modifications notables de ce projet seront documentées dans ce fichi
 
 ### Version 2.0.0
 
-- Tests : 54/54 passants (100%)
-- Couverture : 76.2%
+- Tests : 68/71 passants (95.7%)
+- Couverture : 61.73%
 - Linting : 0 erreurs, 0 warnings
 - Performance ML Kit : ~500ms analyse
 - Fonctionnement hors ligne : 100%
@@ -212,5 +212,5 @@ npx eas submit --platform android
 ---
 
 **Maintenu par** : Équipe EcoTri  
-**Dernière mise à jour** : Décembre 2024
+**Dernière mise à jour** : Août 2025
 **Version actuelle** : 2.0.0

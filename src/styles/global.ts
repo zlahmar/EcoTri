@@ -152,7 +152,6 @@ export const createGlobalStyles = (insets: any) => StyleSheet.create({
   },
 });
 
-// Styles par défaut (sans safe areas) pour compatibilité
 export const globalStyles = StyleSheet.create({
   container: {
     flex: 1,

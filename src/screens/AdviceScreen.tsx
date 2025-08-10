@@ -39,27 +39,27 @@ const AdviceScreen = ({ navigation }: { navigation: any }) => {
     try {
       setLoading(true);
       
-      // Charger les catégories
+      // Chargement des catégories
       const categoriesData = adviceService.getCategories();
       setCategories(categoriesData);
       
-      // Charger les conseils prédéfinis par catégorie
+      // Chargement des conseils prédéfinis par catégorie
       const predefinedAdvice = adviceService.getPredefinedAdvice();
       setAdviceByCategory(predefinedAdvice);
       
-      // Charger le conseil quotidien
+      // Chargement du conseil quotidien
       const dailyAdviceData = adviceService.getDailyAdvice();
       setDailyAdvice(dailyAdviceData);
       
-      // Vérifier si c'est l'heure du conseil quotidien
+      // Vérification si c'est l'heure du conseil quotidien
       const isTime = adviceService.isDailyAdviceTime();
       setIsDailyAdviceTime(isTime);
       
-      // Calculer le temps restant
+      // Calcul du temps restant
       const timeRemaining = adviceService.getTimeUntilNextAdvice();
       setTimeUntilNextAdvice(timeRemaining);
       
-      // Charger les favoris si l'utilisateur est connecté
+      // Chargement des favoris si l'utilisateur est connecté
       if (auth.currentUser) {
         const userFavorites = await adviceService.getFavorites();
         setFavorites(userFavorites);
@@ -92,7 +92,7 @@ const AdviceScreen = ({ navigation }: { navigation: any }) => {
         await adviceService.addToFavorites(advice);
       }
       
-      // Recharger les favoris
+      // Rechargement des favoris
       const userFavorites = await adviceService.getFavorites();
       setFavorites(userFavorites);
       
@@ -122,8 +122,6 @@ const AdviceScreen = ({ navigation }: { navigation: any }) => {
   const handleAdvicePress = (advice: Advice) => {
     alert(`${advice.title}\n\n${advice.content}`);
   };
-
-  // ========== COMPOSANTS DE RENDU ==========
 
   const renderDailyAdviceCard = () => {
     if (!dailyAdvice) return null;
@@ -278,7 +276,6 @@ const AdviceScreen = ({ navigation }: { navigation: any }) => {
   return (
     <SafeAreaView style={styles.safeAreaContainer}>
       <View style={styles.container}>
-        {/* Header */}
         <View style={styles.header}>
           <View style={styles.headerLeft}>
             <IconButton
@@ -450,7 +447,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   
-  // ========== STYLES CONSEIL QUOTIDIEN ==========
+  // STYLES CONSEIL QUOTIDIEN
   dailyAdviceCard: {
     marginBottom: 20,
     backgroundColor: colors.white,
@@ -505,7 +502,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   
-  // ========== STYLES FAVORIS ==========
+  // STYLES FAVORIS
   favoritesSection: {
     marginBottom: 20,
   },

@@ -5,7 +5,7 @@ export const useLocation = () => {
   const [location, setLocation] = useState<{ latitude: number; longitude: number } | null>({
     latitude: 48.8566,
     longitude: 2.3522,
-  });
+  }); //Coordonnées de Paris
   const [error, setError] = useState<string | null>(null);
 
   const getCurrentLocation = async () => {

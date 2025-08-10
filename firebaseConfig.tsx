@@ -1,4 +1,4 @@
-// Importer Firebase et les services nécessaires
+// Importation de Firebase et des services nécessaires
 import { initializeApp } from "firebase/app";
 import { getAuth, connectAuthEmulator } from "firebase/auth";
 import { getFirestore, connectFirestoreEmulator } from "firebase/firestore";

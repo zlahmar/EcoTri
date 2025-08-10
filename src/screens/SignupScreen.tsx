@@ -122,20 +122,20 @@ const SignupScreen = ({ navigation }: { navigation: any }) => {
 
       console.log('Utilisateur créé avec succès:', user.uid);
       
-      // Vérifier si l'utilisateur est bien authentifié
+      // Vérification si l'utilisateur est bien authentifié
       if (!auth.currentUser) {
         throw new Error("Utilisateur non authentifié.");
       }
       console.log(" Utilisateur connecté :", auth.currentUser?.uid);
 
-      // Uploader l'image et récupérer l'URL
+      // Téléchargement de l'image et récupération de l'URL
       const imageUrl = await uploadImage(user.uid);
 
-      // Ajouter l'utilisateur dans Firestore
+      // Ajout de l'utilisateur dans Firestore
       await setDoc(doc(db, "users", user.uid), {
         name: name,
         email: email,
-        profileImage: imageUrl || null, // Stocker l'URL ou null si pas d'image
+        profileImage: imageUrl || null,
       });
       console.log(' Utilisateur ajouté à Firestore');
       
@@ -152,7 +152,6 @@ const SignupScreen = ({ navigation }: { navigation: any }) => {
   return (
     <SafeAreaView style={styles.safeArea}>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
-        {/* Header */}
         <View style={styles.header}>
           <IconButton
             icon="arrow-left"
@@ -162,7 +161,6 @@ const SignupScreen = ({ navigation }: { navigation: any }) => {
           <Text style={styles.headerTitle}>Créer un compte</Text>
         </View>
 
-        {/* Welcome Section */}
         <View style={styles.welcomeSection}>
           <View style={styles.logoContainer}>
             <Image 
@@ -175,10 +173,8 @@ const SignupScreen = ({ navigation }: { navigation: any }) => {
           <Text style={styles.welcomeSubtitle}>Créez votre compte et commencez votre parcours écologique</Text>
         </View>
 
-        {/* Form Card */}
         <Card style={styles.formCard}>
           <Card.Content style={styles.cardContent}>
-            {/* Profile Image Section */}
             <View style={styles.imageSection}>
               <TouchableOpacity onPress={pickImage} style={styles.imageContainer}>
                 {profileImage ? (
@@ -210,7 +206,6 @@ const SignupScreen = ({ navigation }: { navigation: any }) => {
               </View>
             </View>
 
-            {/* Form Fields */}
             <View style={styles.inputContainer}>
               <TextInput
                 label="Nom complet"
@@ -301,7 +296,6 @@ const SignupScreen = ({ navigation }: { navigation: any }) => {
               />
             </View>
 
-            {/* Signup Button */}
             <Button
               mode="contained"
               onPress={handleSignup}
@@ -316,7 +310,6 @@ const SignupScreen = ({ navigation }: { navigation: any }) => {
               {loading ? 'Création en cours...' : 'Créer mon compte'}
             </Button>
 
-            {/* Login Link */}
             <TouchableOpacity 
               onPress={() => navigation.navigate("Login")}
               style={styles.loginLink}

@@ -14,8 +14,13 @@ describe('useLocation', () => {
     jest.clearAllMocks();
   });
 
-  it('retourne la localisation par défaut', () => {
+  it('retourne la localisation par défaut', async () => {
     const { result } = renderHook(() => useLocation());
+
+    // Attendre que le useEffect se termine
+    await act(async () => {
+      await new Promise(resolve => setTimeout(resolve, 0));
+    });
 
     expect(result.current.location).toEqual({
       latitude: 48.8566,

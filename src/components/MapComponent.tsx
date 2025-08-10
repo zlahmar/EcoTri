@@ -26,7 +26,7 @@ const MapComponent = ({ mapRef, location, filter }: {
   const [address, setAddress] = useState("");
   const [loadingAddress, setLoadingAddress] = useState(false);
 
-  /** Récupère les points de recyclage depuis Overpass API */
+  //Récupère les points de recyclage depuis Overpass API
   const fetchRecyclingPoints = async () => {
     if (!location) return;
 
@@ -58,7 +58,6 @@ const MapComponent = ({ mapRef, location, filter }: {
 
       const text = await response.text();
       
-      // Vérifier si le texte commence par du HTML (erreur)
       if (text.trim().startsWith("<")) {
         console.error("API surchargée - réessayez plus tard");
         return;
@@ -76,7 +75,7 @@ const MapComponent = ({ mapRef, location, filter }: {
       }
     } catch (error) {
       console.error("Erreur API - réessayez plus tard");
-      // En cas d'erreur, on peut essayer avec un serveur alternatif
+      // En cas d'erreur, on essaie avec un serveur alternatif
       try {
         const response = await fetch("https://overpass-api.de/api/interpreter", {
           method: "POST",
@@ -104,7 +103,7 @@ const MapComponent = ({ mapRef, location, filter }: {
     }
   };
 
-  /** Formate l'adresse pour n'afficher que le numéro, la rue, le code postal et la ville */
+  //Formate l'adresse pour n'afficher que le numéro, la rue, le code postal et la ville
   const formatAddress = (data: any) => {
     if (!data || !data.address) return "Adresse non trouvée";
     
@@ -112,7 +111,7 @@ const MapComponent = ({ mapRef, location, filter }: {
     return `${house_number ? house_number + " " : ""}${road || ""}, ${postcode || ""} ${town || city || ""}`;
   };
 
-  /**Récupère l'adresse via Nominatim */
+  //Récupère l'adresse via Nominatim
   const fetchAddressFromCoordinates = async (latitude: number, longitude: number) => {
     setLoadingAddress(true);
     try {
@@ -129,7 +128,7 @@ const MapComponent = ({ mapRef, location, filter }: {
     setLoadingAddress(false);
   };
 
-  /**Sélectionne un point de recyclage et récupère son adresse */
+  //Sélectionne un point de recyclage et récupère son adresse
   const handleSelectPoint = (point: any) => {
     setSelectedPoint(point);
     fetchAddressFromCoordinates(point.latitude, point.longitude);
@@ -142,17 +141,16 @@ const MapComponent = ({ mapRef, location, filter }: {
     });
   };
 
-  /**Récupère les points de recyclage à chaque changement de location ou filtre */
+  //Récupère les points de recyclage à chaque changement de location ou filtre
   useEffect(() => {
-    // Ajouter un délai pour éviter de surcharger l'API
     const timeoutId = setTimeout(() => {
       fetchRecyclingPoints();
-    }, 500); // 500ms de délai
+    }, 500);
 
     return () => clearTimeout(timeoutId);
   }, [location, filter]);
 
-  /**Centre la carte sur la position actuelle */
+  //Centre la carte sur la position actuelle
   useEffect(() => {
     if (location && mapRef.current) {
       mapRef.current.animateToRegion({
@@ -165,7 +163,7 @@ const MapComponent = ({ mapRef, location, filter }: {
   }, [location]);
   
 
-  /**Traduit les types de recyclage en français */
+  //Traduit les types de recyclage en français
   const translateRecyclingType = (tag: string): string => {
     const translations: { [key: string]: string } = {
       "recycling:glass_bottles": "Bouteilles en verre",
@@ -290,7 +288,6 @@ const MapComponent = ({ mapRef, location, filter }: {
     );
   }
 
-  // Interface mobile avec carte
   return (
     <View style={styles.container}>
       <MapView 
@@ -317,7 +314,6 @@ const MapComponent = ({ mapRef, location, filter }: {
             return null;
           }
 
-          // Déterminer la couleur du marqueur selon le filtre
           let markerColor = colors.primary; // Couleur par défaut (vert)
           
           if (filter) {

@@ -304,9 +304,7 @@ export const PREDEFINED_ADVICE: Record<string, Omit<Advice, 'id' | 'createdAt' |
 export class AdviceService {
   private readonly COLLECTION_NAME = 'advice';
 
-  /**
-   * Récupère tous les conseils publiés
-   */
+  //Récupération de tous les conseils publiés
   async getAllAdvice(): Promise<Advice[]> {
     try {
       const q = query(
@@ -332,9 +330,7 @@ export class AdviceService {
     }
   }
 
-  /**
-   * Récupère les conseils par catégorie
-   */
+  //Récupération des conseils par catégorie
   async getAdviceByCategory(category: string): Promise<Advice[]> {
     try {
       const q = query(
@@ -361,9 +357,7 @@ export class AdviceService {
     }
   }
 
-  /**
-   * Récupère un conseil par ID
-   */
+  //Récupération d'un conseil par ID
   async getAdviceById(id: string): Promise<Advice | null> {
     try {
       const docRef = doc(db, this.COLLECTION_NAME, id);
@@ -383,9 +377,7 @@ export class AdviceService {
     }
   }
 
-  /**
-   * Récupère les conseils les plus populaires
-   */
+  //Récupération des conseils les plus populaires
   async getPopularAdvice(limitCount: number = 5): Promise<Advice[]> {
     try {
       const q = query(
@@ -412,14 +404,10 @@ export class AdviceService {
     }
   }
 
-  /**
-   * Recherche des conseils par mot-clé
-   */
+  //Recherche des conseils par mot-clé
   async searchAdvice(searchTerm: string): Promise<Advice[]> {
     try {
-      // Note: Firestore ne supporte pas la recherche full-text native
-      // Cette implémentation est basique, pour une vraie recherche
-      // il faudrait utiliser Algolia ou Elasticsearch
+      // Firestore ne supporte pas la recherche full-text native
       const q = query(
         collection(db, this.COLLECTION_NAME),
         where('isPublished', '==', true),
@@ -452,9 +440,7 @@ export class AdviceService {
     }
   }
 
-  /**
-   * Ajoute un nouveau conseil (pour les utilisateurs connectés)
-   */
+  //Ajout d'un nouveau conseil (pour les utilisateurs connectés)
   async addAdvice(adviceData: Omit<Advice, 'id' | 'createdAt' | 'updatedAt' | 'likes' | 'views'>): Promise<string> {
     try {
       const userId = auth.currentUser?.uid;
@@ -468,7 +454,7 @@ export class AdviceService {
         authorName: auth.currentUser?.displayName || 'Utilisateur anonyme',
         likes: 0,
         views: 0,
-        isPublished: false, // Par défaut non publié, nécessite modération
+        isPublished: false, // Par défaut non publié
         createdAt: serverTimestamp(),
         updatedAt: serverTimestamp()
       };
@@ -481,9 +467,7 @@ export class AdviceService {
     }
   }
 
-  /**
-   * Met à jour un conseil (pour l'auteur ou les admins)
-   */
+  //Mise à jour d'un conseil (pour l'auteur ou les admins)
   async updateAdvice(id: string, updates: Partial<Advice>): Promise<void> {
     try {
       const userId = auth.currentUser?.uid;
@@ -500,7 +484,7 @@ export class AdviceService {
 
       const advice = docSnap.data() as Advice;
       
-      // Vérifier que l'utilisateur est l'auteur ou un admin
+      // Vérification que l'utilisateur est l'auteur ou un admin
       if (advice.authorId !== userId) {
         throw new Error('Non autorisé à modifier ce conseil');
       }
@@ -515,9 +499,7 @@ export class AdviceService {
     }
   }
 
-  /**
-   * Supprime un conseil (pour l'auteur ou les admins)
-   */
+  //Suppression d'un conseil (pour l'auteur ou les admins)
   async deleteAdvice(id: string): Promise<void> {
     try {
       const userId = auth.currentUser?.uid;
@@ -534,7 +516,7 @@ export class AdviceService {
 
       const advice = docSnap.data() as Advice;
       
-      // Vérifier que l'utilisateur est l'auteur ou un admin
+      // Vérification que l'utilisateur est l'auteur ou un admin
       if (advice.authorId !== userId) {
         throw new Error('Non autorisé à supprimer ce conseil');
       }
@@ -546,9 +528,7 @@ export class AdviceService {
     }
   }
 
-  /**
-   * Incrémente le nombre de vues d'un conseil
-   */
+  //Incrémentation du nombre de vues d'un conseil
   async incrementViews(id: string): Promise<void> {
     try {
       const docRef = doc(db, this.COLLECTION_NAME, id);
@@ -565,9 +545,7 @@ export class AdviceService {
     }
   }
 
-  /**
-   * Like/unlike un conseil
-   */
+  //Like/unlike d'un conseil
   async toggleLike(id: string): Promise<void> {
     try {
       const userId = auth.currentUser?.uid;
@@ -580,8 +558,6 @@ export class AdviceService {
       
       if (docSnap.exists()) {
         const currentLikes = docSnap.data().likes || 0;
-        // Note: Pour une vraie implémentation, il faudrait gérer les likes par utilisateur
-        // dans une sous-collection pour éviter les doubles likes
         await updateDoc(docRef, {
           likes: currentLikes + 1
         });
@@ -592,9 +568,7 @@ export class AdviceService {
     }
   }
 
-  /**
-   * Récupère les conseils de l'utilisateur connecté
-   */
+  //Récupération des conseils de l'utilisateur connecté
   async getUserAdvice(): Promise<Advice[]> {
     try {
       const userId = auth.currentUser?.uid;
@@ -625,16 +599,12 @@ export class AdviceService {
     }
   }
 
-  /**
-   * Récupère les catégories disponibles
-   */
+  //Récupération des catégories disponibles
   getCategories(): AdviceCategory[] {
     return ADVICE_CATEGORIES;
   }
 
-  /**
-   * Récupère les conseils prédéfinis par catégorie
-   */
+  //Récupération des conseils prédéfinis par catégorie
   getPredefinedAdvice(): Record<string, Advice[]> {
     const predefinedAdvice: Record<string, Advice[]> = {};
     
@@ -654,32 +624,25 @@ export class AdviceService {
     return predefinedAdvice;
   }
 
-  /**
-   * Récupère les conseils prédéfinis d'une catégorie spécifique
-   */
+  //Récupération des conseils prédéfinis d'une catégorie spécifique
   getPredefinedAdviceByCategory(category: string): Advice[] {
     const predefinedAdvice = this.getPredefinedAdvice();
     return predefinedAdvice[category] || [];
   }
 
-  // ========== CONSEIL QUOTIDIEN ==========
+  // CONSEIL QUOTIDIEN
 
-  /**
-   * Obtient la date actuelle au format YYYY-MM-DD
-   */
+  //Récupération de la date actuelle au format YYYY-MM-DD
   private getTodayDateString(): string {
     const today = new Date();
     return today.toISOString().split('T')[0];
   }
 
-  /**
-   * Génère un conseil quotidien basé sur la date
-   */
+  //Génération d'un conseil quotidien basé sur la date
   getDailyAdvice(): DailyAdvice {
     const today = this.getTodayDateString();
     const allAdvice = this.getAllAdviceForDaily();
     
-    // Utilise la date comme seed pour avoir toujours le même conseil pour la même journée
     const daysSinceEpoch = Math.floor(Date.now() / (1000 * 60 * 60 * 24));
     const adviceIndex = daysSinceEpoch % allAdvice.length;
     const selectedAdvice = allAdvice[adviceIndex];
@@ -691,9 +654,7 @@ export class AdviceService {
     };
   }
 
-  /**
-   * Récupère tous les conseils disponibles pour le système quotidien
-   */
+  //Récupération de tous les conseils disponibles pour le système quotidien
   private getAllAdviceForDaily(): Advice[] {
     const predefinedAdvice = this.getPredefinedAdvice();
     const allAdvice: Advice[] = [];
@@ -705,18 +666,14 @@ export class AdviceService {
     return allAdvice;
   }
 
-  /**
-   * Vérifie si c'est l'heure du conseil quotidien (midi)
-   */
+  //Vérification si c'est l'heure du conseil quotidien (midi)
   isDailyAdviceTime(): boolean {
     const now = new Date();
     const currentHour = now.getHours();
     return currentHour >= 12; // Disponible à partir de midi
   }
 
-  /**
-   * Obtient le temps restant avant le prochain conseil (en minutes)
-   */
+  //Récupération du temps restant avant le prochain conseil (en minutes)
   getTimeUntilNextAdvice(): number {
     const now = new Date();
     const currentHour = now.getHours();
@@ -732,11 +689,8 @@ export class AdviceService {
     }
   }
 
-  // ========== FAVORIS ==========
 
-  /**
-   * Ajoute un conseil aux favoris
-   */
+  //Ajout d'un conseil aux favoris
   async addToFavorites(advice: Advice): Promise<void> {
     try {
       const userId = auth.currentUser?.uid;
@@ -767,9 +721,7 @@ export class AdviceService {
     }
   }
 
-  /**
-   * Supprime un conseil des favoris
-   */
+  //Suppression d'un conseil des favoris
   async removeFromFavorites(adviceId: string): Promise<void> {
     try {
       const userId = auth.currentUser?.uid;
@@ -789,9 +741,7 @@ export class AdviceService {
     }
   }
 
-  /**
-   * Récupère la liste des favoris
-   */
+  //Récupération de la liste des favoris
   async getFavorites(): Promise<FavoriteAdvice[]> {
     try {
       const userId = auth.currentUser?.uid;
@@ -805,7 +755,7 @@ export class AdviceService {
       }
 
       const favorites = JSON.parse(favoritesJson);
-      // Convertir les dates string en objets Date
+      // Conversion des dates string en objets Date
       return favorites.map((fav: any) => ({
         ...fav,
         savedAt: new Date(fav.savedAt)
@@ -816,9 +766,7 @@ export class AdviceService {
     }
   }
 
-  /**
-   * Vérifie si un conseil est dans les favoris
-   */
+  //Vérification si un conseil est dans les favoris
   async isFavorite(adviceId: string): Promise<boolean> {
     try {
       const favorites = await this.getFavorites();

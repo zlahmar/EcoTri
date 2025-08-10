@@ -47,7 +47,6 @@ const LoginScreen = ({ navigation }: { navigation: any }) => {
   return (
     <SafeAreaView style={styles.safeArea}>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
-        {/* Header */}
         <View style={styles.header}>
           <IconButton
             icon="arrow-left"
@@ -57,7 +56,7 @@ const LoginScreen = ({ navigation }: { navigation: any }) => {
           <Text style={styles.headerTitle}>Connexion</Text>
         </View>
 
-        {/* Welcome Section */}
+        {/* Bienvenue Section */}
         <View style={styles.welcomeSection}>
           <View style={styles.logoContainer}>
             <Image 
@@ -70,7 +69,7 @@ const LoginScreen = ({ navigation }: { navigation: any }) => {
           <Text style={styles.welcomeSubtitle}>Connectez-vous pour continuer votre parcours écologique</Text>
         </View>
 
-        {/* Form Card */}
+        {/* Formulaire Section */}
         <Card style={styles.formCard}>
           <Card.Content style={styles.cardContent}>
             {error ? (
@@ -80,7 +79,7 @@ const LoginScreen = ({ navigation }: { navigation: any }) => {
               </View>
             ) : null}
 
-            {/* Email Input */}
+            {/* Adresse email Input */}
             <View style={styles.inputContainer}>
               <TextInput
                 label="Adresse email"
@@ -103,7 +102,7 @@ const LoginScreen = ({ navigation }: { navigation: any }) => {
               />
             </View>
 
-            {/* Password Input */}
+            {/* Mot de passe Input */}
             <View style={styles.inputContainer}>
               <TextInput
                 label="Mot de passe"
@@ -131,7 +130,7 @@ const LoginScreen = ({ navigation }: { navigation: any }) => {
               />
             </View>
 
-            {/* Login Button */}
+            {/* Connexion Button */}
             <Button
               mode="contained"
               onPress={handleLogin}
@@ -146,7 +145,7 @@ const LoginScreen = ({ navigation }: { navigation: any }) => {
               {loading ? 'Connexion en cours...' : 'Se connecter'}
             </Button>
 
-            {/* Signup Link */}
+            {/* Création de compte Link */}
             <TouchableOpacity 
               onPress={() => navigation.navigate("Signup")}
               style={styles.signupLink}
@@ -158,7 +157,7 @@ const LoginScreen = ({ navigation }: { navigation: any }) => {
           </Card.Content>
         </Card>
 
-        {/* Features Preview */}
+        {/* Fonctionnalités Preview */}
         <View style={styles.featuresSection}>
           <Text style={styles.featuresTitle}>Avec EcoTri, vous pouvez :</Text>
           <View style={styles.featuresList}>

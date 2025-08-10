@@ -1,5 +1,43 @@
 # Guide Technique - EcoTri
 
+## Table des Matières
+
+### 1. [Architecture du Projet](#architecture-du-projet)
+
+- [Vue d'Ensemble](#vue-densemble)
+- [Structure des Dossiers](#structure-des-dossiers)
+
+### 2. [Choix Techniques](#choix-techniques)
+
+- [Frontend - React Native + Expo](#frontend---react-native--expo)
+- [Backend - Firebase](#backend---firebase)
+
+### 3. [Services et Intégrations](#services-et-intégrations)
+
+- [ML Kit - Reconnaissance d'Images](#ml-kit---reconnaissance-dimages)
+- [Firebase Configuration](#firebase-configuration)
+- [APIs Externes](#apis-externes)
+
+### 4. [Sécurité et Conformité](#sécurité-et-conformité)
+
+- [Authentification](#authentification)
+- [Règles de Sécurité](#règles-de-sécurité)
+- [Conformité Standards](#conformité-standards)
+
+### 5. [Performance et Optimisation](#performance-et-optimisation)
+
+- [Métriques de Performance](#métriques-de-performance)
+- [Stratégies d'Optimisation](#stratégies-doptimisation)
+- [Monitoring](#monitoring)
+
+### 6. [Développement et Tests](#développement-et-tests)
+
+- [Configuration de Développement](#configuration-de-développement)
+- [Tests et Qualité](#tests-et-qualité)
+- [Déploiement](#déploiement)
+
+---
+
 ## Architecture du Projet
 
 ### Vue d'Ensemble
@@ -19,14 +57,16 @@ EcoTri suit une architecture modulaire basée sur React Native avec Expo, utilis
 └─────────────────┘    └─────────────────┘    └─────────────────┘
 ```
 
+> **Architecture détaillée :** Voir la section [Services et Intégrations](#services-et-intégrations)
+
 ### Structure des Dossiers
 
 ```
 src/
 ├── components/                    # Composants réutilisables
-│   ├── MapComponent.tsx          # Carte interactive avec points de collecte
+│   ├── MapComponent.tsx          # Carte interactive
 │   ├── CollectionScheduleComponent.tsx # Calendrier de collecte
-│   ├── APIStatusComponent.tsx    # Statut des APIs externes
+│   ├── APIStatusComponent.tsx    # Statut des APIs
 │   ├── DataDebugComponent.tsx    # Débogage des données
 │   └── AvatarComponent.tsx       # Avatar utilisateur
 ├── screens/                      # Écrans de l'application
@@ -34,11 +74,11 @@ src/
 │   ├── LoginScreen.tsx          # Authentification
 │   ├── SignupScreen.tsx         # Inscription
 │   ├── HomeScreen.tsx           # Écran d'accueil
-│   ├── ScanScreen.tsx           # Scanner IA de déchets
+│   ├── ScanScreen.tsx           # Scanne IA de déchets
 │   ├── AdviceScreen.tsx         # Conseils et astuces
 │   ├── GuideScreen.tsx          # Guide d'utilisation
-│   ├── CollectionNotificationsScreen.tsx # Notifications collecte
-│   └── ProfilScreen.tsx         # Profil utilisateur avec gamification
+│   ├── CollectionNotificationsScreen.tsx # Page de collecte
+│   └── ProfilScreen.tsx         # Profil utilisateur
 ├── services/                     # Services métier
 │   ├── mlKitService.ts          # Reconnaissance d'images ML Kit
 │   ├── storageService.ts        # Gestion Firebase Storage
@@ -58,12 +98,15 @@ src/
 ├── assets/                       # Ressources statiques
 │   ├── images/                  # Images et icônes
 │   └── data/                    # Données locales (JSON)
-└── __tests__/                    # Tests unitaires (54 tests)
+└── __tests__/                    # Tests unitaires (71 tests)
     ├── AdviceScreen.test.tsx    # Tests écrans
     ├── AdviceService.test.ts    # Tests services
     ├── MapComponent.test.tsx    # Tests composants
     └── useLocation.test.ts      # Tests hooks
+    ...
 ```
+
+> **Voir la structure complète :** [`src/`](../src/) et [`__mocks__/`](../__mocks__/)
 
 ## Choix Techniques
 
@@ -94,8 +137,8 @@ src/
 
 **Services Firebase utilisés :**
 
-- **Firestore** : Base de données NoSQL pour les scans et conseils
-- **Storage** : Stockage des images de déchets
+- **Firestore** : Base de données NoSQL pour les scans/conseils/statistiques
+- **Storage** : Des informations de gamification/statistiques/conseils favoris/etc.
 - **Auth** : Authentification utilisateur
 - **Analytics** : Métriques d'utilisation
 
@@ -111,81 +154,40 @@ src/
 - **Performance** : Analyse rapide directement sur l'appareil
 - **Détection d'environnement** : Mode développement vs production automatique
 
-**Architecture ML Kit Avancée :**
+**Architecture ML Kit :**
 
 ```typescript
-// Service ML Kit hybride avec détection d'environnement
 export class MLKitService {
-  private isDevelopment = __DEV__;
-
   async analyzeImage(imageUri: string): Promise<AnalysisResult> {
-    const isExpo = this.isExpoEnvironment();
-
-    if (isExpo) {
-      // Mode développement : simulation enrichie avec logs détaillés
-      console.log('Mode développement Expo détecté');
-      return this.developmentAnalysis(imageUri);
+    if (__DEV__) {
+      return this.developmentAnalysis(); // Simulation en dev
     }
-
     try {
-      // Mode production : vrai ML Kit on-device
-      console.log('Mode production - Utilisation du vrai ML Kit');
-      const labels = await ImageLabeling.label(imageUri);
+      const labels = await ImageLabeling.label(imageUri); // ML Kit réel
       return this.processRealLabels(labels);
     } catch (error) {
-      // Fallback vers simulation si ML Kit non disponible
-      console.log('Fallback vers la simulation');
-      return this.fallbackSimulation();
+      return this.fallbackSimulation(); // Fallback si erreur
     }
-  }
-
-  private async developmentAnalysis(imageUri: string): Promise<AnalysisResult> {
-    // Simulation enrichie avec 6 labels détaillés, OCR, couleurs, etc.
-    const detailedLabels = this.generateDetailedLabels();
-    const detailedObjects = this.generateDetailedObjects(detailedLabels);
-    const mockText = this.generateMockText(); // OCR simulé
-    const detailedColors = this.generateDetailedColors();
-
-    console.log('Analyse complète terminée:');
-    console.log('  Labels trouvés:', detailedLabels.length);
-    console.log('  Objets détectés:', detailedObjects.length);
-    console.log('  Texte OCR:', mockText.length, 'éléments');
-
-    return {
-      labels: detailedLabels,
-      objects: detailedObjects,
-      text: mockText /* ... */,
-    };
   }
 }
 ```
 
-**Fonctionnalités ML Kit Avancées :**
+> **Voir le code complet :** [`src/services/mlKitService.ts`](../src/services/mlKitService.ts)
 
-- **Détection d'environnement** : Mode Expo vs Build natif automatique
-- **Mode développement enrichi** : Simulation avec 6 labels détaillés par catégorie
-- **Labels étendus** : Description, confiance, MID (Machine ID)
-- **Objets détectés** : Bounding boxes avec coordonnées précises
-- **OCR simulé** : Texte sur emballages ("RECYCLABLE", "PET 1", "500mL")
-- **Couleurs dominantes** : RGB avec scores et fractions de pixels
-- **Classification intelligente** : Analyse multi-critères avec boost de confiance
-- **Logs détaillés** : Debugging avec emojis pour meilleure lisibilité
-- **Image Labeling** : Identification des objets dans les images
+**Fonctionnalités ML Kit :**
+
+- **Détection d'environnement** : Mode développement vs production automatique
 - **Classification automatique** : Plastique, Métal, Papier, Verre, Carton
 - **On-device processing** : Traitement local pour la confidentialité
 - **Fallback intelligent** : Simulation si ML Kit indisponible
 - **Gamification** : Tracking des scans pour points et niveaux
 
-**Workflow de reconnaissance avancé :**
+**Workflow de reconnaissance :**
 
 1. **Capture** → Photo avec `expo-image-picker`
-2. **Détection environnement** → Mode Expo vs Build natif
-3. **Analyse** → ML Kit réel (production) ou simulation enrichie (développement)
-4. **Extraction données** → Labels, objets, OCR, couleurs dominantes
-5. **Classification intelligente** → Analyse multi-critères avec boost de confiance
-6. **Logs détaillés** → Affichage complet des résultats avec emojis
-7. **Gamification** → +10 points, mise à jour statistiques
-8. **Sauvegarde** → AsyncStorage + Firestore (optionnel)
+2. **Analyse** → ML Kit réel (production) ou simulation (développement)
+3. **Classification** → Identification automatique du type de déchet
+4. **Gamification** → +10 points, mise à jour statistiques
 
 **Build EAS pour ML Kit :**
 
@@ -194,41 +196,9 @@ ML Kit nécessite des modules natifs, d'où l'utilisation d'EAS Build :
 ```bash
 # Build de développement avec ML Kit
 npx eas build --platform android --profile development
-
-# Configuration eas.json
-{
-  "build": {
-    "development": {
-      "developmentClient": true,
-      "distribution": "internal",
-      "android": { "buildType": "apk" }
-    }
-  }
-}
 ```
 
-### Système de Notifications
-
-**Architecture des notifications :**
-
-- **Service principal** : `NotificationService` pour les permissions et planification
-- **Données locales** : Fichier JSON avec 321 enregistrements de collecte nationale
-- **Cache intelligent** : Données mises en cache par ville pour performance
-
-**Configuration Expo Notifications :**
-
-```typescript
-import * as Notifications from 'expo-notifications';
-
-// Configuration des notifications
-Notifications.setNotificationHandler({
-  handleNotification: async () => ({
-    shouldShowAlert: true,
-    shouldPlaySound: true,
-    shouldSetBadge: false,
-  }),
-});
-```
+> **Voir la configuration complète :** [`eas.json`](../eas.json)
 
 ### Configuration Firebase
 
@@ -238,32 +208,27 @@ Notifications.setNotificationHandler({
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    // Collection des conseils
+    // Règles pour les conseils, utilisateurs et résultats de scan
     match /advice/{adviceId} {
       allow read: if resource.data.isPublished == true;
       allow create: if request.auth != null;
-      allow update, delete: if request.auth != null &&
-        resource.data.authorId == request.auth.uid;
+      allow update, delete: if request.auth != null
+        && resource.data.authorId == request.auth.uid;
     }
 
-    // Collection des utilisateurs
     match /users/{userId} {
-      allow read, write: if request.auth != null &&
-        request.auth.uid == userId;
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+
+    match /scanResults/{scanId} {
+      allow read, write: if request.auth != null
+        && resource.data.userId == request.auth.uid;
     }
   }
 }
 ```
 
-**Configuration Storage :**
-
-```javascript
-// Images des conseils et scans
-match /advice-images/{imageId} {
-  allow read: if true;
-  allow write: if request.auth != null;
-}
-```
+> **Voir la configuration complète :** [`firebase.json`](../firebase.json) et [`firebaseConfig.tsx`](../firebaseConfig.tsx)
 
 ## Sécurité
 
@@ -272,7 +237,7 @@ match /advice-images/{imageId} {
 #### 1. Authentification et Autorisation
 
 ```typescript
-// Exemple de sécurisation des routes
+// Sécurisation des routes
 const requireAuth = (navigation: any) => {
   const user = auth.currentUser;
   if (!user) {
@@ -303,6 +268,8 @@ const validateScanData = (data: ScanData) => {
   }
 };
 ```
+
+> **Voir la validation complète :** [`src/services/mlKitService.ts`](../src/services/mlKitService.ts)
 
 **Mesures :**
 
@@ -449,6 +416,8 @@ const colors = {
 };
 ```
 
+> **Voir la palette complète :** [`src/styles/colors.ts`](../src/styles/colors.ts)
+
 **Mesures :**
 
 - **Contraste** : Ratio minimum 4.5:1 pour le texte normal
@@ -466,6 +435,8 @@ const handleKeyPress = (event: KeyboardEvent) => {
   }
 };
 ```
+
+> **Voir l'implémentation complète :** [`src/components/`](../src/components/)
 
 **Mesures :**
 
@@ -486,6 +457,8 @@ const getErrorMessage = (error: Error) => {
   };
 };
 ```
+
+> **Voir la gestion d'erreurs :** [`src/services/`](../src/services/)
 
 **Mesures :**
 
@@ -510,9 +483,10 @@ const accessibleButton = (
 );
 ```
 
+> **Voir l'accessibilité complète :** [`src/screens/`](../src/screens/)
+
 **Mesures :**
 
-- **Lecteurs d'écran** : Support complet VoiceOver/TalkBack
 - **Technologies d'assistance** : Compatibilité maximale
 - **Standards** : Respect des spécifications WCAG
 - **Tests** : Validation avec outils d'accessibilité
@@ -571,10 +545,10 @@ const imageCache = new Map();
 const dataCache = new Map();
 ```
 
-**3. Compression**
+**3. Compression et Optimisation**
 
 ```typescript
-// Compression des images avant upload
+// Compression des images et import sélectif
 const compressImage = async (image: Image) => {
   return await ImageManipulator.manipulateAsync(image, [], {
     compress: 0.7,
@@ -583,13 +557,7 @@ const compressImage = async (image: Image) => {
 };
 ```
 
-**4. Optimisation des Bundles**
-
-```typescript
-// Import sélectif des modules
-import { getFirestore } from 'firebase/firestore';
-import { getStorage } from 'firebase/storage';
-```
+> **Voir les optimisations complètes :** [`src/services/`](../src/services/) et [`src/components/`](../src/components/)
 
 ## Tests et Qualité
 
@@ -597,10 +565,12 @@ import { getStorage } from 'firebase/storage';
 
 #### Tests Unitaires
 
-- **Couverture** : 76.2% (objectif >80%)
-- **Tests** : 54 tests passants
-- **Services** : 100% des services testés
+- **Tests** : 68/71 passants
+- **Couverture** : 64.73%
+- **Services** : 95.8% des services testés
 - **Composants** : Tests des composants critiques
+
+> **Voir le guide de tests complet :** [`docs/TESTING_GUIDE.md`](TESTING_GUIDE.md)
 
 #### Tests d'Intégration
 
@@ -632,6 +602,8 @@ module.exports = {
 };
 ```
 
+> **Voir la configuration complète :** [`eslint.config.js`](../eslint.config.js)
+
 #### TypeScript
 
 ```typescript
@@ -646,18 +618,7 @@ module.exports = {
 }
 ```
 
-#### Prettier
-
-```json
-// Configuration Prettier
-{
-  "semi": true,
-  "trailingComma": "es5",
-  "singleQuote": true,
-  "printWidth": 80,
-  "tabWidth": 2
-}
-```
+> **Voir la configuration complète :** [`tsconfig.json`](../tsconfig.json)
 
 ## Déploiement
 
@@ -671,6 +632,8 @@ module.exports = {
 4. **Type-check** : `npm run type-check`
 5. **Validation Expo** : `npx expo-doctor`
 6. **Build** : `eas build` (optionnel)
+
+> **Voir le guide CI/CD complet :** [`docs/CI_CD_README.md`](CI_CD_README.md)
 
 #### Environnements
 
@@ -696,17 +659,19 @@ module.exports = {
 #### **Workflow Complémentaire**
 
 ```yaml
-# Votre .github/workflows/ci.yml ACTUEL (à conserver)
+# .github/workflows/ci.yml
 - Linting (ESLint avec 20 warnings max)
-- Tests unitaires (46/47 passent - 97.9%)
+- Tests unitaires (68/71 passants)
 - Type checking (TypeScript strict)
 - Validation Expo
 
-# EAS Build ADDITIONNEL (pour ML Kit)
+# EAS Build ADDITIONNEL
 - Compilation Android native
 - Modules natifs (ML Kit)
 - APK avec expo-dev-client
 ```
+
+> **Voir la configuration CI/CD :** [`.github/workflows/ci.yml`](../.github/workflows/ci.yml)
 
 **Avantages EAS Build :**
 
@@ -723,40 +688,36 @@ module.exports = {
     "development": {
       "developmentClient": true,
       "distribution": "internal",
-      "android": {
-        "buildType": "apk"
-      }
+      "android": { "buildType": "apk" }
     },
-    "preview": {
-      "distribution": "internal"
-    },
-    "production": {
-      "distribution": "store"
-    }
+    "preview": { "distribution": "internal" },
+    "production": { "distribution": "store" }
   }
 }
 ```
 
+> **Voir la configuration complète :** [`eas.json`](../eas.json)
+
 **Commandes EAS Build :**
 
 ```bash
-# Build de développement avec ML Kit
+# Build de développement
 npx eas build --platform android --profile development
 
-# Build de preview pour tests
+# Build de preview et production
 npx eas build --platform android --profile preview
-
-# Build de production
 npx eas build --platform android --profile production
 ```
+
+> **Voir le guide complet :** [`docs/SCRIPTS_AND_COMMANDS.md`](SCRIPTS_AND_COMMANDS.md)
 
 **Workflow de déploiement avec EAS :**
 
 1. **Configuration** : `npx eas build:configure`
 2. **Build cloud** : `npx eas build --platform android --profile development`
-3. **Téléchargement APK** : Lien fourni après build
-4. **Installation** : Installation manuelle de l'APK
-5. **Test ML Kit** : Vérification du vrai ML Kit on-device
+3. **Téléchargement et installation** : APK fourni après build
+
+> **Voir le guide de déploiement :** [`docs/CI_CD_README.md`](CI_CD_README.md)
 
 ## Monitoring et Analytics
 
@@ -789,6 +750,25 @@ npx eas build --platform android --profile production
 - **Communauté** : Forum d'entraide
 - **Support technique** : Email et chat
 - **Formation** : Tutoriels et webinaires
+
+---
+
+## Documentation Complémentaire
+
+### Guides Disponibles
+
+- **Guide de Tests** : [`docs/TESTING_GUIDE.md`](TESTING_GUIDE.md) - Stratégie, métriques et exécution des tests
+- **Guide CI/CD** : [`docs/CI_CD_README.md`](CI_CD_README.md) - Déploiement et intégration continue
+- **Guide Utilisateur** : [`docs/USER_GUIDE.md`](USER_GUIDE.md) - Manuel d'utilisation de l'application
+- **Scripts et Commandes** : [`docs/SCRIPTS_AND_COMMANDS.md`](SCRIPTS_AND_COMMANDS.md) - Commandes utiles
+- **Compétences Validées** : [`docs/COMPETENCES_VALIDEES.md`](COMPETENCES_VALIDEES.md) - Validation des compétences
+
+### Structure du Projet
+
+- **Code Source** : [`src/`](../src/) - Architecture et composants
+- **Tests** : [`src/__tests__/`](../src/__tests__/) - Tests unitaires et d'intégration
+- **Mocks** : [`__mocks__/`](../__mocks__/) - Simulation des dépendances
+- **Configuration** : [`package.json`](../package.json), [`tsconfig.json`](../tsconfig.json)
 
 ---
 

@@ -23,21 +23,21 @@ export interface APIError {
   code?: string;
 }
 
-// Utiliser les vraies données du fichier JSON (combinaison des deux sources)
+// Utilisation des vraies données du fichier JSON (combinaison des deux sources)
 const LOCAL_DATA: APICollectionData[] = (collectionData as any).results || collectionData;
 const NATIONAL_DATA: any[] = nationalData;
 
-// Convertir les données nationales au format APICollectionData
+// Conversion des données nationales au format APICollectionData
 const convertNationalData = (): APICollectionData[] => {
   return NATIONAL_DATA.map(item => ({
     lieu: item.ville,
-    semaine: 1, // Par défaut, à adapter selon les besoins
+    semaine: 1,
     type_recyclable_ordures_menageresllecte: item.type_collecte,
     jour: item.jour
   }));
 };
 
-// Combiner les deux sources de données
+// Combinaison des deux sources de données
 const MOCK_API_DATA: APICollectionData[] = [
   ...LOCAL_DATA,
   ...convertNationalData()
@@ -59,12 +59,12 @@ class MockAPIService {
     return MockAPIService.instance;
   }
 
-  // Simuler un délai réseau
+  // Simulation d'un délai réseau
   private async simulateNetworkDelay(): Promise<void> {
     await new Promise(resolve => setTimeout(resolve, 100 + Math.random() * 200));
   }
 
-  // Générer une clé de cache
+  // Génération d'une clé de cache
   private generateCacheKey(endpoint: string, params: Record<string, string> = {}): string {
     const sortedParams = Object.keys(params)
       .sort()
@@ -73,7 +73,7 @@ class MockAPIService {
     return `${endpoint}?${sortedParams}`;
   }
 
-  // Vérifier si les données en cache sont valides
+  // Vérification si les données en cache sont valides
   private isCacheValid(cacheKey: string): boolean {
     const cached = this.cache.get(cacheKey);
     if (!cached) return false;
@@ -82,7 +82,7 @@ class MockAPIService {
     return (now - cached.timestamp) < this.cacheExpiry;
   }
 
-  // Récupérer les données depuis le cache
+  // Récupération des données depuis le cache
   private getFromCache<T>(cacheKey: string): T | null {
     if (this.isCacheValid(cacheKey)) {
       const cached = this.cache.get(cacheKey);
@@ -92,7 +92,7 @@ class MockAPIService {
     return null;
   }
 
-  // Mettre en cache les données
+  // Mise en cache des données
   private setCache<T>(cacheKey: string, data: T): void {
     this.cache.set(cacheKey, {
       data,
@@ -101,7 +101,7 @@ class MockAPIService {
     console.log(`Données mises en cache: ${cacheKey}`);
   }
 
-  // Récupérer les données de collecte
+  // Récupération des données de collecte
   async getCollectionData(params: {
     city?: string;
     limit?: number;
@@ -116,7 +116,7 @@ class MockAPIService {
       offset: offset.toString() 
     });
     
-    // Vérifier le cache
+    // Vérification du cache
     if (useCache) {
       const cached = this.getFromCache<APICollectionData[]>(cacheKey);
       if (cached) {
@@ -130,7 +130,7 @@ class MockAPIService {
       
       let filteredData = MOCK_API_DATA;
       
-      // Filtrer par ville si spécifiée
+      // Filtre par ville si spécifiée
       if (city) {
         const normalizedCity = city.toLowerCase().trim();
         filteredData = MOCK_API_DATA.filter(item => {
@@ -141,12 +141,12 @@ class MockAPIService {
         });
       }
       
-      // Appliquer la pagination
+      // Application de la pagination
       const paginatedData = filteredData.slice(offset, offset + limit);
       
       console.log(`Récupéré ${paginatedData.length} enregistrements de l'API mock (${filteredData.length} après filtrage)`);
       
-      // Mettre en cache
+      // Mise en cache
       if (useCache) {
         this.setCache(cacheKey, paginatedData);
       }
@@ -158,7 +158,7 @@ class MockAPIService {
     }
   }
 
-  // Récupérer toutes les villes disponibles
+  // Récupération de toutes les villes disponibles
   async getAllCities(useCache: boolean = true): Promise<string[]> {
     const cacheKey = 'all_cities';
     
@@ -184,7 +184,7 @@ class MockAPIService {
     }
   }
 
-  // Rechercher des villes par nom
+  // Recherche de villes par nom
   async searchCities(searchTerm: string, limit: number = 10): Promise<string[]> {
     try {
       const allCities = await this.getAllCities();
@@ -199,7 +199,7 @@ class MockAPIService {
     }
   }
 
-  // Récupérer les données pour une ville spécifique
+  // Récupération des données pour une ville spécifique
   async getCityData(city: string, useCache: boolean = true): Promise<APICollectionData[]> {
     try {
       return await this.getCollectionData({ city, useCache });
@@ -209,25 +209,25 @@ class MockAPIService {
     }
   }
 
-  // Vérifier la connectivité à l'API (toujours true pour le mock)
+  // Vérification de la connectivité à l'API (toujours true pour le mock)
   async checkConnectivity(): Promise<boolean> {
     await this.simulateNetworkDelay();
     return true;
   }
 
-  // Vider le cache
+  // Vidage du cache
   clearCache(): void {
     this.cache.clear();
     console.log('Cache API mock vidé');
   }
 
-  // Vider le cache pour une clé spécifique
+  // Vidage du cache pour une clé spécifique
   clearCacheKey(cacheKey: string): void {
     this.cache.delete(cacheKey);
     console.log(`Cache vidé pour: ${cacheKey}`);
   }
 
-  // Obtenir les statistiques du cache
+  // Récupération des statistiques du cache
   getCacheStats(): {
     size: number;
     keys: string[];
@@ -245,7 +245,7 @@ class MockAPIService {
     };
   }
 
-  // Créer une erreur API standardisée
+  // Création d'une erreur API standardisée
   private createAPIError(error: Error): APIError {
     return {
       message: error.message,
@@ -253,7 +253,7 @@ class MockAPIService {
     };
   }
 
-  // Tester l'API avec des données d'exemple
+  // Test de l'API avec des données d'exemple
   async testAPI(): Promise<{
     success: boolean;
     dataCount?: number;
