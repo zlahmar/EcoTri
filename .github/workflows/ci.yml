@@ -212,13 +212,14 @@ jobs:
           echo "Déploiement réussi (simulé)"
         continue-on-error: true
 
-      - name: Créer un badge de statut
-        uses: schneegans/dynamic-badges-action@v1.6.0
-        with:
-          auth: ${{ secrets.GIST_SECRET }}
-          gistID: your-gist-id
-          filename: eco-tri-ci.json
-          label: EcoTri CI
-          message: ${{ job.status }}
-          namedLogo: github
-          color: ${{ job.status == 'success' && 'green' || 'red' }}
+      # Badge de statut temporairement désactivé
+      # - name: Créer un badge de statut
+      #   uses: schneegans/dynamic-badges-action@v1.6.0
+      #   with:
+      #     auth: ${{ secrets.GIST_SECRET }}
+      #     gistID: your-gist-id
+      #     filename: eco-tri-ci.json
+      #     label: EcoTri CI
+      #     message: ${{ job.status }}
+      #     namedLogo: github
+      #     color: ${{ job.status == 'success' && 'green' || 'red' }}
