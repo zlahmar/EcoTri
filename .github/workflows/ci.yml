@@ -33,7 +33,7 @@ jobs:
           cache: 'npm'
 
       - name: Installer les dépendances
-        run: npm ci
+        run: npm ci --legacy-peer-deps
 
       - name: Vérifier le lint TypeScript
         run: |
@@ -74,7 +74,7 @@ jobs:
           cache: 'npm'
 
       - name: Installer les dépendances
-        run: npm ci
+        run: npm ci --legacy-peer-deps
 
       - name: Nettoyer le cache Jest
         run: |
@@ -113,7 +113,7 @@ jobs:
           cache: 'npm'
 
       - name: Installer les dépendances
-        run: npm ci
+        run: npm ci --legacy-peer-deps
 
       - name: Installer Expo CLI
         run: npm install -g @expo/cli@${{ env.EXPO_VERSION }}
@@ -146,7 +146,7 @@ jobs:
           cache: 'npm'
 
       - name: Installer les dépendances
-        run: npm ci
+        run: npm ci --legacy-peer-deps
 
       - name: Audit de sécurité npm
         run: |
@@ -203,7 +203,7 @@ jobs:
           cache: 'npm'
 
       - name: Installer les dépendances
-        run: npm ci
+        run: npm ci --legacy-peer-deps
 
       - name: Déployer sur Expo (optionnel)
         run: |
