@@ -8,7 +8,7 @@
 
 Cette application mobile vise à valider les compétences du bloc 2 en démontrant la maîtrise complète du cycle de développement logiciel, de la conception à la production, en passant par les tests et la documentation.
 
-## Version 2.0.0 - Fonctionnelle à 95% !
+## Version 2.1.0 - Fonctionnelle à 95% !
 
 **Toutes les fonctionnalités principales opérationnelles**  
 **Interface utilisateur complète et moderne**  

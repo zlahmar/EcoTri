@@ -565,7 +565,7 @@ const compressImage = async (image: Image) => {
 
 #### Tests Unitaires
 
-- **Tests** : 68/71 passants
+- **Tests** : 67/71 passants
 - **Couverture** : 64.56%
 - **Services** : 95.8% des services testés
 - **Composants** : Tests des composants critiques
@@ -661,7 +661,7 @@ module.exports = {
 ```yaml
 # .github/workflows/ci.yml
 - Linting (ESLint avec 20 warnings max)
-- Tests unitaires (68/71 passants)
+- Tests unitaires (67/71 passants)
 - Type checking (TypeScript strict)
 - Validation Expo
 

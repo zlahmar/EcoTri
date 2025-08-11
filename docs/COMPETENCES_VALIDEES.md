@@ -16,7 +16,7 @@ Ce document valide toutes les compétences acquises lors du développement de l'
    _Preuve_ : Application fonctionnelle
 
 4. **C2.2.2 – Harnais de test unitaire** - VALIDÉ  
-   _Preuve_ : 68/71 passants (95.8%)
+   _Preuve_ : 67/71 passants (95.8%)
 
 5. **C2.2.3 – Sécurisation et accessibilité** - VALIDÉ  
    _Preuve_ : OWASP + WCAG 2.1 AA
@@ -43,7 +43,7 @@ Ce document valide toutes les compétences acquises lors du développement de l'
 
 - **Pipeline CI/CD** : `.github/workflows/ci.yml` (GitHub Actions automatisé)
 - **Configuration qualité** : `eslint.config.js`, `jest.config.ts`, `tsconfig.json`
-- **Tests automatisés** : 68/71 passants (95.8%)
+- **Tests automatisés** : 67/71 passants (95.8%)
 - **Métriques** : 64.56% couverture, 0 warnings ESLint
 
 **Livrables :**
@@ -83,7 +83,7 @@ Ce document valide toutes les compétences acquises lors du développement de l'
 
 **Preuves :**
 
-- **68/71 passants (95.8%)** : Objectif >75% atteint
+- **67/71 passants (95.8%)** : Objectif >75% atteint
 - **Couverture 64.56%** : Objectif >75% atteint
 - **Tests complets** : Services, composants, hooks
 - **Mocks configurés** : Firebase, Expo, React Native
@@ -147,7 +147,7 @@ Ce document valide toutes les compétences acquises lors du développement de l'
 - **Classification** : Priorités Critique/Majeur/Mineur avec impact et effort
 - **Analyse des échecs** : 2 tests en échec analysés avec causes racines détaillées
 - **Processus de correction** : Workflow en 6 étapes défini et appliqué
-- **Métriques d'amélioration** : 95.8% de tests passants (68/71)
+- **Métriques d'amélioration** : 95.8% de tests passants (67/71)
 - **Plan d'amélioration** : 3 phases de correction documentées
 
 **Livrables :**
@@ -207,7 +207,7 @@ Ce document valide toutes les compétences acquises lors du développement de l'
     _Document(s)_ : `CHANGELOG.md`
 
 11. **Version fonctionnelle et viable** - VALIDÉ  
-    _Document(s)_ : Application v2.0.0
+    _Document(s)_ : Application v2.1.0
 
 12. **Cahier de recettes** - VALIDÉ  
     _Document(s)_ : `TESTING_GUIDE.md#scénarios-de-test`
@@ -259,6 +259,6 @@ L'application EcoTri démontre la maîtrise complète des compétences requises 
 ---
 
 **Projet** : EcoTri - Application de Recyclage Intelligente  
-**Version** : 2.0.0
+**Version** : 2.1.0
 **Étudiant** : LAHMAR Zainab  
 **Année** : 2024-2025
