@@ -82,11 +82,12 @@ npm run type-check
 
 ## Métriques de Qualité
 
-- **Tests** : 68/71 passants (95.8% - amélioration significative !)
-- **Couverture** : 64.56% (+2.83 points)
-- **Linting** : 0 erreurs, 0 warnings
+- **Tests** : 80/89 passants (90% de succès)
+- **Couverture** : 58.83%
+- **Linting** : 0 erreurs, 20 warnings max
 - **TypeScript** : Compilation sans erreur
-- **CI/CD** : Pipeline stable
+- **CI/CD** : Pipeline stable avec EAS Build
+- **Scénarios de test** : 14 scénarios critiques couverts
 
 ## Architecture
 
@@ -143,12 +144,12 @@ src/
 
 **Contenu :** Stratégie de tests complète
 
-- **Tests unitaires** : 71 tests (67 passants, 4 ignorés), couverture 64.56%
-- **Documentation des mocks** : Structure complète des mocks Firebase, Expo, React Native
-- **Configuration Jest** : Setup TypeScript, moduleNameMapper
-- **Scénarios d'acceptation** : 8 scénarios de test fonctionnels manuels
-- **Bonnes pratiques** : Organisation, assertions, performance
-- **CI/CD** : Configuration pour Node.js 18/20, optimisations
+- **Tests unitaires** : 89 tests (80 passants, 7 échouent, 2 ignorés), couverture 58.83%
+- **Scénarios critiques** : 14 scénarios de test couvrant toutes les fonctionnalités
+- **Configuration Jest** : Setup TypeScript, mocks @react-native-firebase, ML Kit
+- **Tests de composants** : ScanScreen, HomeScreen, AdviceScreen, MapComponent
+- **Tests de services** : MLKitService, APIService, StorageService, useLocation
+- **CI/CD** : Pipeline GitHub Actions avec validation des tests
 
 #### Changelog (CHANGELOG.md)
 

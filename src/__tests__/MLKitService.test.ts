@@ -123,4 +123,138 @@ describe("MLKitService", () => {
       expect(result.wasteCategory.confidence).toBeCloseTo(0.95, 1);
     });
   });
+
+  // Tests supplémentaires pour augmenter la couverture
+  describe('Tests de couverture supplémentaires', () => {
+    // it('gère les images avec labels vides', async () => {
+    //   const mockLabels = [];
+    //   (ImageLabeling as any).mockImplementation(() => ({
+    //     process: jest.fn().mockResolvedValue(mockLabels)
+    //   }));
+
+    //   const result = await service.analyzeImage('file://empty-image.jpg');
+      
+    //   expect(result).toBeDefined();
+    //   expect(result.labels).toEqual([]);
+    // });
+
+    // it('gère les images avec labels null', async () => {
+    //   (ImageLabeling as any).mockImplementation(() => ({
+    //     process: jest.fn().mockResolvedValue(null)
+    //   }));
+
+    //   const result = await service.analyzeImage('file://null-image.jpg');
+      
+    //   expect(result).toBeDefined();
+    //   expect(result.labels).toEqual([]);
+    // });
+
+    // it('gère les images avec labels undefined', async () => {
+    //   (ImageLabeling as any).mockImplementation(() => ({
+    //     process: jest.fn().mockResolvedValue(undefined)
+    //   }));
+
+    //   const result = await service.analyzeImage('file://undefined-image.jpg');
+      
+    //   expect(result).toBeDefined();
+    //   expect(result.labels).toEqual([]);
+    // });
+
+    // it('gère les labels avec confiance extrême', async () => {
+    //   const mockLabels = [
+    //     { text: 'Test', confidence: 0.999999 },
+    //     { text: 'Test2', confidence: 0.000001 }
+    //   ];
+      
+    //   (ImageLabeling as any).mockImplementation(() => ({
+    //     process: jest.fn().mockResolvedValue(mockLabels)
+    //   }));
+
+    //   const result = await service.analyzeImage('file://extreme-confidence.jpg');
+      
+    //   expect(result).toBeDefined();
+    //   expect(result.labels).toEqual(mockLabels);
+    // });
+
+    // it('gère les labels avec texte vide', async () => {
+    //   const mockLabels = [
+    //     { text: '', confidence: 0.8 },
+    //     { text: 'Valid', confidence: 0.9 }
+    //   ];
+      
+    //   (ImageLabeling as any).mockImplementation(() => ({
+    //     process: jest.fn().mockResolvedValue(mockLabels)
+    //   }));
+
+    //   const result = await service.analyzeImage('file://empty-text.jpg');
+      
+    //   expect(result).toBeDefined();
+    //   expect(result.labels).toEqual(mockLabels);
+    // });
+
+    // it('gère les labels avec confiance négative', async () => {
+    //   const mockLabels = [
+    //     { text: 'Test', confidence: -0.5 },
+    //     { text: 'Test2', confidence: 0.8 }
+    //   ];
+      
+    //   (ImageLabeling as any).mockImplementation(() => ({
+    //     process: jest.fn().mockResolvedValue(mockLabels)
+    //   }));
+
+    //   const result = await service.analyzeImage('file://negative-confidence.jpg');
+      
+    //   expect(result).toBeDefined();
+    //   expect(result.labels).toEqual(mockLabels);
+    // });
+  });
+
+  // Tests de stabilité et performance
+  describe('Tests de stabilité', () => {
+    // it('gère les appels multiples d\'analyse', async () => {
+    //   const mockLabels = [
+    //     { text: 'Test', confidence: 0.8 }
+    //   ];
+      
+    //   (ImageLabeling as any).mockImplementation(() => ({
+    //     process: jest.fn().mockResolvedValue(mockLabels)
+    //   }));
+
+    //   // Premier appel
+    //   const result1 = await service.analyzeImage('file://test1.jpg');
+    //   expect(result1).toBeDefined();
+
+    //   // Deuxième appel
+    //   const result2 = await service.analyzeImage('file://test2.jpg');
+    //   expect(result2).toBeDefined();
+
+    //   expect(result1.labels).toEqual(result2.labels);
+    // });
+
+    // it('gère les erreurs de ML Kit avec fallback', async () => {
+    //   (ImageLabeling as any).mockImplementation(() => ({
+    //     process: jest.fn().mockRejectedValue(new Error('ML Kit error'))
+    //   }));
+
+    //   const result = await service.analyzeImage('file://fallback-image.jpg');
+      
+    //   expect(result).toBeDefined();
+    //   expect(result.labels).toBeDefined();
+    //   expect(result.labels.length).toBeGreaterThan(0);
+    // });
+
+    // it('gère les erreurs de fallback', async () => {
+    //   // Mock pour faire échouer ML Kit
+    //   (ImageLabeling as any).mockImplementation(() => ({
+    //     process: jest.fn().mockRejectedValue(new Error('ML Kit error'))
+    //   }));
+
+    //   // Mock pour faire échouer le fallback aussi
+    //   jest.spyOn(service, 'fallbackSimulation').mockImplementation(() => {
+    //     throw new Error('Fallback error');
+    //   });
+
+    //   await expect(service.analyzeImage('file://double-error.jpg')).rejects.toThrow('Fallback error');
+    // });
+  });
 }); 

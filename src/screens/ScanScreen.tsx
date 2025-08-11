@@ -7,7 +7,7 @@ import { colors } from '../styles/colors';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import mlKitService, { VisionAnalysisResult } from '../services/mlKitService';
 import storageService from '../services/storageService';
-import { auth } from '../../firebaseConfig';
+import { auth } from '../firebaseConfig';
 
 const ScanScreen = ({ navigation }: { navigation: any }) => {
   const [isScanning, setIsScanning] = useState(false);
@@ -75,7 +75,7 @@ const ScanScreen = ({ navigation }: { navigation: any }) => {
     try {
       setIsScanning(true);
       
-      const userId = auth.currentUser?.uid;
+      const userId = auth().currentUser?.uid;
       if (!userId) {
         Alert.alert('Erreur', 'Vous devez être connecté pour enregistrer le scan');
         return;

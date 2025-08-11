@@ -3,15 +3,15 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for components/MapComponent.tsx</title>
+    <title>Code coverage report for src/services/mlKitService.ts</title>
     <meta charset="utf-8" />
-    <link rel="stylesheet" href="../prettify.css" />
-    <link rel="stylesheet" href="../base.css" />
-    <link rel="shortcut icon" type="image/x-icon" href="../favicon.png" />
+    <link rel="stylesheet" href="../../prettify.css" />
+    <link rel="stylesheet" href="../../base.css" />
+    <link rel="shortcut icon" type="image/x-icon" href="../../favicon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <style type='text/css'>
         .coverage-summary .sorter {
-            background-image: url(../sort-arrow-sprite.png);
+            background-image: url(../../sort-arrow-sprite.png);
         }
     </style>
 </head>
@@ -19,34 +19,34 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../index.html">All files</a> / <a href="index.html">components</a> MapComponent.tsx</h1>
+        <h1><a href="../../index.html">All files</a> / <a href="index.html">src/services</a> mlKitService.ts</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">28.03% </span>
+                <span class="strong">46.03% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>30/107</span>
+                <span class='fraction'>58/126</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">13.46% </span>
+                <span class="strong">39.06% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>7/52</span>
+                <span class='fraction'>25/64</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">16.66% </span>
+                <span class="strong">57.57% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>4/24</span>
+                <span class='fraction'>19/33</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">29% </span>
+                <span class="strong">45.76% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>29/100</span>
+                <span class='fraction'>54/118</span>
             </div>
         
             
@@ -511,32 +511,251 @@
 <a name='L446'></a><a href='#L446'>446</a>
 <a name='L447'></a><a href='#L447'>447</a>
 <a name='L448'></a><a href='#L448'>448</a>
-<a name='L449'></a><a href='#L449'>449</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L449'></a><a href='#L449'>449</a>
+<a name='L450'></a><a href='#L450'>450</a>
+<a name='L451'></a><a href='#L451'>451</a>
+<a name='L452'></a><a href='#L452'>452</a>
+<a name='L453'></a><a href='#L453'>453</a>
+<a name='L454'></a><a href='#L454'>454</a>
+<a name='L455'></a><a href='#L455'>455</a>
+<a name='L456'></a><a href='#L456'>456</a>
+<a name='L457'></a><a href='#L457'>457</a>
+<a name='L458'></a><a href='#L458'>458</a>
+<a name='L459'></a><a href='#L459'>459</a>
+<a name='L460'></a><a href='#L460'>460</a>
+<a name='L461'></a><a href='#L461'>461</a>
+<a name='L462'></a><a href='#L462'>462</a>
+<a name='L463'></a><a href='#L463'>463</a>
+<a name='L464'></a><a href='#L464'>464</a>
+<a name='L465'></a><a href='#L465'>465</a>
+<a name='L466'></a><a href='#L466'>466</a>
+<a name='L467'></a><a href='#L467'>467</a>
+<a name='L468'></a><a href='#L468'>468</a>
+<a name='L469'></a><a href='#L469'>469</a>
+<a name='L470'></a><a href='#L470'>470</a>
+<a name='L471'></a><a href='#L471'>471</a>
+<a name='L472'></a><a href='#L472'>472</a>
+<a name='L473'></a><a href='#L473'>473</a>
+<a name='L474'></a><a href='#L474'>474</a>
+<a name='L475'></a><a href='#L475'>475</a>
+<a name='L476'></a><a href='#L476'>476</a>
+<a name='L477'></a><a href='#L477'>477</a>
+<a name='L478'></a><a href='#L478'>478</a>
+<a name='L479'></a><a href='#L479'>479</a>
+<a name='L480'></a><a href='#L480'>480</a>
+<a name='L481'></a><a href='#L481'>481</a>
+<a name='L482'></a><a href='#L482'>482</a>
+<a name='L483'></a><a href='#L483'>483</a>
+<a name='L484'></a><a href='#L484'>484</a>
+<a name='L485'></a><a href='#L485'>485</a>
+<a name='L486'></a><a href='#L486'>486</a>
+<a name='L487'></a><a href='#L487'>487</a>
+<a name='L488'></a><a href='#L488'>488</a>
+<a name='L489'></a><a href='#L489'>489</a>
+<a name='L490'></a><a href='#L490'>490</a>
+<a name='L491'></a><a href='#L491'>491</a>
+<a name='L492'></a><a href='#L492'>492</a>
+<a name='L493'></a><a href='#L493'>493</a>
+<a name='L494'></a><a href='#L494'>494</a>
+<a name='L495'></a><a href='#L495'>495</a>
+<a name='L496'></a><a href='#L496'>496</a>
+<a name='L497'></a><a href='#L497'>497</a>
+<a name='L498'></a><a href='#L498'>498</a>
+<a name='L499'></a><a href='#L499'>499</a>
+<a name='L500'></a><a href='#L500'>500</a>
+<a name='L501'></a><a href='#L501'>501</a>
+<a name='L502'></a><a href='#L502'>502</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">35x</span>
+<span class="cline-any cline-yes">35x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">21x</span>
+<span class="cline-any cline-yes">21x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -545,339 +764,41 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">25x</span>
-<span class="cline-any cline-yes">25x</span>
-<span class="cline-any cline-yes">25x</span>
-<span class="cline-any cline-yes">25x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">25x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">39x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">39x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">25x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">25x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">25x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">25x</span>
-<span class="cline-any cline-yes">25x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">25x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">25x</span>
-<span class="cline-any cline-yes">24x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">25x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">25x</span>
-<span class="cline-any cline-yes">25x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -925,6 +846,53 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">216x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">16x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -959,471 +927,662 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span></td><td class="text"><pre class="prettyprint lang-js">import React, { useEffect, useState } from "react";
-import { View, StyleSheet, Text, TouchableOpacity, ActivityIndicator, Platform } from "react-native";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { colors } from "../styles/colors";
-import { globalStyles } from "../styles/global";
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span></td><td class="text"><pre class="prettyprint lang-js">// ML Kit pour la reconnaissance d'images locale
+import ImageLabeling from '@react-native-ml-kit/image-labeling';
+import { Platform } from 'react-native';
 &nbsp;
-// Import conditionnel de react-native-maps seulement sur mobile
-let MapView: any = null;
-let Marker: any = null;
-let PROVIDER_GOOGLE: any = null;
-let PROVIDER_DEFAULT: any = null;
-&nbsp;
-<span class="missing-if-branch" title="if path not taken" >I</span>if (Platform.OS !== 'web') {
-<span class="cstat-no" title="statement not covered" >  try {</span>
-    const Maps = <span class="cstat-no" title="statement not covered" >require("react-native-maps");</span>
-<span class="cstat-no" title="statement not covered" >    MapView = Maps.default;</span>
-<span class="cstat-no" title="statement not covered" >    Marker = Maps.Marker;</span>
-<span class="cstat-no" title="statement not covered" >    PROVIDER_GOOGLE = Maps.PROVIDER_GOOGLE;</span>
-<span class="cstat-no" title="statement not covered" >    PROVIDER_DEFAULT = Maps.PROVIDER_DEFAULT;</span>
-  } catch (error) {
-<span class="cstat-no" title="statement not covered" >    console.warn("react-native-maps non disponible:", error);</span>
-    // Fallback : composants vides
-<span class="cstat-no" title="statement not covered" >    MapView = <span class="fstat-no" title="function not covered" >({</span> children, ...props }: any) =&gt; <span class="cstat-no" title="statement not covered" >&lt;View {...props}&gt;{children}&lt;/View&gt;;</span></span>
-<span class="cstat-no" title="statement not covered" >    Marker = <span class="fstat-no" title="function not covered" >({</span> children, ...props }: any) =&gt; <span class="cstat-no" title="statement not covered" >&lt;View {...props}&gt;{children}&lt;/View&gt;;</span></span>
-<span class="cstat-no" title="statement not covered" >    PROVIDER_GOOGLE = 'default';</span>
-<span class="cstat-no" title="statement not covered" >    PROVIDER_DEFAULT = 'default';</span>
-  }
+// Types pour l'analyse d'image
+export interface VisionAnalysisResult {
+  labels: VisionLabel[];
+  objects: VisionObject[];
+  text: string[];
+  dominantColors: ColorInfo[];
+  wasteCategory: WasteCategory;
+  confidence: number;
+  alternatives: WasteCategory[];
 }
 &nbsp;
-const MapComponent = ({ mapRef, location, filter }: { 
-  mapRef: any; 
-  location: { latitude: number; longitude: number } | null; 
-  filter: string | null 
-}) =&gt; {
-  const [recyclingPoints, setRecyclingPoints] = useState&lt;any[]&gt;([]);
-  const [selectedPoint, setSelectedPoint] = useState&lt;any&gt;(null);
-  const [address, setAddress] = useState("");
-  const [loadingAddress, setLoadingAddress] = useState(false);
+export interface VisionLabel {
+  description: string;
+  confidence: number;
+  mid?: string;
+}
 &nbsp;
-  //Récupère les points de recyclage depuis Overpass API
-  const fetchRecyclingPoints = <span class="fstat-no" title="function not covered" >async </span>() =&gt; {
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!location) <span class="cstat-no" title="statement not covered" >return;</span></span>
+export interface VisionObject {
+  name: string;
+  confidence: number;
+  boundingPoly?: any;
+}
 &nbsp;
-    const { latitude, longitude } = <span class="cstat-no" title="statement not covered" >location;</span>
-    const delta = <span class="cstat-no" title="statement not covered" >0.05;</span>
-    const tagFilter = <span class="cstat-no" title="statement not covered" >filter ? `["recycling:${filter}"="yes"]` : "";</span>
-&nbsp;
-    const overpassQuery = <span class="cstat-no" title="statement not covered" >`</span>
-      [out:json];
-      node["amenity"="recycling"]${tagFilter}(${latitude - delta},${longitude - delta},${latitude + delta},${longitude + delta});
-      out;
-    `;
-&nbsp;
-<span class="cstat-no" title="statement not covered" >    try {</span>
-      const response = <span class="cstat-no" title="statement not covered" >await fetch("https://overpass.kumi.systems/api/interpreter", {</span>
-        method: "POST",
-        headers: { 
-          "Content-Type": "application/x-www-form-urlencoded",
-          "User-Agent": "RecycleFinder/1.0 (zineblahmar1@gmail.com)"
-        },
-        body: `data=${encodeURIComponent(overpassQuery)}`,
-      });
-&nbsp;
-      // Vérifier si la réponse est OK
-<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (!response.ok) {</span>
-<span class="cstat-no" title="statement not covered" >        console.error(`Erreur API: ${response.status}`);</span>
-<span class="cstat-no" title="statement not covered" >        return;</span>
-      }
-&nbsp;
-      const text = <span class="cstat-no" title="statement not covered" >await response.text();</span>
-      
-<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (text.trim().startsWith("&lt;")) {</span>
-<span class="cstat-no" title="statement not covered" >        console.error("API surchargée - réessayez plus tard");</span>
-<span class="cstat-no" title="statement not covered" >        return;</span>
-      }
-&nbsp;
-      const data = <span class="cstat-no" title="statement not covered" >JSON.parse(text);</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (data.elements) {</span>
-<span class="cstat-no" title="statement not covered" >        setRecyclingPoints(data.elements.map(<span class="fstat-no" title="function not covered" >(e</span>l: any) =&gt; (<span class="cstat-no" title="statement not covered" >{</span></span>
-          id: el.id,
-          latitude: el.lat,
-          longitude: el.lon,
-          tags: el.tags,
-        })));
-      }
-    } catch {
-<span class="cstat-no" title="statement not covered" >      console.error("Erreur API - réessayez plus tard");</span>
-      // En cas d'erreur, on essaie avec un serveur alternatif
-<span class="cstat-no" title="statement not covered" >      try {</span>
-        const response = <span class="cstat-no" title="statement not covered" >await fetch("https://overpass-api.de/api/interpreter", {</span>
-          method: "POST",
-          headers: { 
-            "Content-Type": "application/x-www-form-urlencoded",
-            "User-Agent": "RecycleFinder/1.0 (zineblahmar1@gmail.com)"
-          },
-          body: `data=${encodeURIComponent(overpassQuery)}`,
-        });
-&nbsp;
-<span class="cstat-no" title="statement not covered" >        <span class="missing-if-branch" title="if path not taken" >I</span>if (response.ok) {</span>
-          const data = <span class="cstat-no" title="statement not covered" >await response.json();</span>
-<span class="cstat-no" title="statement not covered" >          <span class="missing-if-branch" title="if path not taken" >I</span>if (data.elements) {</span>
-<span class="cstat-no" title="statement not covered" >            setRecyclingPoints(data.elements.map(<span class="fstat-no" title="function not covered" >(e</span>l: any) =&gt; (<span class="cstat-no" title="statement not covered" >{</span></span>
-              id: el.id,
-              latitude: el.lat,
-              longitude: el.lon,
-              tags: el.tags,
-            })));
-          }
-        }
-      } catch {
-<span class="cstat-no" title="statement not covered" >        console.error("Erreur API - réessayez plus tard");</span>
-      }
-    }
+export interface ColorInfo {
+  color: {
+    red: number;
+    green: number;
+    blue: number;
   };
+  score: number;
+  pixelFraction: number;
+}
 &nbsp;
-  //Formate l'adresse pour n'afficher que le numéro, la rue, le code postal et la ville
-  const formatAddress = <span class="fstat-no" title="function not covered" >(d</span>ata: any) =&gt; {
-<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (!data || !data.address) <span class="cstat-no" title="statement not covered" >return "Adresse non trouvée";</span></span>
-    
-    const { house_number, road, postcode, town, city } = <span class="cstat-no" title="statement not covered" >data.address;</span>
-<span class="cstat-no" title="statement not covered" >    return `${house_number ? house_number + " " : ""}${road || ""}, ${postcode || ""} ${town || city || ""}`;</span>
-  };
+export interface WasteCategory {
+  category: string;
+  icon: string;
+  color: string;
+  instructions: string;
+  confidence: number;
+}
 &nbsp;
-  //Récupère l'adresse via Nominatim
-  const fetchAddressFromCoordinates = <span class="fstat-no" title="function not covered" >async </span>(latitude: number, longitude: number) =&gt; {
-<span class="cstat-no" title="statement not covered" >    setLoadingAddress(true);</span>
-<span class="cstat-no" title="statement not covered" >    try {</span>
-      const url = <span class="cstat-no" title="statement not covered" >`https://nominatim.openstreetmap.org/reverse?format=json&amp;lat=${latitude}&amp;lon=${longitude}&amp;zoom=18&amp;addressdetails=1`;</span>
-      const response = <span class="cstat-no" title="statement not covered" >await fetch(url, {</span>
-        headers: { "User-Agent": "RecycleFinder/1.0 (zineblahmar1@gmail.com)" },
-      });
-      const data = <span class="cstat-no" title="statement not covered" >await response.json();</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >      setAddress(formatAddress(data));</span>
-    } catch {
-<span class="cstat-no" title="statement not covered" >      setAddress("Adresse non trouvée");</span>
-    }
-<span class="cstat-no" title="statement not covered" >    setLoadingAddress(false);</span>
-  };
-&nbsp;
-  //Sélectionne un point de recyclage et récupère son adresse
-  const handleSelectPoint = <span class="fstat-no" title="function not covered" >(p</span>oint: any) =&gt; {
-<span class="cstat-no" title="statement not covered" >    setSelectedPoint(point);</span>
-<span class="cstat-no" title="statement not covered" >    fetchAddressFromCoordinates(point.latitude, point.longitude);</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >    mapRef.current?.animateToRegion({</span>
-      latitude: point.latitude,
-      longitude: point.longitude,
-      latitudeDelta: 0.005,
-      longitudeDelta: 0.005,
-    });
-  };
-&nbsp;
-  //Récupère les points de recyclage à chaque changement de location ou filtre
-  useEffect(() =&gt; {
-    const timeoutId = setTimeout(<span class="fstat-no" title="function not covered" >() =</span>&gt; {
-<span class="cstat-no" title="statement not covered" >      fetchRecyclingPoints();</span>
-    }, 500);
-&nbsp;
-    return () =&gt; clearTimeout(timeoutId);
-  }, [location, filter]);
-&nbsp;
-  //Centre la carte sur la position actuelle
-  useEffect(() =&gt; {
-    <span class="missing-if-branch" title="if path not taken" >I</span>if (location &amp;&amp; mapRef.current) {
-<span class="cstat-no" title="statement not covered" >      mapRef.current.animateToRegion({</span>
-        latitude: location.latitude,
-        longitude: location.longitude,
-        latitudeDelta: 0.01,
-        longitudeDelta: 0.01,
-      });
-    }
-  }, [location]);
-  
-&nbsp;
-  //Traduit les types de recyclage en français
-  const translateRecyclingType = <span class="fstat-no" title="function not covered" >(t</span>ag: string): string =&gt; {
-    const translations: { [key: string]: string } = <span class="cstat-no" title="statement not covered" >{</span>
-      "recycling:glass_bottles": "Bouteilles en verre",
-      "recycling:glass": "Verre",
-      "recycling:plastic": "Plastique",
-      "recycling:plastic_bottles": "Bouteilles en plastique",
-      "recycling:paper": "Papier",
-      "recycling:cardboard": "Carton",
-      "recycling:scrap_metal": "Métal",
-      "recycling:metal": "Métal",
-      "recycling:organic": "Déchets organiques",
-      "recycling:electronics": "Électronique",
-      "recycling:electrical_appliances": "Appareils électriques",
-      "recycling:textile": "Textile",
-      "recycling:clothes": "Vêtements",
-      "recycling:shoes": "Chaussures",
-      "recycling:aluminium": "Aluminium",
-      "recycling:steel": "Acier",
-      "recycling:tin_cans": "Boîtes de conserve",
-      "recycling:oil": "Huile",
-      "recycling:batteries": "Piles",
-      "recycling:light_bulbs": "Ampoules",
-      "recycling:cds": "CD/DVD",
-      "recycling:books": "Livres",
-      "recycling:magazines": "Magazines",
-      "recycling:newspapers": "Journaux",
-      "recycling:wood": "Bois",
-      "recycling:green_waste": "Déchets verts",
-      "recycling:compost": "Compost",
-      "recycling:construction_waste": "Déchets de construction",
-      "recycling:bulky_waste": "Encombrants",
-      "recycling:household_waste": "Déchets ménagers",
-      "recycling:general": "Déchets généraux",
-      "recycling:food_waste": "Déchets alimentaires",
-      "recycling:kitchen_waste": "Déchets de cuisine",
-      "recycling:biodegradable": "Déchets biodégradables",
-      "recycling:garden_waste": "Déchets de jardin",
-      "recycling:printer_cartridges": "Cartouches d'imprimante",
-      "recycling:mobile_phones": "Téléphones mobiles",
-      "recycling:computers": "Ordinateurs",
-      "recycling:white_goods": "Électroménager",
-      "recycling:small_appliances": "Petits appareils",
-      "recycling:fluorescent_tubes": "Tubes fluorescents",
-      "recycling:energy_saving_bulbs": "Ampoules économiques",
-      "recycling:car_batteries": "Batteries de voiture",
-      "recycling:engine_oil": "Huile moteur",
-      "recycling:cooking_oil": "Huile de cuisson",
-      "recycling:paint": "Peinture",
-      "recycling:chemicals": "Produits chimiques",
-      "recycling:medicines": "Médicaments",
-      "recycling:ink_cartridges": "Cartouches d'encre",
-      "recycling:toner_cartridges": "Cartouches de toner",
-      "recycling:plastic_bags": "Sacs plastique",
-      "recycling:plastic_packaging": "Emballages plastique",
-      "recycling:glass_containers": "Contenants en verre",
-      "recycling:aluminum_cans": "Canettes en aluminium",
-      "recycling:steel_cans": "Boîtes en acier",
-      "recycling:tetra_pak": "Briques Tetra Pak",
-      "recycling:wine_corks": "Bouchons de vin",
-      "recycling:coffee_capsules": "Capsules de café",
-      "recycling:tea_bags": "Sachets de thé",
-      "recycling:food_packaging": "Emballages alimentaires"
-    };
-    
-<span class="cstat-no" title="statement not covered" >    return translations[tag] || tag.replace("recycling:", "").replace(/_/g, " ");</span>
-  };
-&nbsp;
-  // Interface alternative pour le web
-  if (Platform.OS === 'web') {
-    return (
-      &lt;View style={styles.container}&gt;
-        &lt;View style={styles.webMapContainer}&gt;
-          &lt;MaterialCommunityIcons name="map" size={100} color={colors.primary} /&gt;
-          &lt;Text style={styles.webMapText}&gt;Carte disponible sur mobile&lt;/Text&gt;
-          &lt;Text style={styles.webMapSubtext}&gt;
-            Utilisez l'application sur votre téléphone pour voir la carte interactive
-          &lt;/Text&gt;
-          
-          {location &amp;&amp; (
-            &lt;View style={styles.locationInfo}&gt;
-              &lt;Text style={styles.locationText}&gt;
-                Votre position : {location.latitude.toFixed(4)}, {location.longitude.toFixed(4)}
-              &lt;/Text&gt;
-            &lt;/View&gt;
-          )}
-          
-          {recyclingPoints.length &gt; 0 &amp;&amp; (
-<span class="branch-1 cbranch-no" title="branch not covered" >            &lt;View style={styles.pointsList}&gt;</span>
-              &lt;Text style={styles.pointsTitle}&gt;Points de recyclage trouvés : {recyclingPoints.length}&lt;/Text&gt;
-              {recyclingPoints.slice(0, 5).map(<span class="fstat-no" title="function not covered" >(p</span>oint, index) =&gt; (
-<span class="cstat-no" title="statement not covered" >                &lt;TouchableOpacity </span>
-                  key={point.id} 
-                  style={styles.pointItem}
-                  onPress={<span class="fstat-no" title="function not covered" >() =</span>&gt; <span class="cstat-no" title="statement not covered" >handleSelectPoint(point)}</span>
-                &gt;
-                  &lt;MaterialCommunityIcons name="recycle" size={24} color={colors.primary} /&gt;
-                  &lt;Text style={styles.pointText}&gt;Point de recyclage #{index + 1}&lt;/Text&gt;
-                &lt;/TouchableOpacity&gt;
-              ))}
-            &lt;/View&gt;
-          )}
-        &lt;/View&gt;
-&nbsp;
-        {selectedPoint &amp;&amp; (
-<span class="branch-1 cbranch-no" title="branch not covered" >          &lt;View style={styles.infoContainer}&gt;</span>
-            &lt;MaterialCommunityIcons name="recycle" size={40} color={colors.primary} /&gt;
-            &lt;View style={styles.infoTextContainer}&gt;
-              &lt;Text style={styles.infoText}&gt;
-                Type : {Object.keys(selectedPoint.tags)
-                  .filter(<span class="fstat-no" title="function not covered" >tag </span>=&gt; <span class="cstat-no" title="statement not covered" >tag.startsWith("recycling:"))</span>
-                  .map(<span class="fstat-no" title="function not covered" >tag </span>=&gt; <span class="cstat-no" title="statement not covered" >translateRecyclingType(tag))</span>
-                  .join(", ")}
-              &lt;/Text&gt;
-              &lt;Text style={styles.infoText}&gt;Adresse : {loadingAddress ? &lt;ActivityIndicator size="small" /&gt; : address}&lt;/Text&gt;
-            &lt;/View&gt;
-            &lt;TouchableOpacity onPress={<span class="fstat-no" title="function not covered" >() =</span>&gt; <span class="cstat-no" title="statement not covered" >setSelectedPoint(null)}</span> style={styles.closeButton}&gt;
-              &lt;MaterialCommunityIcons name="close" size={30} color="#FF5733" /&gt;
-            &lt;/TouchableOpacity&gt;
-          &lt;/View&gt;
-        )}
-      &lt;/View&gt;
-    );
-  }
-&nbsp;
-<span class="cstat-no" title="statement not covered" >  return (</span>
-    &lt;View style={styles.container}&gt;
-      &lt;MapView 
-        ref={mapRef} 
-        style={styles.map} 
-        provider={PROVIDER_DEFAULT}
-        testID="map-view"
-        region={{
-          latitude: location?.latitude || 48.8566,
-          longitude: location?.longitude || 2.3522,
-          latitudeDelta: 0.1,
-          longitudeDelta: 0.1,
-        }}&gt;
-        {location &amp;&amp; (
-          &lt;Marker coordinate={location} title="Ma Position" description="Vous êtes ici"&gt;
-            &lt;View style={globalStyles.blueDot}&gt;
-              &lt;View style={globalStyles.innerBlueDot} /&gt;
-            &lt;/View&gt;
-          &lt;/Marker&gt;
-        )}
-        {recyclingPoints.map(<span class="fstat-no" title="function not covered" >point </span>=&gt; {
-          // Vérification de sécurité pour éviter les crashes
-<span class="cstat-no" title="statement not covered" >          <span class="missing-if-branch" title="if path not taken" >I</span>if (!point || !point.latitude || !point.longitude) {</span>
-<span class="cstat-no" title="statement not covered" >            return null;</span>
-          }
-&nbsp;
-          let markerColor = <span class="cstat-no" title="statement not covered" >colors.primary;</span> // Couleur par défaut (vert)
-          
-<span class="cstat-no" title="statement not covered" >          <span class="missing-if-branch" title="if path not taken" >I</span>if (filter) {</span>
-            const filterColors: { [key: string]: string } = <span class="cstat-no" title="statement not covered" >{</span>
-              "plastic": "#2196F3",    // Bleu
-              "glass": "#4CAF50",      // Vert
-              "paper": "#FF9800",      // Orange
-              "metal": "#9E9E9E",      // Gris
-              "organic": "#8BC34A",    // Vert clair
-              "electronics": "#FF5722", // Rouge
-              "textile": "#E91E63"     // Rose
-            };
-<span class="cstat-no" title="statement not covered" >            markerColor = filterColors[filter] || colors.primary;</span>
-          }
-&nbsp;
-<span class="cstat-no" title="statement not covered" >          return (</span>
-            &lt;Marker
-              key={point.id}
-              testID="map-marker"
-              coordinate={{ latitude: point.latitude, longitude: point.longitude }}
-              onPress={<span class="fstat-no" title="function not covered" >() =</span>&gt; <span class="cstat-no" title="statement not covered" >handleSelectPoint(point)}</span>
-              pinColor={markerColor}
-            /&gt;
-          );
-        })}
-      &lt;/MapView&gt;
-&nbsp;
-      {selectedPoint &amp;&amp; (
-        &lt;View style={styles.infoContainer}&gt;
-          &lt;MaterialCommunityIcons name="recycle" size={40} color={colors.primary} /&gt;
-          &lt;View style={styles.infoTextContainer}&gt;
-            &lt;Text style={styles.infoText}&gt;
-              Type : {Object.keys(selectedPoint.tags)
-                .filter(<span class="fstat-no" title="function not covered" >tag </span>=&gt; <span class="cstat-no" title="statement not covered" >tag.startsWith("recycling:"))</span>
-                .map(<span class="fstat-no" title="function not covered" >tag </span>=&gt; <span class="cstat-no" title="statement not covered" >translateRecyclingType(tag))</span>
-                .join(", ")}
-            &lt;/Text&gt;
-            &lt;Text style={styles.infoText}&gt;Adresse : {loadingAddress ? &lt;ActivityIndicator size="small" /&gt; : address}&lt;/Text&gt;
-          &lt;/View&gt;
-          &lt;TouchableOpacity onPress={<span class="fstat-no" title="function not covered" >() =</span>&gt; <span class="cstat-no" title="statement not covered" >setSelectedPoint(null)}</span> style={styles.closeButton}&gt;
-            &lt;MaterialCommunityIcons name="close" size={30} color="#FF5733" /&gt;
-          &lt;/TouchableOpacity&gt;
-        &lt;/View&gt;
-      )}
-    &lt;/View&gt;
-  );
+// Base de données de classification des déchets
+const WASTE_CLASSIFICATION = {
+  'bottle': { category: 'Plastique', icon: 'bottle-soda', color: '#4CAF50', instructions: 'Rincer et jeter dans le bac plastique' },
+  'can': { category: 'Métal', icon: 'silverware-fork-knife', color: '#FF9800', instructions: 'Rincer et jeter dans le bac métal' },
+  'paper': { category: 'Papier', icon: 'file-document', color: '#2196F3', instructions: 'Plier et jeter dans le bac papier' },
+  'glass': { category: 'Verre', icon: 'glass-cocktail', color: '#9C27B0', instructions: 'Rincer et jeter dans le bac verre' },
+  'cardboard': { category: 'Papier', icon: 'package-variant', color: '#2196F3', instructions: 'Aplatir et jeter dans le bac papier' },
+  'plastic': { category: 'Plastique', icon: 'recycle', color: '#4CAF50', instructions: 'Rincer et jeter dans le bac plastique' },
+  'metal': { category: 'Métal', icon: 'silverware-fork-knife', color: '#FF9800', instructions: 'Rincer et jeter dans le bac métal' },
+  'organic': { category: 'Déchets verts', icon: 'leaf', color: '#8BC34A', instructions: 'Composter ou jeter dans le bac organique' },
+  'electronics': { category: 'Électronique', icon: 'battery', color: '#F44336', instructions: 'Apporter en déchetterie ou point de collecte' },
+  'textile': { category: 'Textile', icon: 'tshirt-crew', color: '#E91E63', instructions: 'Donner ou jeter dans le bac textile' },
+  'food': { category: 'Déchets verts', icon: 'food-apple', color: '#8BC34A', instructions: 'Composter ou jeter dans le bac organique' },
+  'drink': { category: 'Plastique', icon: 'cup-water', color: '#4CAF50', instructions: 'Rincer et jeter dans le bac plastique' },
+  'container': { category: 'Plastique', icon: 'package-variant-closed', color: '#4CAF50', instructions: 'Rincer et jeter dans le bac plastique' },
+  'newspaper': { category: 'Papier', icon: 'newspaper', color: '#2196F3', instructions: 'Plier et jeter dans le bac papier' },
+  'magazine': { category: 'Papier', icon: 'book-open-page-variant', color: '#2196F3', instructions: 'Plier et jeter dans le bac papier' },
+  'box': { category: 'Papier', icon: 'package-variant', color: '#2196F3', instructions: 'Aplatir et jeter dans le bac papier' },
+  'bag': { category: 'Plastique', icon: 'shopping', color: '#4CAF50', instructions: 'Rincer et jeter dans le bac plastique' },
+  'wrapper': { category: 'Plastique', icon: 'package-variant-closed', color: '#4CAF50', instructions: 'Rincer et jeter dans le bac plastique' },
+  'battery': { category: 'Électronique', icon: 'battery', color: '#F44336', instructions: 'Apporter en déchetterie ou point de collecte' },
+  'phone': { category: 'Électronique', icon: 'cellphone', color: '#F44336', instructions: 'Apporter en déchetterie ou point de collecte' },
+  'clothing': { category: 'Textile', icon: 'tshirt-crew', color: '#E91E63', instructions: 'Donner ou jeter dans le bac textile' },
+  'fabric': { category: 'Textile', icon: 'tshirt-crew', color: '#E91E63', instructions: 'Donner ou jeter dans le bac textile' },
+  'fruit': { category: 'Déchets verts', icon: 'food-apple', color: '#8BC34A', instructions: 'Composter ou jeter dans le bac organique' },
+  'vegetable': { category: 'Déchets verts', icon: 'food-apple', color: '#8BC34A', instructions: 'Composter ou jeter dans le bac organique' },
+  'bread': { category: 'Déchets verts', icon: 'food-apple', color: '#8BC34A', instructions: 'Composter ou jeter dans le bac organique' },
+  'coffee': { category: 'Déchets verts', icon: 'coffee', color: '#8BC34A', instructions: 'Composter ou jeter dans le bac organique' },
+  'tea': { category: 'Déchets verts', icon: 'tea', color: '#8BC34A', instructions: 'Composter ou jeter dans le bac organique' },
 };
 &nbsp;
-const styles = StyleSheet.create({
-  container: { flex: 1 },
-  map: { flex: 1 },
-  webMapContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 20,
-  },
-  webMapText: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginTop: 20,
-    textAlign: 'center',
-  },
-  webMapSubtext: {
-    fontSize: 16,
-    textAlign: 'center',
-    marginTop: 10,
-    color: '#666',
-  },
-  locationInfo: {
-    marginTop: 20,
-    padding: 15,
-    backgroundColor: '#f0f0f0',
-    borderRadius: 10,
-  },
-  locationText: {
-    fontSize: 14,
-    textAlign: 'center',
-  },
-  pointsList: {
-    marginTop: 20,
-    width: '100%',
-  },
-  pointsTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 10,
-    textAlign: 'center',
-  },
-  pointItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: 10,
-    marginVertical: 5,
-    backgroundColor: '#f9f9f9',
-    borderRadius: 8,
-  },
-  pointText: {
-    marginLeft: 10,
-    fontSize: 16,
-  },
-  infoContainer: {
-    position: "absolute",
-    bottom: 70,
-    left: 20,
-    right: 70,
-    backgroundColor: "rgba(255, 255, 255, 0.9)",
-    padding: 10,
-    borderRadius: 10,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.3,
-    shadowRadius: 3,
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  infoTextContainer: { flex: 1, marginLeft: 10 },
-  infoText: { fontSize: 16, fontWeight: "bold", textAlign: "left", marginTop: 5 },
-  closeButton: { position: "absolute", top: 5, right: 5 },
-});
 &nbsp;
-export default MapComponent;</pre></td></tr></table></pre>
+&nbsp;
+class MLKitService {
+  private isDevelopment = __DEV__;
+  
+  // Détermination si on est en mode développement avec Expo
+  private isExpoEnvironment(): boolean {
+    return this.isDevelopment &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >Platform.OS !== 'web';</span>
+  }
+  
+  // Analyse d'une image avec ML Kit (reconnaissance locale)
+  async analyzeImage(imageUri: string): Promise&lt;VisionAnalysisResult&gt; {
+    const isExpo = this.isExpoEnvironment();
+    
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (isExpo) {
+<span class="cstat-no" title="statement not covered" >      console.log('Mode développement Expo détecté - Utilisation de la simulation enrichie');</span>
+<span class="cstat-no" title="statement not covered" >      return this.developmentAnalysis(imageUri);</span>
+    }
+    
+    try {
+      console.log(' Mode production - Utilisation du vrai ML Kit');
+      console.log(' Analyse ML Kit de l\'image:', imageUri);
+      
+      // Utilisation du vrai ML Kit pour analyser l'image
+      const labels = await ImageLabeling.label(imageUri);
+      
+      console.log(' Labels détectés par ML Kit:', labels);
+      
+      // Conversion des résultats ML Kit vers notre format
+      const visionLabels: VisionLabel[] = labels
+        .filter(label =&gt; label.text &amp;&amp; label.text.trim() !== '')
+        .map(label =&gt; ({
+          description: label.text || <span class="branch-1 cbranch-no" title="branch not covered" >'Unknown object',</span>
+          confidence: label.confidence || <span class="branch-1 cbranch-no" title="branch not covered" >0,</span>
+        }));
+      
+      // Création des objets basés sur les labels (ML Kit ne fait que du labeling)
+      const visionObjects: VisionObject[] = labels
+        .slice(0, 3)
+        .filter(label =&gt; label.text &amp;&amp; label.text.trim() !== '')
+        .map(label =&gt; ({
+          name: (label.text || <span class="branch-1 cbranch-no" title="branch not covered" >'unknown')</span>.toLowerCase(),
+          confidence: label.confidence || <span class="branch-1 cbranch-no" title="branch not covered" >0,</span>
+        }));
+      
+      // Classification du déchet basé sur les vrais résultats ML Kit
+      const wasteCategory = this.classifyWaste(visionLabels);
+      
+      return {
+        labels: visionLabels,
+        objects: visionObjects,
+        text: [],
+        dominantColors: this.generateSimulatedColors(),
+        wasteCategory,
+        confidence: wasteCategory.confidence,
+        alternatives: this.getAlternativeClassifications(wasteCategory.category),
+      };
+    } catch (error) {
+      console.error(' Erreur lors de l\'analyse ML Kit:', error);
+      
+      // Fallback vers la simulation si ML Kit échoue
+      console.log(' Fallback vers la simulation');
+      return this.fallbackSimulation();
+    }
+  }
+&nbsp;
+  // Analyse enrichie pour le mode développement avec Expo
+  private <span class="fstat-no" title="function not covered" >async </span>developmentAnalysis(imageUri: string): Promise&lt;VisionAnalysisResult&gt; {
+<span class="cstat-no" title="statement not covered" >    console.log('Début de l\'analyse en mode développement');</span>
+<span class="cstat-no" title="statement not covered" >    console.log('URI de l\'image:', imageUri);</span>
+    
+    // Simulation d'un délai d'analyse réaliste
+<span class="cstat-no" title="statement not covered" >    await new Promise(<span class="fstat-no" title="function not covered" >resolve </span>=&gt; <span class="cstat-no" title="statement not covered" >setTimeout(resolve, 1500))</span>;</span>
+    
+    // Génération des labels plus détaillés et réalistes
+    const detailedLabels = <span class="cstat-no" title="statement not covered" >this.generateDetailedLabels();</span>
+    const detailedObjects = <span class="cstat-no" title="statement not covered" >this.generateDetailedObjects(detailedLabels);</span>
+    const mockText = <span class="cstat-no" title="statement not covered" >this.generateMockText();</span>
+    const detailedColors = <span class="cstat-no" title="statement not covered" >this.generateDetailedColors();</span>
+    
+    // Classification avec plus de détails
+          const wasteCategory = <span class="cstat-no" title="statement not covered" >this.classifyWasteDetailed(detailedLabels);</span>
+    const alternatives = <span class="cstat-no" title="statement not covered" >this.getDetailedAlternatives(wasteCategory.category);</span>
+    
+    // Logs détaillés pour le développement
+<span class="cstat-no" title="statement not covered" >    console.log(' Analyse complète terminée:');</span>
+<span class="cstat-no" title="statement not covered" >    console.log(' Labels trouvés:', detailedLabels.length);</span>
+<span class="cstat-no" title="statement not covered" >    console.log(' Objets détectés:', detailedObjects.length);</span>
+<span class="cstat-no" title="statement not covered" >    console.log(' Texte OCR:', mockText.length, 'éléments');</span>
+<span class="cstat-no" title="statement not covered" >    console.log(' Couleurs dominantes:', detailedColors.length);</span>
+<span class="cstat-no" title="statement not covered" >    console.log(' Catégorie finale:', wasteCategory.category);</span>
+<span class="cstat-no" title="statement not covered" >    console.log(' Confiance:', (wasteCategory.confidence * 100).toFixed(1) + '%');</span>
+<span class="cstat-no" title="statement not covered" >    console.log(' Alternatives:', alternatives.map(<span class="fstat-no" title="function not covered" >a </span>=&gt; <span class="cstat-no" title="statement not covered" >a.category)</span>.join(', '));</span>
+    
+<span class="cstat-no" title="statement not covered" >    return {</span>
+      labels: detailedLabels,
+      objects: detailedObjects,
+      text: mockText,
+      dominantColors: detailedColors,
+      wasteCategory,
+      confidence: wasteCategory.confidence,
+      alternatives,
+    };
+  }
+&nbsp;
+  // Méthode de fallback en cas d'échec de ML Kit
+  private async fallbackSimulation(): Promise&lt;VisionAnalysisResult&gt; {
+    await new Promise(resolve =&gt; setTimeout(resolve, 1000));
+    
+    const simulatedLabels = this.generateSimulatedLabels();
+    const simulatedObjects = this.generateSimulatedObjects(simulatedLabels);
+    const wasteCategory = this.classifyWaste(simulatedLabels);
+    
+    console.log(' Simulation générée:', {
+      labels: simulatedLabels.map(l =&gt; l.description),
+      category: wasteCategory.category,
+      confidence: wasteCategory.confidence
+    });
+    
+    return {
+      labels: simulatedLabels,
+      objects: simulatedObjects,
+      text: [],
+      dominantColors: this.generateSimulatedColors(),
+      wasteCategory,
+      confidence: wasteCategory.confidence,
+      alternatives: this.getAlternativeClassifications(wasteCategory.category),
+    };
+  }
+&nbsp;
+  // Classification du déchet basé sur les labels et objets détectés
+  private classifyWaste(labels: VisionLabel[]): WasteCategory {
+    console.log(' Classification avec labels:', labels.map(l =&gt; l.description));
+    
+    const primaryLabel = labels[0]?.description.toLowerCase() || <span class="branch-1 cbranch-no" title="branch not covered" >'';</span>
+    
+    let wasteType = 'plastic'; // Défaut
+    
+    if (primaryLabel.includes('bottle') || primaryLabel.includes('plastic')) {
+      wasteType = 'bottle';
+    } else <span class="missing-if-branch" title="if path not taken" >I</span>if (primaryLabel.includes('can') || primaryLabel.includes('metal') || primaryLabel.includes('aluminum')) {
+<span class="cstat-no" title="statement not covered" >      wasteType = 'can';</span>
+    } else <span class="missing-if-branch" title="if path not taken" >I</span>if (primaryLabel.includes('paper') || primaryLabel.includes('document') || primaryLabel.includes('sheet')) {
+<span class="cstat-no" title="statement not covered" >      wasteType = 'paper';</span>
+    } else if (primaryLabel.includes('glass') || <span class="branch-1 cbranch-no" title="branch not covered" >primaryLabel.includes('jar'))</span> {
+      wasteType = 'glass';
+    } else <span class="cstat-no" title="statement not covered" ><span class="missing-if-branch" title="if path not taken" >I</span><span class="missing-if-branch" title="else path not taken" >E</span>if (primaryLabel.includes('box') || primaryLabel.includes('cardboard') || primaryLabel.includes('package')) {</span>
+<span class="cstat-no" title="statement not covered" >      wasteType = 'cardboard';</span>
+    }
+    
+    const wasteInfo = WASTE_CLASSIFICATION[wasteType as keyof typeof WASTE_CLASSIFICATION];
+    // Utilisation de la confiance la plus élevée parmi les labels valides
+    const confidence = labels.length &gt; 0 ? Math.max(...labels.map(l =&gt; l.confidence)) : <span class="branch-1 cbranch-no" title="branch not covered" >0.8;</span>
+    
+    console.log(' Classifié comme:', wasteInfo.category, 'avec confiance:', confidence);
+    
+    return {
+      category: wasteInfo.category,
+      icon: wasteInfo.icon,
+      color: wasteInfo.color,
+      instructions: wasteInfo.instructions,
+      confidence: confidence,
+    };
+  }
+&nbsp;
+  //Génération des labels simulés pour la démonstration (plus variés)
+  private generateSimulatedLabels(): VisionLabel[] {
+    const labelSets = [
+      [
+        // Set bouteille plastique
+        { description: 'Bottle', confidence: 0.95 },
+        { description: 'Plastic', confidence: 0.89 },
+        { description: 'Container', confidence: 0.82 },
+        { description: 'Beverage', confidence: 0.76 },
+      ],
+      // Set canette
+      [
+        { description: 'Can', confidence: 0.92 },
+        { description: 'Metal', confidence: 0.87 },
+        { description: 'Aluminum', confidence: 0.81 },
+        { description: 'Drink', confidence: 0.74 },
+      ],
+      // Set papier
+      [
+        { description: 'Paper', confidence: 0.90 },
+        { description: 'Document', confidence: 0.85 },
+        { description: 'Sheet', confidence: 0.78 },
+        { description: 'Text', confidence: 0.72 },
+      ],
+      // Set verre
+      [
+        { description: 'Glass', confidence: 0.93 },
+        { description: 'Jar', confidence: 0.86 },
+        { description: 'Transparent', confidence: 0.79 },
+        { description: 'Container', confidence: 0.75 },
+      ],
+      // Set carton
+      [
+        { description: 'Box', confidence: 0.91 },
+        { description: 'Cardboard', confidence: 0.88 },
+        { description: 'Package', confidence: 0.83 },
+        { description: 'Brown', confidence: 0.77 },
+      ]
+    ];
+    
+    // Choix d'un set aléatoire
+    const randomSet = labelSets[Math.floor(Math.random() * labelSets.length)];
+    return randomSet;
+  }
+&nbsp;
+  // Génération des objets simulés pour la démonstration (adaptés aux labels)
+  private generateSimulatedObjects(labels: VisionLabel[]): VisionObject[] {
+    return labels.slice(0, 2).map(label =&gt; ({
+      name: label.description.toLowerCase(),
+      confidence: label.confidence - 0.1,
+    }));
+  }
+&nbsp;
+  // Génération des couleurs simulées pour la démonstration
+  private generateSimulatedColors(): ColorInfo[] {
+    return [
+      {
+        color: { red: 100, green: 150, blue: 200 },
+        score: 0.8,
+        pixelFraction: 0.6
+      },
+      {
+        color: { red: 255, green: 255, blue: 255 },
+        score: 0.3,
+        pixelFraction: 0.4
+      }
+    ];
+  }
+&nbsp;
+  // Récupération des classifications alternatives
+  private getAlternativeClassifications(primaryCategory: string): WasteCategory[] {
+    const alternatives = Object.entries(WASTE_CLASSIFICATION)
+      .filter(([, info]) =&gt; info.category !== primaryCategory)
+      .slice(0, 2)
+              .map(([, info]) =&gt; ({
+        category: info.category,
+        icon: info.icon,
+        color: info.color,
+        instructions: info.instructions,
+        confidence: Math.random() * 0.3 + 0.2, // 20-50% de confiance pour les alternatives
+      }));
+&nbsp;
+    return alternatives;
+  }
+&nbsp;
+  // Génération des labels détaillés pour le mode développement
+  private <span class="fstat-no" title="function not covered" >generateDetailedLabels(</span>): VisionLabel[] {
+    const detailedLabelSets = <span class="cstat-no" title="statement not covered" >[</span>
+      // Bouteille plastique avec plus de détails
+      [
+        { description: 'Plastic bottle', confidence: 0.94, mid: '/m/0dv5r' },
+        { description: 'Water bottle', confidence: 0.89, mid: '/m/01k6s3' },
+        { description: 'Beverage container', confidence: 0.85, mid: '/m/02wbm' },
+        { description: 'Recyclable plastic', confidence: 0.82, mid: '/m/05zsy' },
+        { description: 'Clear container', confidence: 0.78, mid: '/m/0dv2w' },
+        { description: 'PET plastic', confidence: 0.73, mid: '/m/0dv5r_pet' },
+      ],
+      // Canette métallique
+      [
+        { description: 'Aluminum can', confidence: 0.96, mid: '/m/0dv9c' },
+        { description: 'Beverage can', confidence: 0.91, mid: '/m/01k6s4' },
+        { description: 'Soda can', confidence: 0.87, mid: '/m/06z37_' },
+        { description: 'Metal container', confidence: 0.83, mid: '/m/04yx4' },
+        { description: 'Recyclable aluminum', confidence: 0.79, mid: '/m/0dv9c_rec' },
+        { description: 'Cylindrical container', confidence: 0.74, mid: '/m/0dv2x' },
+      ],
+      // Papier/Document
+      [
+        { description: 'Paper', confidence: 0.93, mid: '/m/0dv3w' },
+        { description: 'Document', confidence: 0.88, mid: '/m/01k7s5' },
+        { description: 'White paper', confidence: 0.84, mid: '/m/0dv3w_white' },
+        { description: 'Office paper', confidence: 0.80, mid: '/m/0dv3w_office' },
+        { description: 'Recyclable paper', confidence: 0.76, mid: '/m/0dv3w_rec' },
+        { description: 'Text document', confidence: 0.71, mid: '/m/01k7s5_text' },
+      ],
+      // Verre
+      [
+        { description: 'Glass bottle', confidence: 0.95, mid: '/m/0dv4r' },
+        { description: 'Glass container', confidence: 0.90, mid: '/m/0dv4r_cont' },
+        { description: 'Transparent glass', confidence: 0.86, mid: '/m/0dv4r_trans' },
+        { description: 'Wine bottle', confidence: 0.81, mid: '/m/0dv4r_wine' },
+        { description: 'Recyclable glass', confidence: 0.77, mid: '/m/0dv4r_rec' },
+        { description: 'Green glass', confidence: 0.72, mid: '/m/0dv4r_green' },
+      ],
+      // Carton
+      [
+        { description: 'Cardboard box', confidence: 0.92, mid: '/m/0dv6r' },
+        { description: 'Package box', confidence: 0.87, mid: '/m/0dv6r_pack' },
+        { description: 'Shipping box', confidence: 0.83, mid: '/m/0dv6r_ship' },
+        { description: 'Brown cardboard', confidence: 0.79, mid: '/m/0dv6r_brown' },
+        { description: 'Corrugated cardboard', confidence: 0.74, mid: '/m/0dv6r_corr' },
+        { description: 'Recyclable cardboard', confidence: 0.70, mid: '/m/0dv6r_rec' },
+      ]
+    ];
+    
+    const randomSet = <span class="cstat-no" title="statement not covered" >detailedLabelSets[Math.floor(Math.random() * detailedLabelSets.length)];</span>
+<span class="cstat-no" title="statement not covered" >    return randomSet;</span>
+  }
+&nbsp;
+  // Génération des objets détaillés basés sur les labels
+  private <span class="fstat-no" title="function not covered" >generateDetailedObjects(</span>labels: VisionLabel[]): VisionObject[] {
+<span class="cstat-no" title="statement not covered" >    return labels.slice(0, 4).map(<span class="fstat-no" title="function not covered" >(l</span>abel, index) =&gt; (<span class="cstat-no" title="statement not covered" >{</span></span>
+      name: label.description.toLowerCase(),
+      confidence: label.confidence - (index * 0.05),
+      boundingPoly: {
+        vertices: [
+          { x: 100 + index * 20, y: 150 + index * 15 },
+          { x: 200 + index * 20, y: 150 + index * 15 },
+          { x: 200 + index * 20, y: 250 + index * 15 },
+          { x: 100 + index * 20, y: 250 + index * 15 },
+        ]
+      }
+    }));
+  }
+&nbsp;
+  // Génération du texte OCR simulé
+  private <span class="fstat-no" title="function not covered" >generateMockText(</span>): string[] {
+    const textOptions = <span class="cstat-no" title="statement not covered" >[</span>
+      ['RECYCLABLE', 'PET 1', '500mL'],
+      ['COCA-COLA', 'RECYCLEZ-MOI', 'FR'],
+      ['BIO', 'ORGANIC', '100% NATUREL'],
+      ['ALUMINIUM', 'CAN', 'RECYCLE'],
+      ['PAPIER', 'BLANC', 'A4'],
+      ['VERRE', 'CONSIGNE', '75cl'],
+    ];
+    
+    const randomTexts = <span class="cstat-no" title="statement not covered" >textOptions[Math.floor(Math.random() * textOptions.length)];</span>
+<span class="cstat-no" title="statement not covered" >    return randomTexts;</span>
+  }
+&nbsp;
+  // Génération des couleurs détaillées
+  private <span class="fstat-no" title="function not covered" >generateDetailedColors(</span>): ColorInfo[] {
+    const colorOptions = <span class="cstat-no" title="statement not covered" >[</span>
+      // Bouteille plastique transparente
+      [
+        { color: { red: 240, green: 248, blue: 255 }, score: 0.85, pixelFraction: 0.65 },
+        { color: { red: 135, green: 206, blue: 235 }, score: 0.45, pixelFraction: 0.25 },
+        { color: { red: 70, green: 130, blue: 180 }, score: 0.25, pixelFraction: 0.10 },
+      ],
+      // Canette métallique
+      [
+        { color: { red: 192, green: 192, blue: 192 }, score: 0.90, pixelFraction: 0.70 },
+        { color: { red: 255, green: 0, blue: 0 }, score: 0.60, pixelFraction: 0.20 },
+        { color: { red: 0, green: 0, blue: 0 }, score: 0.30, pixelFraction: 0.10 },
+      ],
+      // Papier blanc
+      [
+        { color: { red: 255, green: 255, blue: 255 }, score: 0.95, pixelFraction: 0.85 },
+        { color: { red: 240, green: 240, blue: 240 }, score: 0.40, pixelFraction: 0.12 },
+        { color: { red: 0, green: 0, blue: 0 }, score: 0.20, pixelFraction: 0.03 },
+      ],
+    ];
+    
+<span class="cstat-no" title="statement not covered" >    return colorOptions[Math.floor(Math.random() * colorOptions.length)];</span>
+  }
+&nbsp;
+  // Classification détaillée pour le mode développement
+  private <span class="fstat-no" title="function not covered" >classifyWasteDetailed(</span>labels: VisionLabel[]): WasteCategory {
+<span class="cstat-no" title="statement not covered" >    console.log(' Classification détaillée avec', labels.length, 'labels');</span>
+    
+    const primaryLabel = <span class="cstat-no" title="statement not covered" >labels[0]?.description.toLowerCase() || '';</span>
+    const secondaryLabels = <span class="cstat-no" title="statement not covered" >labels.slice(1, 3).map(<span class="fstat-no" title="function not covered" >l </span>=&gt; <span class="cstat-no" title="statement not covered" >l.description.toLowerCase())</span>;</span>
+    
+<span class="cstat-no" title="statement not covered" >    console.log(' Label principal:', primaryLabel);</span>
+<span class="cstat-no" title="statement not covered" >    console.log(' Labels secondaires:', secondaryLabels);</span>
+    
+    let wasteType = <span class="cstat-no" title="statement not covered" >'plastic';</span> // Défaut
+    let confidence = <span class="cstat-no" title="statement not covered" >labels[0]?.confidence || 0.8;</span>
+    
+<span class="cstat-no" title="statement not covered" >    if (primaryLabel.includes('bottle') &amp;&amp; primaryLabel.includes('plastic')) {</span>
+<span class="cstat-no" title="statement not covered" >      wasteType = 'bottle';</span>
+<span class="cstat-no" title="statement not covered" >      confidence = Math.min(confidence + 0.1, 0.98);</span>
+    } else <span class="cstat-no" title="statement not covered" >if (primaryLabel.includes('can') &amp;&amp; primaryLabel.includes('aluminum')) {</span>
+<span class="cstat-no" title="statement not covered" >      wasteType = 'can';</span>
+<span class="cstat-no" title="statement not covered" >      confidence = Math.min(confidence + 0.08, 0.96);</span>
+    } else <span class="cstat-no" title="statement not covered" >if (primaryLabel.includes('paper') || primaryLabel.includes('document')) {</span>
+<span class="cstat-no" title="statement not covered" >      wasteType = 'paper';</span>
+<span class="cstat-no" title="statement not covered" >      confidence = Math.min(confidence + 0.06, 0.94);</span>
+    } else <span class="cstat-no" title="statement not covered" >if (primaryLabel.includes('glass') &amp;&amp; primaryLabel.includes('bottle')) {</span>
+<span class="cstat-no" title="statement not covered" >      wasteType = 'glass';</span>
+<span class="cstat-no" title="statement not covered" >      confidence = Math.min(confidence + 0.07, 0.95);</span>
+    } else <span class="cstat-no" title="statement not covered" ><span class="missing-if-branch" title="if path not taken" >I</span>if (primaryLabel.includes('cardboard') &amp;&amp; primaryLabel.includes('box')) {</span>
+<span class="cstat-no" title="statement not covered" >      wasteType = 'cardboard';</span>
+<span class="cstat-no" title="statement not covered" >      confidence = Math.min(confidence + 0.05, 0.92);</span>
+    }
+    
+    const wasteInfo = <span class="cstat-no" title="statement not covered" >WASTE_CLASSIFICATION[wasteType as keyof typeof WASTE_CLASSIFICATION];</span>
+    
+<span class="cstat-no" title="statement not covered" >    console.log(' Classification détaillée:', wasteInfo.category);</span>
+<span class="cstat-no" title="statement not covered" >    console.log(' Confiance finale:', (confidence * 100).toFixed(1) + '%');</span>
+    
+<span class="cstat-no" title="statement not covered" >    return {</span>
+      category: wasteInfo.category,
+      icon: wasteInfo.icon,
+      color: wasteInfo.color,
+      instructions: wasteInfo.instructions,
+      confidence: confidence,
+    };
+  }
+&nbsp;
+  // Récupération des alternatives détaillées
+  private <span class="fstat-no" title="function not covered" >getDetailedAlternatives(</span>primaryCategory: string): WasteCategory[] {
+    const alternatives = <span class="cstat-no" title="statement not covered" >Object.entries(WASTE_CLASSIFICATION)</span>
+      .filter(<span class="fstat-no" title="function not covered" >([</span>, info]) =&gt; <span class="cstat-no" title="statement not covered" >info.category !== primaryCategory)</span>
+      .slice(0, 3)
+      .map(<span class="fstat-no" title="function not covered" >([</span>, info]) =&gt; (<span class="cstat-no" title="statement not covered" >{</span>
+        category: info.category,
+        icon: info.icon,
+        color: info.color,
+        instructions: info.instructions,
+        confidence: Math.random() * 0.4 + 0.15,
+      }))
+      .sort(<span class="fstat-no" title="function not covered" >(a</span>, b) =&gt; <span class="cstat-no" title="statement not covered" >b.confidence - a.confidence)</span>;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    return alternatives;</span>
+  }
+&nbsp;
+}
+&nbsp;
+export const mlKitService = new MLKitService();
+export default mlKitService; </pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
             </div><!-- /wrapper -->
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-08-11T14:33:10.406Z
+                at 2025-08-11T12:50:40.600Z
             </div>
-        <script src="../prettify.js"></script>
+        <script src="../../prettify.js"></script>
         <script>
             window.onload = function () {
                 prettyPrint();
             };
         </script>
-        <script src="../sorter.js"></script>
-        <script src="../block-navigation.js"></script>
+        <script src="../../sorter.js"></script>
+        <script src="../../block-navigation.js"></script>
     </body>
 </html>
     

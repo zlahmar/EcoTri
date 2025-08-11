@@ -565,19 +565,19 @@ const compressImage = async (image: Image) => {
 
 #### Tests Unitaires
 
-- **Tests** : 67/71 passants
-- **Couverture** : 64.56%
-- **Services** : 95.8% des services testés
+- **Tests** : 80/89 passants (90% de succès)
+- **Couverture** : 58.83%
+- **Services** : 66.66% de couverture
 - **Composants** : Tests des composants critiques
 
 > **Voir le guide de tests complet :** [`docs/TESTING_GUIDE.md`](TESTING_GUIDE.md)
 
 #### Tests d'Intégration
 
-- **API Firebase** : Tests des interactions
-- **ML Kit** : Tests de reconnaissance d'images
+- **API Firebase** : Tests des interactions avec @react-native-firebase
+- **ML Kit** : Tests de reconnaissance d'images et fallback
 - **Navigation** : Tests des flux utilisateur
-- **Données** : Tests de persistance
+- **Données** : Tests de persistance et cache
 
 #### Tests de Performance
 
@@ -586,7 +586,70 @@ const compressImage = async (image: Image) => {
 - **Batterie** : Tests d'optimisation
 - **Réseau** : Tests en conditions réelles
 
+### Scénarios de Test Critiques
+
+#### Vue d'Ensemble
+
+L'application EcoTri couvre **14 scénarios de test** représentant l'ensemble des fonctionnalités utilisateur et techniques :
+
+#### **Scénarios Principaux (11/11 - 100% couverture)**
+
+| Scénario | Fonctionnalité           | Type                    | Statut | Priorité |
+| -------- | ------------------------ | ----------------------- | ------ | -------- |
+| **1**    | Authentification         | Fonctionnel             | Testé  | Critique |
+| **2**    | Scanner ML Kit           | Fonctionnel + Technique | Testé  | Haute    |
+| **3**    | Gestion des Favoris      | Fonctionnel             | Testé  | Moyenne  |
+| **4**    | Géolocalisation et Carte | Fonctionnel             | Testé  | Haute    |
+| **5**    | Système de Conseils      | Fonctionnel             | Testé  | Moyenne  |
+| **6**    | Gamification et Points   | Fonctionnel             | Testé  | Moyenne  |
+| **7**    | Profil Utilisateur       | Fonctionnel             | Testé  | Moyenne  |
+| **8**    | Navigation et Flux       | UX/UI                   | Testé  | Haute    |
+| **9**    | Gestion d'Erreurs        | Robustesse              | Testé  | Critique |
+| **10**   | Guide d'Utilisation      | Fonctionnel + UX        | Testé  | Basse    |
+| **11**   | Page de Collecte         | Fonctionnel + API       | Testé  | Haute    |
+
+#### **Nouveaux Scénarios (Version 2.1.0)**
+
+- **Scénario 12** : Tests de Couverture Avancés - Objectif > 70%
+- **Scénario 13** : Tests de Robustesse - Gestion d'erreur et cas limites
+- **Scénario 14** : Tests de Stabilité - Tests reproductibles et fiables
+
+#### **Couverture par Module**
+
+- **MLKitService** : 44.44% (fonctionnalités principales testées)
+- **APIService** : 88.28% (excellent niveau de test)
+- **StorageService** : 73.33% (bon niveau de test)
+- **useLocation** : 100% (couverture complète)
+
 ### Outils de Qualité
+
+#### Configuration Jest
+
+```typescript
+// jest.config.ts
+module.exports = {
+  preset: 'ts-jest',
+  testEnvironment: 'jsdom',
+  transformIgnorePatterns: [
+    'node_modules/(?!(react-native|@react-native|@expo|expo|react-native-maps|react-native-vector-icons|react-native-gesture-handler|react-native-reanimated|react-native-screens|react-native-safe-area-context|react-native-paper|@testing-library|@react-native-ml-kit)/)',
+    'node_modules/@react-native-firebase/',
+  ],
+  moduleNameMapper: {
+    '^react-native-maps$': '<rootDir>/__mocks__/react-native-maps.ts',
+    '^@react-native-ml-kit/image-labeling$':
+      '<rootDir>/__mocks__/mlkit-image-labeling.ts',
+  },
+  testTimeout: 30000,
+  maxWorkers: 1,
+};
+```
+
+#### Mocks et Dépendances
+
+- **Firebase** : Mocks complets pour @react-native-firebase
+- **ML Kit** : Simulation de reconnaissance d'images
+- **Expo Location** : Services de géolocalisation mockés
+- **React Native Maps** : Composant de carte simulé
 
 #### ESLint
 
@@ -627,8 +690,8 @@ module.exports = {
 #### Étapes du Pipeline
 
 1. **Installation** : `npm ci`
-2. **Linting** : `npm run lint`
-3. **Tests** : `npm test`
+2. **Linting** : `npm run lint` (20 warnings max)
+3. **Tests** : `npm test` (80/89 tests passants)
 4. **Type-check** : `npm run type-check`
 5. **Validation Expo** : `npx expo-doctor`
 6. **Build** : `eas build` (optionnel)
@@ -661,7 +724,7 @@ module.exports = {
 ```yaml
 # .github/workflows/ci.yml
 - Linting (ESLint avec 20 warnings max)
-- Tests unitaires (67/71 passants)
+- Tests unitaires (80/89 passants - 90% de succès)
 - Type checking (TypeScript strict)
 - Validation Expo
 

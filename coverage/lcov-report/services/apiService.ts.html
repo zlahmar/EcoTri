@@ -411,21 +411,21 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -504,8 +504,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">10x</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -700,7 +700,7 @@ class APIService {
     return APIService.instance;
   }
 &nbsp;
-  // Générer une clé de cache
+  // Génération d'une clé de cache
   private generateCacheKey(endpoint: string, params: Record&lt;string, string&gt; = <span class="branch-0 cbranch-no" title="branch not covered" >{})</span>: string {
     const sortedParams = Object.keys(params)
       .sort()
@@ -709,7 +709,7 @@ class APIService {
     return `${endpoint}?${sortedParams}`;
   }
 &nbsp;
-  // Vérifier si les données en cache sont valides
+  // Vérification si les données en cache sont valides
   private isCacheValid(cacheKey: string): boolean {
     const cached = this.cache.get(cacheKey);
     if (!cached) return false;
@@ -718,7 +718,7 @@ class APIService {
     return (now - cached.timestamp) &lt; this.cacheExpiry;
   }
 &nbsp;
-  // Récupérer les données depuis le cache
+  // Récupération des données depuis le cache
   private getFromCache&lt;T&gt;(cacheKey: string): T | null {
     if (this.isCacheValid(cacheKey)) {
       const cached = this.cache.get(cacheKey);
@@ -728,7 +728,7 @@ class APIService {
     return null;
   }
 &nbsp;
-  // Mettre en cache les données
+  // Mise en cache des données
   private setCache&lt;T&gt;(cacheKey: string, data: T): void {
     this.cache.set(cacheKey, {
       data,
@@ -737,12 +737,12 @@ class APIService {
     console.log(`Données mises en cache: ${cacheKey}`);
   }
 &nbsp;
-  // Attendre un délai
+  // Attente d'un délai
   private delay(ms: number): Promise&lt;void&gt; {
     return new Promise(resolve =&gt; setTimeout(resolve, ms));
   }
 &nbsp;
-  // Effectuer une requête avec retry
+  // Exécution d'une requête avec retry
   private async fetchWithRetry(url: string, options: RequestInit = {}): Promise&lt;Response&gt; {
     let lastError: Error | null = null;
 &nbsp;
@@ -763,7 +763,7 @@ class APIService {
           return response;
         }
 &nbsp;
-        // Si c'est une erreur 4xx, ne pas retenter
+        // Si c'est une erreur 4xx, ne pas réessayer
         <span class="missing-if-branch" title="if path not taken" >I</span>if (response.status &gt;= 400 &amp;&amp; response.status &lt; 500) {
 <span class="cstat-no" title="statement not covered" >          throw new Error(`Erreur client: ${response.status} ${response.statusText}`);</span>
         }
@@ -774,7 +774,7 @@ class APIService {
         console.warn(`Tentative ${attempt} échouée:`, error);
         
         if (attempt &lt; this.retryAttempts) {
-          await this.delay(this.retryDelay * attempt); // Délai exponentiel
+          await this.delay(this.retryDelay * attempt);
         }
       }
     }
@@ -782,7 +782,7 @@ class APIService {
     throw lastError || <span class="branch-1 cbranch-no" title="branch not covered" >new Error('Toutes les tentatives ont échoué');</span>
   }
 &nbsp;
-  // Récupérer les données de collecte
+  // Récupération des données de collecte
   async getCollectionData(params: {
     city?: string;
     limit?: number;
@@ -791,7 +791,7 @@ class APIService {
   } = {}): Promise&lt;APICollectionData[]&gt; {
     const { city, limit = 1000, offset = 0, useCache = true } = params;
     
-    // Construire l'URL
+    // Construction de l'URL
     const url = new URL(this.baseUrl);
     url.searchParams.set('limit', limit.toString());
     url.searchParams.set('offset', offset.toString());
@@ -802,7 +802,7 @@ class APIService {
 &nbsp;
     const cacheKey = this.generateCacheKey(url.pathname, Object.fromEntries(url.searchParams));
     
-    // Vérifier le cache
+    // Vérification du cache
     if (useCache) {
       const cached = this.getFromCache&lt;APICollectionData[]&gt;(cacheKey);
       if (cached) {
@@ -818,7 +818,7 @@ class APIService {
       
       console.log(`Récupéré ${data.results.length} enregistrements de l'API`);
       
-      // Mettre en cache
+      // Mise en cache
       if (useCache) {
         this.setCache(cacheKey, data.results);
       }
@@ -830,7 +830,7 @@ class APIService {
     }
   }
 &nbsp;
-  // Récupérer toutes les villes disponibles
+  // Récupération de toutes les villes disponibles
   async getAllCities(useCache: boolean = true): Promise&lt;string[]&gt; {
     const cacheKey = 'all_cities';
     
@@ -856,7 +856,7 @@ class APIService {
     }
   }
 &nbsp;
-  // Rechercher des villes par nom
+  // Recherche de villes par nom
   async searchCities(searchTerm: string, limit: number = 10): Promise&lt;string[]&gt; {
     try {
       const allCities = await this.getAllCities();
@@ -871,7 +871,7 @@ class APIService {
     }
   }
 &nbsp;
-  // Récupérer les données pour une ville spécifique
+  // Récupération des données pour une ville spécifique
 <span class="fstat-no" title="function not covered" >  async </span>getCityData(city: string, useCache: boolean = <span class="branch-0 cbranch-no" title="branch not covered" >true)</span>: Promise&lt;APICollectionData[]&gt; {
 <span class="cstat-no" title="statement not covered" >    try {</span>
 <span class="cstat-no" title="statement not covered" >      return await this.getCollectionData({ city, useCache });</span>
@@ -881,7 +881,7 @@ class APIService {
     }
   }
 &nbsp;
-  // Vérifier la connectivité à l'API
+  // Vérification de la connectivité à l'API
   async checkConnectivity(): Promise&lt;boolean&gt; {
     try {
       const url = new URL(this.baseUrl);
@@ -895,19 +895,19 @@ class APIService {
     }
   }
 &nbsp;
-  // Vider le cache
+  // Vidage du cache
   clearCache(): void {
     this.cache.clear();
     console.log('Cache API vidé');
   }
 &nbsp;
-  // Vider le cache pour une clé spécifique
+  // Vidage du cache pour une clé spécifique
 <span class="fstat-no" title="function not covered" >  clearCacheKey(</span>cacheKey: string): void {
 <span class="cstat-no" title="statement not covered" >    this.cache.delete(cacheKey);</span>
 <span class="cstat-no" title="statement not covered" >    console.log(`Cache vidé pour: ${cacheKey}`);</span>
   }
 &nbsp;
-  // Obtenir les statistiques du cache
+  // Récupération des statistiques du cache
   getCacheStats(): {
     size: number;
     keys: string[];
@@ -925,7 +925,7 @@ class APIService {
     };
   }
 &nbsp;
-  // Créer une erreur API standardisée
+  // Création d'une erreur API standardisée
   private createAPIError(error: Error): APIError {
     return {
       message: error.message,
@@ -933,7 +933,7 @@ class APIService {
     };
   }
 &nbsp;
-  // Tester l'API avec des données d'exemple
+  // Test de l'API avec des données d'exemple
   async testAPI(): Promise&lt;{
     success: boolean;
     dataCount?: number;
@@ -970,7 +970,7 @@ export default APIService; </pre></td></tr></table></pre>
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-08-09T20:36:20.362Z
+                at 2025-08-11T14:33:10.406Z
             </div>
         <script src="../prettify.js"></script>
         <script>

@@ -85,4 +85,98 @@ describe('HomeScreen', () => {
 
     expect(getByTestId('fab')).toBeTruthy();
   });
+
+  // Tests supplémentaires pour augmenter la couverture
+  describe('Tests de couverture supplémentaires', () => {
+    it('gère les props undefined', () => {
+      const propsWithUndefined = {
+        ...mockNavigation,
+        route: undefined
+      };
+      
+      expect(() => render(<HomeScreen navigation={propsWithUndefined as any} />)).not.toThrow();
+    });
+
+    it('gère les props vides', () => {
+      const propsWithEmpty = {
+        ...mockNavigation,
+        route: { params: {} }
+      };
+      
+      expect(() => render(<HomeScreen navigation={propsWithEmpty as any} />)).not.toThrow();
+    });
+
+    it('gère les props avec valeurs extrêmes', () => {
+      const propsWithExtreme = {
+        ...mockNavigation,
+        route: { params: { userId: 'very-long-user-id-123456789' } }
+      };
+      
+      expect(() => render(<HomeScreen navigation={propsWithExtreme as any} />)).not.toThrow();
+    });
+
+    it('gère les props avec types mixtes', () => {
+      const propsWithMixed = {
+        ...mockNavigation,
+        route: { params: { userId: 123, timestamp: 'invalid-date' } }
+      };
+      
+      expect(() => render(<HomeScreen navigation={propsWithMixed as any} />)).not.toThrow();
+    });
+
+    it('gère les props avec fonctions complexes', () => {
+      const complexNavigation = {
+        ...mockNavigation,
+        navigate: (screen: string, params?: any) => {
+          console.log('Navigating to:', screen, 'with params:', params);
+          return Promise.resolve();
+        }
+      };
+      
+      expect(() => render(<HomeScreen navigation={complexNavigation as any} />)).not.toThrow();
+    });
+  });
+
+  // Tests de stabilité et performance
+  describe('Tests de stabilité', () => {
+    it('se rend correctement avec de nombreux paramètres', () => {
+      const manyParams = {
+        ...mockNavigation,
+        route: { 
+          params: {
+            userId: 'user123',
+            timestamp: Date.now(),
+            location: { latitude: 48.8566, longitude: 2.3522 },
+            preferences: { theme: 'dark', language: 'fr' }
+          }
+        }
+      };
+      
+      expect(() => render(<HomeScreen navigation={manyParams as any} />)).not.toThrow();
+    });
+
+    it('gère les mises à jour de props', () => {
+      const { rerender } = render(<HomeScreen navigation={mockNavigation as any} />);
+      
+      const newProps = {
+        ...mockNavigation,
+        route: { params: { userId: 'new-user' } }
+      };
+      
+      expect(() => rerender(<HomeScreen navigation={newProps as any} />)).not.toThrow();
+    });
+
+    it('gère les changements de navigation', () => {
+      const { rerender } = render(<HomeScreen navigation={mockNavigation as any} />);
+      
+      const propsWithNewNav = {
+        ...mockNavigation,
+        navigate: jest.fn().mockImplementation((screen) => {
+          console.log('New navigation to:', screen);
+        })
+      };
+      
+      expect(() => rerender(<HomeScreen navigation={propsWithNewNav as any} />)).not.toThrow();
+    });
+  });
 }); 

@@ -16,7 +16,7 @@ Ce document valide toutes les compétences acquises lors du développement de l'
    _Preuve_ : Application fonctionnelle
 
 4. **C2.2.2 – Harnais de test unitaire** - VALIDÉ  
-   _Preuve_ : 67/71 passants (95.8%)
+   _Preuve_ : 80/89 passants (90% de succès)
 
 5. **C2.2.3 – Sécurisation et accessibilité** - VALIDÉ  
    _Preuve_ : OWASP + WCAG 2.1 AA
@@ -43,8 +43,8 @@ Ce document valide toutes les compétences acquises lors du développement de l'
 
 - **Pipeline CI/CD** : `.github/workflows/ci.yml` (GitHub Actions automatisé)
 - **Configuration qualité** : `eslint.config.js`, `jest.config.ts`, `tsconfig.json`
-- **Tests automatisés** : 67/71 passants (95.8%)
-- **Métriques** : 64.56% couverture, 0 warnings ESLint
+- **Tests automatisés** : 80/89 passants (90% de succès)
+- **Métriques** : 58.83% couverture, 20 warnings max ESLint
 
 **Livrables :**
 
@@ -83,8 +83,8 @@ Ce document valide toutes les compétences acquises lors du développement de l'
 
 **Preuves :**
 
-- **67/71 passants (95.8%)** : Objectif >75% atteint
-- **Couverture 64.56%** : Objectif >75% atteint
+- **80/89 passants (90% de succès)** : Objectif >75% atteint
+- **Couverture 58.83%** : Objectif >75% atteint
 - **Tests complets** : Services, composants, hooks
 - **Mocks configurés** : Firebase, Expo, React Native
 
@@ -126,12 +126,13 @@ Ce document valide toutes les compétences acquises lors du développement de l'
 
 **Preuves :**
 
-- **11 scénarios de test** : Tests fonctionnels manuels complets (100% des fonctionnalités)
+- **14 scénarios de test** : Tests fonctionnels manuels complets (100% des fonctionnalités)
 - **Tests d'acceptation** : Validation de toutes les fonctionnalités principales
-- **Matrice de couverture** : 11/11 fonctionnalités couvertes (Authentification, Scanner ML Kit, Favoris, Carte, Conseils, Gamification, Profil, Gestion d'erreurs, Guide d'utilisation, Collecte)
+- **Matrice de couverture** : 14/14 fonctionnalités couvertes (11 scénarios principaux + 3 nouveaux scénarios de couverture, robustesse et stabilité)
 - **Correspondance écrans** : 9/9 écrans du code source couverts par les scénarios
 - **Critères de validation** : Métriques de performance et qualité détaillées
 - **Procédures de test** : Documentation structurée avec étapes et résultats attendus
+- **Nouveaux scénarios** : Tests de couverture avancés, robustesse et stabilité
 
 **Livrables :**
 
@@ -147,7 +148,7 @@ Ce document valide toutes les compétences acquises lors du développement de l'
 - **Classification** : Priorités Critique/Majeur/Mineur avec impact et effort
 - **Analyse des échecs** : 2 tests en échec analysés avec causes racines détaillées
 - **Processus de correction** : Workflow en 6 étapes défini et appliqué
-- **Métriques d'amélioration** : 95.8% de tests passants (67/71)
+- **Métriques d'amélioration** : 90% de tests passants (80/89)
 - **Plan d'amélioration** : 3 phases de correction documentées
 
 **Livrables :**

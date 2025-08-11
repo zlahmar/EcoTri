@@ -1,19 +1,5 @@
-import { 
-  collection, 
-  doc, 
-  getDocs, 
-  getDoc, 
-  addDoc, 
-  updateDoc, 
-  deleteDoc, 
-  query, 
-  where, 
-  orderBy, 
-  limit,
-  serverTimestamp,
-  Timestamp 
-} from 'firebase/firestore';
-import { db, auth } from '../../firebaseConfig';
+import { db, auth } from '../firebaseConfig';
+import { Timestamp } from '@react-native-firebase/firestore';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Types pour les conseils
@@ -307,13 +293,12 @@ export class AdviceService {
   //Récupération de tous les conseils publiés
   async getAllAdvice(): Promise<Advice[]> {
     try {
-      const q = query(
-        collection(db, this.COLLECTION_NAME),
-        where('isPublished', '==', true),
-        orderBy('createdAt', 'desc')
-      );
+      const querySnapshot = await db
+        .collection(this.COLLECTION_NAME)
+        .where('isPublished', '==', true)
+        .orderBy('createdAt', 'desc')
+        .get();
       
-      const querySnapshot = await getDocs(q);
       const advice: Advice[] = [];
       
       querySnapshot.forEach((doc) => {
@@ -333,14 +318,13 @@ export class AdviceService {
   //Récupération des conseils par catégorie
   async getAdviceByCategory(category: string): Promise<Advice[]> {
     try {
-      const q = query(
-        collection(db, this.COLLECTION_NAME),
-        where('category', '==', category),
-        where('isPublished', '==', true),
-        orderBy('createdAt', 'desc')
-      );
+      const querySnapshot = await db
+        .collection(this.COLLECTION_NAME)
+        .where('category', '==', category)
+        .where('isPublished', '==', true)
+        .orderBy('createdAt', 'desc')
+        .get();
       
-      const querySnapshot = await getDocs(q);
       const advice: Advice[] = [];
       
       querySnapshot.forEach((doc) => {
@@ -360,10 +344,12 @@ export class AdviceService {
   //Récupération d'un conseil par ID
   async getAdviceById(id: string): Promise<Advice | null> {
     try {
-      const docRef = doc(db, this.COLLECTION_NAME, id);
-      const docSnap = await getDoc(docRef);
+      const docSnap = await db
+        .collection(this.COLLECTION_NAME)
+        .doc(id)
+        .get();
       
-      if (docSnap.exists()) {
+      if (docSnap.exists) {
         return {
           id: docSnap.id,
           ...docSnap.data()
@@ -380,14 +366,13 @@ export class AdviceService {
   //Récupération des conseils les plus populaires
   async getPopularAdvice(limitCount: number = 5): Promise<Advice[]> {
     try {
-      const q = query(
-        collection(db, this.COLLECTION_NAME),
-        where('isPublished', '==', true),
-        orderBy('likes', 'desc'),
-        limit(limitCount)
-      );
+      const querySnapshot = await db
+        .collection(this.COLLECTION_NAME)
+        .where('isPublished', '==', true)
+        .orderBy('likes', 'desc')
+        .limit(limitCount)
+        .get();
       
-      const querySnapshot = await getDocs(q);
       const advice: Advice[] = [];
       
       querySnapshot.forEach((doc) => {
@@ -408,13 +393,12 @@ export class AdviceService {
   async searchAdvice(searchTerm: string): Promise<Advice[]> {
     try {
       // Firestore ne supporte pas la recherche full-text native
-      const q = query(
-        collection(db, this.COLLECTION_NAME),
-        where('isPublished', '==', true),
-        orderBy('createdAt', 'desc')
-      );
+      const querySnapshot = await db
+        .collection(this.COLLECTION_NAME)
+        .where('isPublished', '==', true)
+        .orderBy('createdAt', 'desc')
+        .get();
       
-      const querySnapshot = await getDocs(q);
       const advice: Advice[] = [];
       
       querySnapshot.forEach((doc) => {
@@ -443,7 +427,7 @@ export class AdviceService {
   //Ajout d'un nouveau conseil (pour les utilisateurs connectés)
   async addAdvice(adviceData: Omit<Advice, 'id' | 'createdAt' | 'updatedAt' | 'likes' | 'views'>): Promise<string> {
     try {
-      const userId = auth.currentUser?.uid;
+      const userId = auth().currentUser?.uid;
       if (!userId) {
         throw new Error('Utilisateur non authentifié');
       }
@@ -451,15 +435,15 @@ export class AdviceService {
       const newAdvice = {
         ...adviceData,
         authorId: userId,
-        authorName: auth.currentUser?.displayName || 'Utilisateur anonyme',
+        authorName: auth().currentUser?.displayName || 'Utilisateur anonyme',
         likes: 0,
         views: 0,
         isPublished: false, // Par défaut non publié
-        createdAt: serverTimestamp(),
-        updatedAt: serverTimestamp()
+        createdAt: Timestamp.now(),
+        updatedAt: Timestamp.now()
       };
 
-      const docRef = await addDoc(collection(db, this.COLLECTION_NAME), newAdvice);
+      const docRef = await db.collection(this.COLLECTION_NAME).add(newAdvice);
       return docRef.id;
     } catch (error) {
       console.error('Erreur lors de l\'ajout du conseil:', error);
@@ -470,15 +454,17 @@ export class AdviceService {
   //Mise à jour d'un conseil (pour l'auteur ou les admins)
   async updateAdvice(id: string, updates: Partial<Advice>): Promise<void> {
     try {
-      const userId = auth.currentUser?.uid;
+      const userId = auth().currentUser?.uid;
       if (!userId) {
         throw new Error('Utilisateur non authentifié');
       }
 
-      const docRef = doc(db, this.COLLECTION_NAME, id);
-      const docSnap = await getDoc(docRef);
+      const docSnap = await db
+        .collection(this.COLLECTION_NAME)
+        .doc(id)
+        .get();
       
-      if (!docSnap.exists()) {
+      if (!docSnap.exists) {
         throw new Error('Conseil non trouvé');
       }
 
@@ -489,10 +475,13 @@ export class AdviceService {
         throw new Error('Non autorisé à modifier ce conseil');
       }
 
-      await updateDoc(docRef, {
-        ...updates,
-        updatedAt: serverTimestamp()
-      });
+      await db
+        .collection(this.COLLECTION_NAME)
+        .doc(id)
+        .update({
+          ...updates,
+          updatedAt: Timestamp.now()
+        });
     } catch (error) {
       console.error('Erreur lors de la mise à jour du conseil:', error);
       throw new Error('Impossible de mettre à jour le conseil');
@@ -502,15 +491,17 @@ export class AdviceService {
   //Suppression d'un conseil (pour l'auteur ou les admins)
   async deleteAdvice(id: string): Promise<void> {
     try {
-      const userId = auth.currentUser?.uid;
+      const userId = auth().currentUser?.uid;
       if (!userId) {
         throw new Error('Utilisateur non authentifié');
       }
 
-      const docRef = doc(db, this.COLLECTION_NAME, id);
-      const docSnap = await getDoc(docRef);
+      const docSnap = await db
+        .collection(this.COLLECTION_NAME)
+        .doc(id)
+        .get();
       
-      if (!docSnap.exists()) {
+      if (!docSnap.exists) {
         throw new Error('Conseil non trouvé');
       }
 
@@ -521,7 +512,10 @@ export class AdviceService {
         throw new Error('Non autorisé à supprimer ce conseil');
       }
 
-      await deleteDoc(docRef);
+      await db
+        .collection(this.COLLECTION_NAME)
+        .doc(id)
+        .delete();
     } catch (error) {
       console.error('Erreur lors de la suppression du conseil:', error);
       throw new Error('Impossible de supprimer le conseil');
@@ -531,14 +525,19 @@ export class AdviceService {
   //Incrémentation du nombre de vues d'un conseil
   async incrementViews(id: string): Promise<void> {
     try {
-      const docRef = doc(db, this.COLLECTION_NAME, id);
-      const docSnap = await getDoc(docRef);
+      const docSnap = await db
+        .collection(this.COLLECTION_NAME)
+        .doc(id)
+        .get();
       
-      if (docSnap.exists()) {
-        const currentViews = docSnap.data().views || 0;
-        await updateDoc(docRef, {
-          views: currentViews + 1
-        });
+      if (docSnap.exists) {
+        const currentViews = docSnap.data()?.views || 0;
+        await db
+          .collection(this.COLLECTION_NAME)
+          .doc(id)
+          .update({
+            views: currentViews + 1
+          });
       }
     } catch (error) {
       console.error('Erreur lors de l\'incrémentation des vues:', error);
@@ -548,19 +547,24 @@ export class AdviceService {
   //Like/unlike d'un conseil
   async toggleLike(id: string): Promise<void> {
     try {
-      const userId = auth.currentUser?.uid;
+      const userId = auth().currentUser?.uid;
       if (!userId) {
         throw new Error('Utilisateur non authentifié');
       }
 
-      const docRef = doc(db, this.COLLECTION_NAME, id);
-      const docSnap = await getDoc(docRef);
+      const docSnap = await db
+        .collection(this.COLLECTION_NAME)
+        .doc(id)
+        .get();
       
-      if (docSnap.exists()) {
-        const currentLikes = docSnap.data().likes || 0;
-        await updateDoc(docRef, {
-          likes: currentLikes + 1
-        });
+      if (docSnap.exists) {
+        const currentLikes = docSnap.data()?.likes || 0;
+        await db
+          .collection(this.COLLECTION_NAME)
+          .doc(id)
+          .update({
+            likes: currentLikes + 1
+          });
       }
     } catch (error) {
       console.error('Erreur lors du like:', error);
@@ -571,18 +575,17 @@ export class AdviceService {
   //Récupération des conseils de l'utilisateur connecté
   async getUserAdvice(): Promise<Advice[]> {
     try {
-      const userId = auth.currentUser?.uid;
+      const userId = auth().currentUser?.uid;
       if (!userId) {
         throw new Error('Utilisateur non authentifié');
       }
 
-      const q = query(
-        collection(db, this.COLLECTION_NAME),
-        where('authorId', '==', userId),
-        orderBy('createdAt', 'desc')
-      );
+      const querySnapshot = await db
+        .collection(this.COLLECTION_NAME)
+        .where('authorId', '==', userId)
+        .orderBy('createdAt', 'desc')
+        .get();
       
-      const querySnapshot = await getDocs(q);
       const advice: Advice[] = [];
       
       querySnapshot.forEach((doc) => {
@@ -693,7 +696,7 @@ export class AdviceService {
   //Ajout d'un conseil aux favoris
   async addToFavorites(advice: Advice): Promise<void> {
     try {
-      const userId = auth.currentUser?.uid;
+      const userId = auth().currentUser?.uid;
       if (!userId) {
         throw new Error('Utilisateur non connecté');
       }
@@ -724,7 +727,7 @@ export class AdviceService {
   //Suppression d'un conseil des favoris
   async removeFromFavorites(adviceId: string): Promise<void> {
     try {
-      const userId = auth.currentUser?.uid;
+      const userId = auth().currentUser?.uid;
       if (!userId) {
         throw new Error('Utilisateur non connecté');
       }
@@ -744,7 +747,7 @@ export class AdviceService {
   //Récupération de la liste des favoris
   async getFavorites(): Promise<FavoriteAdvice[]> {
     try {
-      const userId = auth.currentUser?.uid;
+      const userId = auth().currentUser?.uid;
       if (!userId) {
         return [];
       }

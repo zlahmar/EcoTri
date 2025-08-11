@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for apiService.ts</title>
+    <title>Code coverage report for storageService.ts</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="prettify.css" />
     <link rel="stylesheet" href="base.css" />
@@ -19,34 +19,34 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="index.html">All files</a> apiService.ts</h1>
+        <h1><a href="index.html">All files</a> storageService.ts</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">88.28% </span>
+                <span class="strong">73.33% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>98/111</span>
+                <span class='fraction'>44/60</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">80% </span>
+                <span class="strong">60% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>24/30</span>
+                <span class='fraction'>27/45</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">91.3% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>21/23</span>
+                <span class='fraction'>4/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">87.73% </span>
+                <span class="strong">74.13% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>93/106</span>
+                <span class='fraction'>43/58</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line medium'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -287,272 +287,30 @@
 <a name='L222'></a><a href='#L222'>222</a>
 <a name='L223'></a><a href='#L223'>223</a>
 <a name='L224'></a><a href='#L224'>224</a>
-<a name='L225'></a><a href='#L225'>225</a>
-<a name='L226'></a><a href='#L226'>226</a>
-<a name='L227'></a><a href='#L227'>227</a>
-<a name='L228'></a><a href='#L228'>228</a>
-<a name='L229'></a><a href='#L229'>229</a>
-<a name='L230'></a><a href='#L230'>230</a>
-<a name='L231'></a><a href='#L231'>231</a>
-<a name='L232'></a><a href='#L232'>232</a>
-<a name='L233'></a><a href='#L233'>233</a>
-<a name='L234'></a><a href='#L234'>234</a>
-<a name='L235'></a><a href='#L235'>235</a>
-<a name='L236'></a><a href='#L236'>236</a>
-<a name='L237'></a><a href='#L237'>237</a>
-<a name='L238'></a><a href='#L238'>238</a>
-<a name='L239'></a><a href='#L239'>239</a>
-<a name='L240'></a><a href='#L240'>240</a>
-<a name='L241'></a><a href='#L241'>241</a>
-<a name='L242'></a><a href='#L242'>242</a>
-<a name='L243'></a><a href='#L243'>243</a>
-<a name='L244'></a><a href='#L244'>244</a>
-<a name='L245'></a><a href='#L245'>245</a>
-<a name='L246'></a><a href='#L246'>246</a>
-<a name='L247'></a><a href='#L247'>247</a>
-<a name='L248'></a><a href='#L248'>248</a>
-<a name='L249'></a><a href='#L249'>249</a>
-<a name='L250'></a><a href='#L250'>250</a>
-<a name='L251'></a><a href='#L251'>251</a>
-<a name='L252'></a><a href='#L252'>252</a>
-<a name='L253'></a><a href='#L253'>253</a>
-<a name='L254'></a><a href='#L254'>254</a>
-<a name='L255'></a><a href='#L255'>255</a>
-<a name='L256'></a><a href='#L256'>256</a>
-<a name='L257'></a><a href='#L257'>257</a>
-<a name='L258'></a><a href='#L258'>258</a>
-<a name='L259'></a><a href='#L259'>259</a>
-<a name='L260'></a><a href='#L260'>260</a>
-<a name='L261'></a><a href='#L261'>261</a>
-<a name='L262'></a><a href='#L262'>262</a>
-<a name='L263'></a><a href='#L263'>263</a>
-<a name='L264'></a><a href='#L264'>264</a>
-<a name='L265'></a><a href='#L265'>265</a>
-<a name='L266'></a><a href='#L266'>266</a>
-<a name='L267'></a><a href='#L267'>267</a>
-<a name='L268'></a><a href='#L268'>268</a>
-<a name='L269'></a><a href='#L269'>269</a>
-<a name='L270'></a><a href='#L270'>270</a>
-<a name='L271'></a><a href='#L271'>271</a>
-<a name='L272'></a><a href='#L272'>272</a>
-<a name='L273'></a><a href='#L273'>273</a>
-<a name='L274'></a><a href='#L274'>274</a>
-<a name='L275'></a><a href='#L275'>275</a>
-<a name='L276'></a><a href='#L276'>276</a>
-<a name='L277'></a><a href='#L277'>277</a>
-<a name='L278'></a><a href='#L278'>278</a>
-<a name='L279'></a><a href='#L279'>279</a>
-<a name='L280'></a><a href='#L280'>280</a>
-<a name='L281'></a><a href='#L281'>281</a>
-<a name='L282'></a><a href='#L282'>282</a>
-<a name='L283'></a><a href='#L283'>283</a>
-<a name='L284'></a><a href='#L284'>284</a>
-<a name='L285'></a><a href='#L285'>285</a>
-<a name='L286'></a><a href='#L286'>286</a>
-<a name='L287'></a><a href='#L287'>287</a>
-<a name='L288'></a><a href='#L288'>288</a>
-<a name='L289'></a><a href='#L289'>289</a>
-<a name='L290'></a><a href='#L290'>290</a>
-<a name='L291'></a><a href='#L291'>291</a>
-<a name='L292'></a><a href='#L292'>292</a>
-<a name='L293'></a><a href='#L293'>293</a>
-<a name='L294'></a><a href='#L294'>294</a>
-<a name='L295'></a><a href='#L295'>295</a>
-<a name='L296'></a><a href='#L296'>296</a>
-<a name='L297'></a><a href='#L297'>297</a>
-<a name='L298'></a><a href='#L298'>298</a>
-<a name='L299'></a><a href='#L299'>299</a>
-<a name='L300'></a><a href='#L300'>300</a>
-<a name='L301'></a><a href='#L301'>301</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<a name='L225'></a><a href='#L225'>225</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">16x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">10x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">20x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">10x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">11x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">11x</span>
-<span class="cline-any cline-yes">19x</span>
-<span class="cline-any cline-yes">19x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">19x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">12x</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">11x</span>
-<span class="cline-any cline-yes">11x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">11x</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">10x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">10x</span>
-<span class="cline-any cline-yes">10x</span>
-<span class="cline-any cline-yes">10x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">10x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">10x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">10x</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">9x</span>
-<span class="cline-any cline-yes">9x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">9x</span>
-<span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">26x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -561,52 +319,29 @@
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">23x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">15x</span>
-<span class="cline-any cline-yes">15x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -618,6 +353,8 @@
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -625,6 +362,105 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
@@ -640,330 +476,266 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span></td><td class="text"><pre class="prettyprint lang-js">// Service pour gérer les appels à l'API nationale de collecte des déchets
+<span class="cline-any cline-yes">1x</span></td><td class="text"><pre class="prettyprint lang-js">import { db } from '../firebaseConfig';
+import { auth } from '../firebaseConfig';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 &nbsp;
-export interface APICollectionData {
-  lieu: string;
-  semaine: number;
-  type_recyclable_ordures_menageresllecte: string;
-  jour: string;
+// Types pour le stockage
+export interface ScanStats {
+  userId: string;
+  wasteCategory: string;
+  confidence: number;
+  timestamp?: Date;
 }
 &nbsp;
-export interface APIResponse {
-  total_count: number;
-  results: APICollectionData[];
+export interface UserStats {
+  scansCompleted: number;
+  points: number;
+  challengesCompleted: number;
+  level: number;
+  lastScanDate?: Date | null;
+  categoriesScanned: { [category: string]: number };
+  currentStreak: number;
+  bestStreak: number;
+  weeklyScans: number;
+  monthlyScans: number;
+  categoryStats: { [category: string]: number };
 }
 &nbsp;
-export interface APIError {
-  message: string;
-  status?: number;
-  code?: string;
-}
+class StorageService {
+  // Sauvegarde seulement les statistiques de scan (pour la gamification)
+  async saveScanStats(scanStats: ScanStats): Promise&lt;void&gt; {
+    try {
+      const userId = auth().currentUser?.uid;
+      <span class="missing-if-branch" title="if path not taken" >I</span>if (!userId) {
+<span class="cstat-no" title="statement not covered" >        throw new Error('Utilisateur non authentifié');</span>
+      }
 &nbsp;
-class APIService {
-  private static instance: APIService;
-  private baseUrl = 'https://api.example.com/api/explore/v2.1/catalog/datasets/collecte-des-dechets-jours-feries/records';
-  private cache: Map&lt;string, { data: any; timestamp: number }&gt; = new Map();
-  private cacheExpiry = 24 * 60 * 60 * 1000; // 24 heures
-  private retryAttempts = 3;
-  private retryDelay = 1000; // 1 seconde
+      // Simulation de la sauvegarde des stats
+      console.log(' Sauvegarde des statistiques de scan:', {
+        userId,
+        wasteCategory: scanStats.wasteCategory,
+        confidence: scanStats.confidence,
+      });
 &nbsp;
-  private constructor() {}
+      // Simulation d'un délai de sauvegarde
+      await new Promise(resolve =&gt; setTimeout(resolve, 300));
+      
+      // Mise à jour des statistiques utilisateur
+      await this.updateUserStats(scanStats.wasteCategory);
+      
+      console.log(' Statistiques mises à jour avec succès !');
 &nbsp;
-  static getInstance(): APIService {
-    if (!APIService.instance) {
-      APIService.instance = new APIService();
+      // Version complète pour la production :
+      // Pas besoin de sauvegarder les détails du scan, juste mettre à jour les stats
+    } catch (error) {
+<span class="cstat-no" title="statement not covered" >      console.error('Erreur lors de la sauvegarde des statistiques:', error);</span>
+<span class="cstat-no" title="statement not covered" >      throw new Error('Impossible de sauvegarder les statistiques');</span>
     }
-    return APIService.instance;
   }
 &nbsp;
-  // Génération d'une clé de cache
-  private generateCacheKey(endpoint: string, params: Record&lt;string, string&gt; = <span class="branch-0 cbranch-no" title="branch not covered" >{})</span>: string {
-    const sortedParams = Object.keys(params)
-      .sort()
-      .map(key =&gt; `${key}=${params[key]}`)
-      .join('&amp;');
-    return `${endpoint}?${sortedParams}`;
-  }
 &nbsp;
-  // Vérification si les données en cache sont valides
-  private isCacheValid(cacheKey: string): boolean {
-    const cached = this.cache.get(cacheKey);
-    if (!cached) return false;
-    
-    const now = Date.now();
-    return (now - cached.timestamp) &lt; this.cacheExpiry;
-  }
 &nbsp;
-  // Récupération des données depuis le cache
-  private getFromCache&lt;T&gt;(cacheKey: string): T | null {
-    if (this.isCacheValid(cacheKey)) {
-      const cached = this.cache.get(cacheKey);
-      console.log(`Données récupérées du cache: ${cacheKey}`);
-      return cached?.data as T;
-    }
-    return null;
-  }
-&nbsp;
-  // Mise en cache des données
-  private setCache&lt;T&gt;(cacheKey: string, data: T): void {
-    this.cache.set(cacheKey, {
-      data,
-      timestamp: Date.now()
-    });
-    console.log(`Données mises en cache: ${cacheKey}`);
-  }
-&nbsp;
-  // Attente d'un délai
-  private delay(ms: number): Promise&lt;void&gt; {
-    return new Promise(resolve =&gt; setTimeout(resolve, ms));
-  }
-&nbsp;
-  // Exécution d'une requête avec retry
-  private async fetchWithRetry(url: string, options: RequestInit = {}): Promise&lt;Response&gt; {
-    let lastError: Error | null = null;
-&nbsp;
-    for (let attempt = 1; attempt &lt;= this.retryAttempts; attempt++) {
-      try {
-        console.log(`Tentative ${attempt}/${this.retryAttempts} pour ${url}`);
-        
-        const response = await fetch(url, {
-          ...options,
-          headers: {
-            'Content-Type': 'application/json',
-            'User-Agent': 'EcoTri-App/1.0',
-            ...options.headers,
+  // Récupération des statistiques d'un utilisateur
+  async getUserStats(userId: string): Promise&lt;UserStats&gt; {
+    try {
+      const userDoc = await db.collection('users').doc(userId).get();
+      
+      if (userDoc.exists &amp;&amp; userDoc.data()) {
+        const userData = userDoc.data()!;
+        return {
+          scansCompleted: userData.stats?.scansCompleted || <span class="branch-1 cbranch-no" title="branch not covered" >0,</span>
+          points: userData.stats?.points || <span class="branch-1 cbranch-no" title="branch not covered" >0,</span>
+          challengesCompleted: userData.stats?.challengesCompleted || <span class="branch-1 cbranch-no" title="branch not covered" >0,</span>
+          level: userData.stats?.level || <span class="branch-1 cbranch-no" title="branch not covered" >1,</span>
+          lastScanDate: userData.stats?.lastScanDate?.toDate(),
+          categoriesScanned: userData.stats?.categoriesScanned || <span class="branch-1 cbranch-no" title="branch not covered" >{},</span>
+          currentStreak: userData.stats?.currentStreak || <span class="branch-1 cbranch-no" title="branch not covered" >0,</span>
+          bestStreak: userData.stats?.bestStreak || <span class="branch-1 cbranch-no" title="branch not covered" >0,</span>
+          weeklyScans: userData.stats?.weeklyScans || <span class="branch-1 cbranch-no" title="branch not covered" >0,</span>
+          monthlyScans: userData.stats?.monthlyScans || <span class="branch-1 cbranch-no" title="branch not covered" >0,</span>
+          categoryStats: userData.stats?.categoryStats || <span class="branch-1 cbranch-no" title="branch not covered" >{</span>
+            Plastique: 0,
+            Métal: 0,
+            Papier: 0,
+            Verre: 0,
+            Carton: 0,
+            Autre: 0,
           },
-        });
-&nbsp;
-        if (response.ok) {
-          return response;
-        }
-&nbsp;
-        // Si c'est une erreur 4xx, ne pas réessayer
-        <span class="missing-if-branch" title="if path not taken" >I</span>if (response.status &gt;= 400 &amp;&amp; response.status &lt; 500) {
-<span class="cstat-no" title="statement not covered" >          throw new Error(`Erreur client: ${response.status} ${response.statusText}`);</span>
-        }
-&nbsp;
-        throw new Error(`Erreur serveur: ${response.status} ${response.statusText}`);
-      } catch (error) {
-        lastError = error as Error;
-        console.warn(`Tentative ${attempt} échouée:`, error);
+        };
+      } else <span class="missing-if-branch" title="else path not taken" >E</span>{
+        // Création des stats par défaut
+        const defaultStats: UserStats = <span class="cstat-no" title="statement not covered" >{</span>
+          scansCompleted: 0,
+          points: 0,
+          challengesCompleted: 0,
+          level: 1,
+          categoriesScanned: {},
+          currentStreak: 0,
+          bestStreak: 0,
+          weeklyScans: 0,
+          monthlyScans: 0,
+          categoryStats: {
+            Plastique: 0,
+            Métal: 0,
+            Papier: 0,
+            Verre: 0,
+            Carton: 0,
+            Autre: 0,
+          },
+        };
         
-        if (attempt &lt; this.retryAttempts) {
-          await this.delay(this.retryDelay * attempt);
+<span class="cstat-no" title="statement not covered" >        await db.collection('users').doc(userId).set({ stats: defaultStats });</span>
+<span class="cstat-no" title="statement not covered" >        return defaultStats;</span>
+      }
+    } catch (error) {
+<span class="cstat-no" title="statement not covered" >      console.error('Erreur lors de la récupération des stats:', error);</span>
+<span class="cstat-no" title="statement not covered" >      throw new Error('Impossible de récupérer les statistiques');</span>
+    }
+  }
+&nbsp;
+  // Mise à jour des statistiques utilisateur après un scan (avec persistance locale)
+  async updateUserStats(wasteCategory: string): Promise&lt;void&gt; {
+    try {
+      const userId = auth().currentUser?.uid;
+      <span class="missing-if-branch" title="if path not taken" >I</span>if (!userId) <span class="cstat-no" title="statement not covered" >return;</span>
+&nbsp;
+      // Récupération des stats actuelles depuis AsyncStorage
+      const statsKey = `user_stats_${userId}`;
+      const currentStatsJson = await AsyncStorage.getItem(statsKey);
+      
+      let currentStats: UserStats;
+      if (currentStatsJson) {
+        currentStats = JSON.parse(currentStatsJson);
+      } else {
+        currentStats = {
+          scansCompleted: 0,
+          points: 0,
+          challengesCompleted: 0,
+          level: 1,
+          categoriesScanned: {},
+          weeklyScans: 0,
+          monthlyScans: 0,
+          currentStreak: 0,
+          bestStreak: 0,
+          lastScanDate: null,
+          categoryStats: {
+            Plastique: 0,
+            Métal: 0,
+            Papier: 0,
+            Verre: 0,
+            Carton: 0,
+            Autre: 0
+          }
+        };
+      }
+&nbsp;
+      // Calcul de la série (streak)
+      const today = new Date();
+      const lastScan = currentStats.lastScanDate ? <span class="branch-0 cbranch-no" title="branch not covered" >new Date(currentStats.lastScanDate) </span>: null;
+      let newStreak = currentStats.currentStreak;
+      
+      <span class="missing-if-branch" title="if path not taken" >I</span>if (lastScan) {
+        const daysDiff = <span class="cstat-no" title="statement not covered" >Math.floor((today.getTime() - lastScan.getTime()) / (1000 * 60 * 60 * 24));</span>
+<span class="cstat-no" title="statement not covered" >        if (daysDiff === 1) {</span>
+          // Scan le jour suivant, continuer la série
+<span class="cstat-no" title="statement not covered" >          newStreak = currentStats.currentStreak + 1;</span>
+        } else <span class="cstat-no" title="statement not covered" ><span class="missing-if-branch" title="if path not taken" >I</span>if (daysDiff &gt; 1) {</span>
+<span class="cstat-no" title="statement not covered" >          newStreak = 1;</span>
         }
+      } else {
+        newStreak = 1;
       }
-    }
 &nbsp;
-    throw lastError || <span class="branch-1 cbranch-no" title="branch not covered" >new Error('Toutes les tentatives ont échoué');</span>
-  }
+      // Pour simplifier, on incrémente juste les compteurs (dans un vrai cas, on analyserait l'historique)
+      const weeklyScans = Math.min((currentStats.weeklyScans || 0) + 1, 50);
+      const monthlyScans = Math.min((currentStats.monthlyScans || 0) + 1, 200);
 &nbsp;
-  // Récupération des données de collecte
-  async getCollectionData(params: {
-    city?: string;
-    limit?: number;
-    offset?: number;
-    useCache?: boolean;
-  } = {}): Promise&lt;APICollectionData[]&gt; {
-    const { city, limit = 1000, offset = 0, useCache = true } = params;
-    
-    // Construction de l'URL
-    const url = new URL(this.baseUrl);
-    url.searchParams.set('limit', limit.toString());
-    url.searchParams.set('offset', offset.toString());
-    
-    <span class="missing-if-branch" title="if path not taken" >I</span>if (city) {
-<span class="cstat-no" title="statement not covered" >      url.searchParams.set('where', `lieu like "%${city}%"`);</span>
-    }
-&nbsp;
-    const cacheKey = this.generateCacheKey(url.pathname, Object.fromEntries(url.searchParams));
-    
-    // Vérification du cache
-    if (useCache) {
-      const cached = this.getFromCache&lt;APICollectionData[]&gt;(cacheKey);
-      if (cached) {
-        return cached;
-      }
-    }
-&nbsp;
-    try {
-      console.log(`Récupération des données depuis l'API: ${url.toString()}`);
-      
-      const response = await this.fetchWithRetry(url.toString());
-      const data: APIResponse = await response.json();
-      
-      console.log(`Récupéré ${data.results.length} enregistrements de l'API`);
-      
-      // Mise en cache
-      if (useCache) {
-        this.setCache(cacheKey, data.results);
-      }
-      
-      return data.results;
-    } catch (error) {
-      console.error('Erreur lors de la récupération des données API:', error);
-      throw this.createAPIError(error as Error);
-    }
-  }
-&nbsp;
-  // Récupération de toutes les villes disponibles
-  async getAllCities(useCache: boolean = true): Promise&lt;string[]&gt; {
-    const cacheKey = 'all_cities';
-    
-    if (useCache) {
-      const cached = this.getFromCache&lt;string[]&gt;(cacheKey);
-      <span class="missing-if-branch" title="if path not taken" >I</span>if (cached) {
-<span class="cstat-no" title="statement not covered" >        return cached;</span>
-      }
-    }
-&nbsp;
-    try {
-      const data = await this.getCollectionData({ useCache: false });
-      const cities = [...new Set(data.map(item =&gt; item.lieu))].sort();
-      
-      if (useCache) {
-        this.setCache(cacheKey, cities);
-      }
-      
-      return cities;
-    } catch (error) {
-<span class="cstat-no" title="statement not covered" >      console.error('Erreur lors de la récupération des villes:', error);</span>
-<span class="cstat-no" title="statement not covered" >      throw this.createAPIError(error as Error);</span>
-    }
-  }
-&nbsp;
-  // Recherche de villes par nom
-  async searchCities(searchTerm: string, limit: number = 10): Promise&lt;string[]&gt; {
-    try {
-      const allCities = await this.getAllCities();
-      const normalizedSearch = searchTerm.toLowerCase();
-      
-      return allCities
-        .filter(city =&gt; city.toLowerCase().includes(normalizedSearch))
-        .slice(0, limit);
-    } catch (error) {
-<span class="cstat-no" title="statement not covered" >      console.error('Erreur lors de la recherche de villes:', error);</span>
-<span class="cstat-no" title="statement not covered" >      throw this.createAPIError(error as Error);</span>
-    }
-  }
-&nbsp;
-  // Récupération des données pour une ville spécifique
-<span class="fstat-no" title="function not covered" >  async </span>getCityData(city: string, useCache: boolean = <span class="branch-0 cbranch-no" title="branch not covered" >true)</span>: Promise&lt;APICollectionData[]&gt; {
-<span class="cstat-no" title="statement not covered" >    try {</span>
-<span class="cstat-no" title="statement not covered" >      return await this.getCollectionData({ city, useCache });</span>
-    } catch (error) {
-<span class="cstat-no" title="statement not covered" >      console.error(`Erreur lors de la récupération des données pour ${city}:`, error);</span>
-<span class="cstat-no" title="statement not covered" >      throw this.createAPIError(error as Error);</span>
-    }
-  }
-&nbsp;
-  // Vérification de la connectivité à l'API
-  async checkConnectivity(): Promise&lt;boolean&gt; {
-    try {
-      const url = new URL(this.baseUrl);
-      url.searchParams.set('limit', '1');
-      
-      const response = await this.fetchWithRetry(url.toString());
-      return response.ok;
-    } catch (error) {
-      console.error('Erreur de connectivité API:', error);
-      return false;
-    }
-  }
-&nbsp;
-  // Vidage du cache
-  clearCache(): void {
-    this.cache.clear();
-    console.log('Cache API vidé');
-  }
-&nbsp;
-  // Vidage du cache pour une clé spécifique
-<span class="fstat-no" title="function not covered" >  clearCacheKey(</span>cacheKey: string): void {
-<span class="cstat-no" title="statement not covered" >    this.cache.delete(cacheKey);</span>
-<span class="cstat-no" title="statement not covered" >    console.log(`Cache vidé pour: ${cacheKey}`);</span>
-  }
-&nbsp;
-  // Récupération des statistiques du cache
-  getCacheStats(): {
-    size: number;
-    keys: string[];
-    oldestEntry: number | null;
-    newestEntry: number | null;
-  } {
-    const keys = Array.from(this.cache.keys());
-    const timestamps = Array.from(this.cache.values()).map(entry =&gt; entry.timestamp);
-    
-    return {
-      size: this.cache.size,
-      keys,
-      oldestEntry: timestamps.length &gt; 0 ? Math.min(...timestamps) : null,
-      newestEntry: timestamps.length &gt; 0 ? Math.max(...timestamps) : null,
-    };
-  }
-&nbsp;
-  // Création d'une erreur API standardisée
-  private createAPIError(error: Error): APIError {
-    return {
-      message: error.message,
-      code: 'API_ERROR',
-    };
-  }
-&nbsp;
-  // Test de l'API avec des données d'exemple
-  async testAPI(): Promise&lt;{
-    success: boolean;
-    dataCount?: number;
-    error?: string;
-    responseTime?: number;
-  }&gt; {
-    const startTime = Date.now();
-    
-    try {
-      const data = await this.getCollectionData({ limit: 5, useCache: false });
-      const responseTime = Date.now() - startTime;
-      
-      return {
-        success: true,
-        dataCount: data.length,
-        responseTime,
+      // Mise à jour des statistiques
+      const updatedStats: UserStats = {
+        ...currentStats,
+        scansCompleted: currentStats.scansCompleted + 1,
+        points: currentStats.points + 10,
+        lastScanDate: today,
+        currentStreak: newStreak,
+        bestStreak: Math.max(currentStats.bestStreak || 0, newStreak),
+        weeklyScans,
+        monthlyScans,
+        categoriesScanned: {
+          ...currentStats.categoriesScanned,
+          [wasteCategory]: (currentStats.categoriesScanned[wasteCategory] || 0) + 1,
+        },
+        categoryStats: {
+          ...currentStats.categoryStats,
+          [wasteCategory]: (currentStats.categoryStats?.[wasteCategory] || 0) + 1,
+        }
       };
+&nbsp;
+      // Calcul du niveau basé sur les points
+      updatedStats.level = Math.floor(updatedStats.points / 100) + 1;
+&nbsp;
+      // Sauvegarde dans AsyncStorage
+      await AsyncStorage.setItem(statsKey, JSON.stringify(updatedStats));
+&nbsp;
+      console.log('Stats mises à jour et sauvegardées:');
+      console.log(`  - Catégorie: ${wasteCategory}`);
+      console.log(`  - Total scans: ${updatedStats.scansCompleted}`);
+      console.log(`  - Total points: ${updatedStats.points}`);
+      console.log(`  - Niveau: ${updatedStats.level}`);
+&nbsp;
+      // Sauvegarde dans Firestore pour synchronisation (optionnel)
+      try {
+        await db.collection('users').doc(userId).update({ stats: updatedStats });
+        console.log(' Stats aussi sauvegardées dans Firestore');
+      } catch {
+<span class="cstat-no" title="statement not covered" >        console.log('Firestore non disponible, stats sauvées localement seulement');</span>
+      }
+&nbsp;
     } catch (error) {
-      const responseTime = Date.now() - startTime;
-      
-      return {
-        success: false,
-        error: (error as Error).message,
-        responseTime,
-      };
+<span class="cstat-no" title="statement not covered" >      console.error('Erreur lors de la mise à jour des stats:', error);</span>
     }
   }
+&nbsp;
+&nbsp;
 }
 &nbsp;
-export default APIService; </pre></td></tr></table></pre>
+export const storageService = new StorageService();
+export default storageService; </pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
             </div><!-- /wrapper -->

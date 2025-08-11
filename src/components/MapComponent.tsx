@@ -11,11 +11,20 @@ let PROVIDER_GOOGLE: any = null;
 let PROVIDER_DEFAULT: any = null;
 
 if (Platform.OS !== 'web') {
-  const Maps = require("react-native-maps");
-  MapView = Maps.default;
-  Marker = Maps.Marker;
-  PROVIDER_GOOGLE = Maps.PROVIDER_GOOGLE;
-  PROVIDER_DEFAULT = Maps.PROVIDER_DEFAULT;
+  try {
+    const Maps = require("react-native-maps");
+    MapView = Maps.default;
+    Marker = Maps.Marker;
+    PROVIDER_GOOGLE = Maps.PROVIDER_GOOGLE;
+    PROVIDER_DEFAULT = Maps.PROVIDER_DEFAULT;
+  } catch (error) {
+    console.warn("react-native-maps non disponible:", error);
+    // Fallback : composants vides
+    MapView = ({ children, ...props }: any) => <View {...props}>{children}</View>;
+    Marker = ({ children, ...props }: any) => <View {...props}>{children}</View>;
+    PROVIDER_GOOGLE = 'default';
+    PROVIDER_DEFAULT = 'default';
+  }
 }
 
 const MapComponent = ({ mapRef, location, filter }: { 

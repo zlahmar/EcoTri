@@ -77,12 +77,13 @@ describe('APIService', () => {
       expect(fetch).toHaveBeenCalledTimes(1); // Pas d'appel supplémentaire
     });
 
-    it.skip('should handle API errors', async () => {
-      // Mock pour faire échouer toutes les tentatives
+    it('should handle API errors', async () => {
+      // Mock pour faire échouer toutes les tentatives avec une erreur réseau persistante
       (fetch as jest.Mock).mockRejectedValue(new Error('Network Error'));
 
       // Le service fait 3 tentatives avant de lancer l'erreur
-      await expect(apiService.getCollectionData()).rejects.toThrow('Network Error');
+      // Désactiver le cache pour forcer l'appel API
+      await expect(apiService.getCollectionData({ useCache: false })).rejects.toThrow();
       expect(fetch).toHaveBeenCalledTimes(3); // 3 tentatives
     });
 

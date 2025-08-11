@@ -1,6 +1,5 @@
-import { doc, setDoc, updateDoc, getDoc } from 'firebase/firestore';
-import { db } from '../../firebaseConfig';
-import { auth } from '../../firebaseConfig';
+import { db } from '../firebaseConfig';
+import { auth } from '../firebaseConfig';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Types pour le stockage
@@ -29,7 +28,7 @@ class StorageService {
   // Sauvegarde seulement les statistiques de scan (pour la gamification)
   async saveScanStats(scanStats: ScanStats): Promise<void> {
     try {
-      const userId = auth.currentUser?.uid;
+      const userId = auth().currentUser?.uid;
       if (!userId) {
         throw new Error('Utilisateur non authentifié');
       }
@@ -62,10 +61,10 @@ class StorageService {
   // Récupération des statistiques d'un utilisateur
   async getUserStats(userId: string): Promise<UserStats> {
     try {
-      const userDoc = await getDoc(doc(db, 'users', userId));
+      const userDoc = await db.collection('users').doc(userId).get();
       
-      if (userDoc.exists()) {
-        const userData = userDoc.data();
+      if (userDoc.exists && userDoc.data()) {
+        const userData = userDoc.data()!;
         return {
           scansCompleted: userData.stats?.scansCompleted || 0,
           points: userData.stats?.points || 0,
@@ -108,7 +107,7 @@ class StorageService {
           },
         };
         
-        await setDoc(doc(db, 'users', userId), { stats: defaultStats });
+        await db.collection('users').doc(userId).set({ stats: defaultStats });
         return defaultStats;
       }
     } catch (error) {
@@ -120,7 +119,7 @@ class StorageService {
   // Mise à jour des statistiques utilisateur après un scan (avec persistance locale)
   async updateUserStats(wasteCategory: string): Promise<void> {
     try {
-      const userId = auth.currentUser?.uid;
+      const userId = auth().currentUser?.uid;
       if (!userId) return;
 
       // Récupération des stats actuelles depuis AsyncStorage
@@ -208,8 +207,7 @@ class StorageService {
 
       // Sauvegarde dans Firestore pour synchronisation (optionnel)
       try {
-        const userRef = doc(db, 'users', userId);
-        await updateDoc(userRef, { stats: updatedStats });
+        await db.collection('users').doc(userId).update({ stats: updatedStats });
         console.log(' Stats aussi sauvegardées dans Firestore');
       } catch {
         console.log('Firestore non disponible, stats sauvées localement seulement');

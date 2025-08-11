@@ -3,8 +3,8 @@ import { View, Text, StyleSheet, Alert, ScrollView, TouchableOpacity, Image } fr
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { TextInput, Button, IconButton, Card } from 'react-native-paper';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { auth } from '../../firebaseConfig';
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../firebaseConfig';
+
 import { colors } from '../styles/colors';
 
 const LoginScreen = ({ navigation }: { navigation: any }) => {
@@ -24,7 +24,7 @@ const LoginScreen = ({ navigation }: { navigation: any }) => {
     setError("");
   
     try {
-      await signInWithEmailAndPassword(auth, email, password);
+      await auth().signInWithEmailAndPassword(email, password);
       navigation.replace("Profile");
     } catch (err: any) {
       if (err.code === "auth/user-not-found") {

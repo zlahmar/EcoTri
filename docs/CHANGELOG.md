@@ -104,7 +104,7 @@ Toutes les modifications et mises à jour notables de ce projet seront document�
 **Métriques d'Amélioration :**
 
 - **Taux de réussite tests** : 85% → 91.4% (+6.4 points)
-- **Couverture de code** : 47.87% → 64.56% (+16.69 points)
+- **Couverture de code** : 47.87% → 58.83% (+10.96 points)
 - **Temps de correction** : < 1h par bogue identifié
 - **Processus de correction** : Workflow en 6 étapes documenté
 
@@ -160,6 +160,16 @@ Toutes les modifications et mises à jour notables de ce projet seront document�
 - Fonctionnement hors ligne : 100%
 - Builds EAS : 30/mois gratuits
 
+### Version 2.1.0
+
+- Tests : 80/89 passants (90% de succès)
+- Couverture : 58.83%
+- Linting : 0 erreurs, 20 warnings max
+- Scénarios de test : 14 scénarios critiques couverts
+- Tests de composants : ScanScreen, HomeScreen, AdviceScreen, MapComponent
+- Tests de services : MLKitService, APIService, StorageService, useLocation
+- Couverture par module : MLKitService (44.44%), APIService (88.28%), StorageService (73.33%), useLocation (100%)
+
 ### Version 1.0.0
 
 - Tests : 54/54 passants (100%)
@@ -171,7 +181,7 @@ Toutes les modifications et mises à jour notables de ce projet seront document�
 
 ## Roadmap
 
-### Version 2.2.0 (Q3 2025)
+### Version 2.2.0 (Q2 2025)
 
 - Modèles ML personnalisés pour déchets spécifiques
 - Analyse multiple images simultanée

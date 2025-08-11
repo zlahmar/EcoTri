@@ -5,10 +5,7 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { TextInput, Button, IconButton, Card } from 'react-native-paper';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { doc, setDoc } from 'firebase/firestore';
-import { auth, db, storage } from '../../firebaseConfig';
-import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { auth, db, storage } from '../firebaseConfig';
 import * as ImagePicker from 'expo-image-picker';
 import { colors } from '../styles/colors';
 
@@ -80,13 +77,13 @@ const SignupScreen = ({ navigation }: { navigation: any }) => {
       const blob = await response.blob();
       console.log("Conversion de l'image en blob...");
   
-      const imageRef = ref(storage, `profileImages/${uid}.jpg`);
+      const imageRef = storage.ref(`profileImages/${uid}.jpg`);
       console.log("Référence du fichier image:", imageRef.fullPath);
   
-      await uploadBytes(imageRef, blob);
+      await imageRef.put(blob);
       console.log("Image uploadée avec succès");
   
-      const downloadURL = await getDownloadURL(imageRef);
+      const downloadURL = await imageRef.getDownloadURL();
       console.log("URL de l'image:", downloadURL);
   
       return downloadURL;
@@ -117,22 +114,22 @@ const SignupScreen = ({ navigation }: { navigation: any }) => {
     console.log('Tentative de création de compte avec:', email);
 
     try {
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const userCredential = await auth().createUserWithEmailAndPassword(email, password);
       const user = userCredential.user;
 
       console.log('Utilisateur créé avec succès:', user.uid);
       
       // Vérification si l'utilisateur est bien authentifié
-      if (!auth.currentUser) {
+      if (!auth().currentUser) {
         throw new Error("Utilisateur non authentifié.");
       }
-      console.log(" Utilisateur connecté :", auth.currentUser?.uid);
+      console.log(" Utilisateur connecté :", auth().currentUser?.uid);
 
       // Téléchargement de l'image et récupération de l'URL
       const imageUrl = await uploadImage(user.uid);
 
       // Ajout de l'utilisateur dans Firestore
-      await setDoc(doc(db, "users", user.uid), {
+      await db.collection("users").doc(user.uid).set({
         name: name,
         email: email,
         profileImage: imageUrl || null,

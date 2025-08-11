@@ -17,7 +17,7 @@ import {
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { colors } from '../styles/colors';
 import { adviceService, Advice, AdviceCategory, DailyAdvice, FavoriteAdvice } from '../services/adviceService';
-import { auth } from '../../firebaseConfig';
+import { auth } from '../firebaseConfig';
 
 const AdviceScreen = ({ navigation }: { navigation: any }) => {
   const [categories, setCategories] = useState<AdviceCategory[]>([]);
@@ -59,7 +59,7 @@ const AdviceScreen = ({ navigation }: { navigation: any }) => {
       setTimeUntilNextAdvice(timeRemaining);
       
       // Chargement des favoris si l'utilisateur est connecté
-      if (auth.currentUser) {
+      if (auth().currentUser) {
         const userFavorites = await adviceService.getFavorites();
         setFavorites(userFavorites);
       }
@@ -78,7 +78,7 @@ const AdviceScreen = ({ navigation }: { navigation: any }) => {
 
   const handleToggleFavorite = async (advice: Advice) => {
     try {
-      if (!auth.currentUser) {
+      if (!auth().currentUser) {
         alert('Veuillez vous connecter pour sauvegarder des favoris');
         return;
       }
@@ -143,7 +143,7 @@ const AdviceScreen = ({ navigation }: { navigation: any }) => {
                 <Text style={styles.dailyAdviceCategory}>
                   {dailyAdvice.advice.category}
                 </Text>
-                {auth.currentUser && (
+                {auth().currentUser && (
                   <TouchableOpacity
                     onPress={() => handleToggleFavorite(dailyAdvice.advice)}
                     style={styles.favoriteButton}
@@ -188,7 +188,7 @@ const AdviceScreen = ({ navigation }: { navigation: any }) => {
             <Text style={styles.cardTitle} numberOfLines={2}>
               {item.title}
             </Text>
-            {auth.currentUser && (
+            {auth().currentUser && (
               <TouchableOpacity
                 onPress={() => handleToggleFavorite(item)}
                 style={styles.favoriteButton}
@@ -284,7 +284,7 @@ const AdviceScreen = ({ navigation }: { navigation: any }) => {
             />
             <Text style={styles.headerTitle}>Conseils Écologiques</Text>
           </View>
-          {auth.currentUser && (
+          {auth().currentUser && (
             <IconButton
               icon={showFavorites ? "heart" : "heart-outline"}
               size={24}

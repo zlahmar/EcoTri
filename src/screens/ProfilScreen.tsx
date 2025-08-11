@@ -4,8 +4,8 @@ import {
   ScrollView, TextInput, Modal, Alert
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { auth, db } from '../../firebaseConfig';
-import { getDoc, doc, updateDoc, setDoc, deleteDoc } from "firebase/firestore";
+import { auth, db } from '../firebaseConfig';
+
 import { Button, List, IconButton } from 'react-native-paper';
 import { colors } from '../styles/colors';
 import Avatar from 'react-native-avatar-generator';
@@ -40,7 +40,7 @@ const ProfilScreen = ({ navigation }: { navigation: any }) => {
       Autre: 0
     }
   });
-  const user = auth.currentUser;
+  const user = auth().currentUser;
 
   // Calcul des habitudes et tendances
   const calculateHabits = () => {
@@ -118,12 +118,12 @@ const ProfilScreen = ({ navigation }: { navigation: any }) => {
     try {
       // Essai de chargement depuis Firestore d'abord
       try {
-        const docSnap = await getDoc(doc(db, "users", user!.uid));
-        if (docSnap.exists()) {
+        const docSnap = await db.collection("users").doc(user!.uid).get();
+        if (docSnap.exists) {
           const data = docSnap.data();
           setUserData(data);
-          setName(data.name || '');
-          if (data.stats) {
+          setName(data?.name || '');
+          if (data?.stats) {
             setStats(data.stats);
             return;
           }
@@ -165,15 +165,13 @@ const ProfilScreen = ({ navigation }: { navigation: any }) => {
     
     setIsSaving(true);
     setSaveSuccess(false);
-    
-    const userRef = doc(db, "users", user.uid);
 
     try {
-      const docSnap = await getDoc(userRef);
-      if (!docSnap.exists()) {
-        await setDoc(userRef, { name });
+      const docSnap = await db.collection("users").doc(user.uid).get();
+      if (!docSnap.exists) {
+        await db.collection("users").doc(user.uid).set({ name });
       } else {
-        await updateDoc(userRef, { name });
+        await db.collection("users").doc(user.uid).update({ name });
       }
       
       setSaveSuccess(true);
@@ -205,7 +203,7 @@ const ProfilScreen = ({ navigation }: { navigation: any }) => {
           onPress: async () => {
             try {
               await user.delete();
-              await deleteDoc(doc(db, "users", user.uid));
+              await db.collection("users").doc(user.uid).delete();
               alert("Compte supprimé");
               navigation.replace("Home");
             } catch (error) {
@@ -227,7 +225,7 @@ const ProfilScreen = ({ navigation }: { navigation: any }) => {
         {
           text: "Déconnexion",
           onPress: async () => {
-            await auth.signOut();
+            await auth().signOut();
             navigation.replace("Login");
           }
         }
