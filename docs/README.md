@@ -17,7 +17,7 @@ Cette application mobile vise à valider les compétences du bloc 2 en démontra
 
 ## À Propos de l'Application
 
-**EcoTri** est une application mobile React Native/Expo innovante qui révolutionne le tri et le recyclage des déchets grâce à l'intelligence artificielle.
+**EcoTri v2.1.0** est une application mobile React Native/Expo innovante qui révolutionne le tri et le recyclage des déchets grâce à l'intelligence artificielle.
 
 ### Fonctionnalités Principales
 
@@ -143,7 +143,7 @@ src/
 
 **Contenu :** Stratégie de tests complète
 
-- **Tests unitaires** : 71 tests (68 passants, 3 échoués), couverture 64.56%
+- **Tests unitaires** : 71 tests (67 passants, 4 ignorés), couverture 64.56%
 - **Documentation des mocks** : Structure complète des mocks Firebase, Expo, React Native
 - **Configuration Jest** : Setup TypeScript, moduleNameMapper
 - **Scénarios d'acceptation** : 8 scénarios de test fonctionnels manuels
@@ -154,10 +154,11 @@ src/
 
 **Contenu :** Historique et procédures
 
-- **Version 2.0.0** : ML Kit on-device, EAS Build, gamification
+- **Version 2.1.0** : Tests CI/CD, configuration Expo optimisée, ML Kit on-device
+- **Version 2.0.0** : EAS Build, gamification, reconnaissance d'images
 - **Version 1.0.0** : Fonctionnalités de base, authentification
 - **Métriques** : Performance, tests, couverture par version
-- **Roadmap** : Version 2.1.0 (Q1 2025)
+- **Roadmap** : Version 2.2.0 (Q2 2025)
 - **Procédures de mise à jour** : Types, workflow standard, commandes
 
 #### Guide Utilisateur (USER_GUIDE.md)
@@ -177,7 +178,7 @@ src/
 - **Pipeline GitHub Actions** : Workflow automatisé
 - **Optimisations** : Node.js 18/20, cache Jest, workers
 - **Corrections** : Résolution des problèmes CI/CD
-- **Métriques** : 95.8% tests passants, 0 warnings ESLint
+- **Métriques** : 94.4% tests passants, 0 warnings ESLint, configuration Expo optimisée
 
 #### Compétences Validées (COMPETENCES_VALIDEES.md)
 

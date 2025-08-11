@@ -376,6 +376,6 @@ Le tableau de bord de statistiques est accessible depuis votre page de profil et
 
 ---
 
-**Version** : 2.0.0  
-**Dernière mise à jour** : Aout 2025  
+**Version** : 2.1.0  
+**Dernière mise à jour** : Aout 2025
 **Compatibilité** : iOS 12+, Android 8+

@@ -2,7 +2,19 @@
 
 Toutes les modifications et mises à jour notables de ce projet seront documentées dans ce fichier.
 
-## [2.0.0] - 2025-08-XX
+## [2.1.0] - 2025-08-11
+
+**Corrections CI/CD et Configuration Expo :**
+
+- **Problème expo-doctor** : Configuration `expo.doctor.reactNativeDirectoryCheck.exclude` pour `@react-native-ml-kit/image-labeling`
+- **Mise à jour @types/react** : Passage de `~18.3.23` à `~19.0.10` pour compatibilité Expo SDK
+- **Configuration CNG** : Ajout `android/` et `ios/` dans `.gitignore` pour éviter conflits avec Config-as-Code Native Generation
+- **Erreur GitHub Actions** : Correction du workflow CI/CD avec commentaire de l'action `schneegans/dynamic-badges-action` défaillante
+- **Refactorisation pipeline** : Séparation en jobs distincts (`code-quality`, `unit-tests`, `build-expo`, `security`, `notify`, `deploy`)
+- **Intégration codecov et snyk** : Ajout des actions `codecov/codecov-action` et `snyk/actions/node` dans le workflow
+- **Scripts npm optimisés** : Ajout des commandes `start`, `android`, `ios`, `web`, `test:verbose`, `lint:check`, `build`, `build:clear`, `doctor`, `audit`, `ci`
+
+## [2.0.0] - 2025-08-01
 
 ### Fonctionnalités Majeures
 
@@ -43,7 +55,7 @@ Toutes les modifications et mises à jour notables de ce projet seront document�
 - Bouton refresh profil pour rechargement manuel des statistiques
 - Configuration EAS avec profils development/preview/production
 - Gestion d'erreurs améliorée avec logs détaillés
-- **Corrections CI/CD** : ajout de `textSecondary` dans les couleurs, déclarations TypeScript pour `react-native-avatar-generator`
+
 - **Types UserStats étendus** : ajout de `currentStreak`, `bestStreak`, `weeklyScans`, `monthlyScans`, `categoryStats`
 - **Suppression de `useNotifications`** : hook non utilisé retiré pour simplifier l'architecture
 
@@ -51,7 +63,7 @@ Toutes les modifications et mises à jour notables de ce projet seront document�
 
 - **Architecture Scanner avancée** : migration vers ML Kit on-device avec détection d'environnement
 - **Service ML Kit** : refactorisation complète avec modes développement/production séparés
-- **Workflow CI/CD** : corrections TypeScript et optimisation des tests
+
 - **Configuration ESLint** : tolérance à 20 warnings pour développement
 - **Types TypeScript** : déclarations complètes pour modules externes
 - **Logs de debugging** : ajout de logs détaillés avec emojis pour meilleure lisibilité
@@ -159,7 +171,7 @@ Toutes les modifications et mises à jour notables de ce projet seront document�
 
 ## Roadmap
 
-### Version 2.1.0 (Q1 2025)
+### Version 2.2.0 (Q3 2025)
 
 - Modèles ML personnalisés pour déchets spécifiques
 - Analyse multiple images simultanée
@@ -211,6 +223,6 @@ npx eas submit --platform android
 
 ---
 
-**Maintenu par** : Équipe EcoTri  
+**Maintenu par** : Équipe EcoTri
 **Dernière mise à jour** : Août 2025
-**Version actuelle** : 2.0.0
+**Version actuelle** : 2.1.0

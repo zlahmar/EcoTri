@@ -567,5 +567,5 @@ Le pipeline CI/CD d'EcoTri est configuré pour :
 ---
 
 **Maintenu par** : Équipe EcoTri  
-**Dernière mise à jour** : Décembre 2024  
+**Dernière mise à jour** : Aout 2025  
 **Version CI/CD** : 2.1.0
