@@ -8,12 +8,14 @@ import { globalStyles } from "../styles/global";
 let MapView: any = null;
 let Marker: any = null;
 let PROVIDER_GOOGLE: any = null;
+let PROVIDER_DEFAULT: any = null;
 
 if (Platform.OS !== 'web') {
   const Maps = require("react-native-maps");
   MapView = Maps.default;
   Marker = Maps.Marker;
   PROVIDER_GOOGLE = Maps.PROVIDER_GOOGLE;
+  PROVIDER_DEFAULT = Maps.PROVIDER_DEFAULT;
 }
 
 const MapComponent = ({ mapRef, location, filter }: { 
@@ -293,7 +295,7 @@ const MapComponent = ({ mapRef, location, filter }: {
       <MapView 
         ref={mapRef} 
         style={styles.map} 
-        provider={PROVIDER_GOOGLE}
+        provider={PROVIDER_DEFAULT}
         testID="map-view"
         region={{
           latitude: location?.latitude || 48.8566,

@@ -1,9 +1,7 @@
-// Importation de Firebase et des services nécessaires
-import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
-import { getFirestore, connectFirestoreEmulator } from "firebase/firestore";
-import { getStorage } from "firebase/storage";
-import AsyncStorage from '@react-native-async-storage/async-storage';
+// Importation de Firebase React Native
+import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
+import storage from '@react-native-firebase/storage';
 
 // Configuration Firebase
 const firebaseConfig = {
@@ -15,21 +13,12 @@ const firebaseConfig = {
   appId: "1:103696690890:web:164dc4c4f5c73bc7394e33"
 };
 
-// Initialiser Firebase
-const app = initializeApp(firebaseConfig);
+// Services Firebase (s'initialisent automatiquement)
+const db = firestore();
+const storageService = storage();
 
-// Initialiser l'auth (AsyncStorage sera géré automatiquement par React Native)
-const auth = getAuth(app);
+// Objet de compatibilité pour l'export
+const app = { config: firebaseConfig };
 
-// Initialiser les autres services
-const db = getFirestore();
-const storage = getStorage();
+export { app, auth, db, storageService as storage };
 
-// Configuration pour React Native
-if (__DEV__) {
-  // En développement, on peut connecter aux émulateurs si nécessaire
-  // connectAuthEmulator(auth, 'http://localhost:9099');
-  // connectFirestoreEmulator(db, 'localhost', 8080);
-}
-
-export { app, auth, db, storage };
